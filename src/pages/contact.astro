@@ -7,7 +7,7 @@ export const prerender = false;
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
-  /(^|\/)contact(\.md|\.mdoc)?$/.test(entry.id)
+  /(^|\/)contact(\.md|\.mdoc|\.mdx)?$/.test(entry.id)
 );
 
 if (!page) {
@@ -17,89 +17,211 @@ if (!page) {
 const { Content } = await render(page);
 const actionResult = Astro.getActionResult(actions.sendMail);
 const fieldErrors = isInputError(actionResult?.error) ? actionResult.error.fields : undefined;
+const departments = page.data.contactDepartments?.length
+  ? page.data.contactDepartments
+  : [
+      { value: 'product', label: 'Product & API', description: 'Product walkthroughs and pilots.' },
+      { value: 'community', label: 'Community', description: 'Contributor onboarding and programs.' },
+      { value: 'support', label: 'Technical Support', description: 'Troubleshooting and integrations.' }
+    ];
+const categories = page.data.contactCategories?.length
+  ? page.data.contactCategories
+  : [
+      { value: 'pilot-request', label: 'Pilot Request' },
+      { value: 'integration-help', label: 'Integration Help' },
+      { value: 'general-question', label: 'General Question' }
+    ];
+const priorities = page.data.contactPriorities?.length
+  ? page.data.contactPriorities
+  : [
+      { value: 'low', label: 'Low' },
+      { value: 'normal', label: 'Normal' },
+      { value: 'high', label: 'High' }
+    ];
 ---
 
 <Layout title={page.data.title} description={page.data.description} currentPath="/contact">
-  <section class="hero container">
+  <section class="hero container" data-reveal>
     <p class="eyebrow">Get in touch</p>
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
   </section>
 
-  <section class="container contact-grid section-gap">
+  <section class="container contact-grid section-gap" data-reveal>
     <div class="contact-main">
-      <div class="prose">
+      <div class="prose" data-reveal>
         <Content frontmatter={page.data} />
       </div>
 
-      <form class="feature-card contact-form" method="POST" action={actions.sendMail}>
-        <h2>Send us a message</h2>
-        <p>Share your goal and we will route your request to the right maintainer.</p>
+      <form class="feature-card contact-form" method="POST" action={actions.sendMail} data-reveal>
+        <h2>Tell us what you are building</h2>
+        <p class="contact-subtitle">Three quick steps. Better context means faster, more accurate replies.</p>
+
+        <ul class="contact-trust" aria-label="Contact form highlights">
+          <li>Threaded follow-up with a unique ID</li>
+          <li>Sent to the right department automatically</li>
+          <li>Human response from maintainers</li>
+        </ul>
 
         {actionResult?.data?.ok && (
-          <p class="form-status form-status-success" role="status">Message sent. We will follow up soon.</p>
+          <p class="form-status form-status-success" role="status">
+            Message sent. Thread ID: <strong>{actionResult.data.threadId}</strong>
+          </p>
         )}
 
         {actionResult?.error && (
           <p class="form-status form-status-error" role="alert">{actionResult.error.message}</p>
         )}
 
-        <label for="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          autocomplete="name"
-          required
-          minlength="2"
-          maxlength="80"
-          aria-invalid={fieldErrors?.name ? 'true' : undefined}
-          aria-describedby={fieldErrors?.name ? 'name-error' : undefined}
-        />
-        {fieldErrors?.name && (
-          <p id="name-error" class="field-error" role="alert">{fieldErrors.name[0]}</p>
-        )}
+        <div class="contact-progress" aria-label="Form steps">
+          <span class="contact-step active" data-step-indicator="1">1. Identity</span>
+          <span class="contact-step" data-step-indicator="2">2. Routing</span>
+          <span class="contact-step" data-step-indicator="3">3. Brief</span>
+        </div>
 
-        <label for="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autocomplete="email"
-          required
-          aria-invalid={fieldErrors?.email ? 'true' : undefined}
-          aria-describedby={fieldErrors?.email ? 'email-error' : undefined}
-        />
-        {fieldErrors?.email && (
-          <p id="email-error" class="field-error" role="alert">{fieldErrors.email[0]}</p>
-        )}
+        <fieldset class="contact-step-panel active" data-step-panel="1">
+          <legend>Who should we reply to?</legend>
 
-        <label for="message">Message</label>
-        <textarea
-          id="message"
-          name="message"
-          rows="6"
-          required
-          minlength="10"
-          maxlength="3000"
-          aria-invalid={fieldErrors?.message ? 'true' : undefined}
-          aria-describedby={fieldErrors?.message ? 'message-error' : undefined}
-        ></textarea>
-        {fieldErrors?.message && (
-          <p id="message-error" class="field-error" role="alert">{fieldErrors.message[0]}</p>
-        )}
+          <label for="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            minlength="2"
+            maxlength="80"
+            placeholder="Your full name"
+            aria-invalid={fieldErrors?.name ? 'true' : undefined}
+            aria-describedby={fieldErrors?.name ? 'name-error' : undefined}
+          />
+          {fieldErrors?.name && (
+            <p id="name-error" class="field-error" role="alert">{fieldErrors.name[0]}</p>
+          )}
 
-        <button class="button button-primary" type="submit">Send message</button>
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            placeholder="name@company.com"
+            aria-invalid={fieldErrors?.email ? 'true' : undefined}
+            aria-describedby={fieldErrors?.email ? 'email-error' : undefined}
+          />
+          {fieldErrors?.email && (
+            <p id="email-error" class="field-error" role="alert">{fieldErrors.email[0]}</p>
+          )}
+
+          <label for="company">Company or organization (optional)</label>
+          <input id="company" name="company" type="text" autocomplete="organization" maxlength="120" placeholder="Sonic Labs" />
+        </fieldset>
+
+        <fieldset class="contact-step-panel" data-step-panel="2">
+          <legend>Where should this go?</legend>
+
+          <label for="department">Department</label>
+          <select
+            id="department"
+            name="department"
+            required
+            aria-invalid={fieldErrors?.department ? 'true' : undefined}
+            aria-describedby={fieldErrors?.department ? 'department-error' : undefined}
+          >
+            <option value="" disabled selected hidden>Choose a department</option>
+            {departments.map((department) => (
+              <option value={department.value}>
+                {department.label}
+                {department.description ? ` - ${department.description}` : ''}
+              </option>
+            ))}
+          </select>
+          {fieldErrors?.department && (
+            <p id="department-error" class="field-error" role="alert">{fieldErrors.department[0]}</p>
+          )}
+
+          <label for="category">Category</label>
+          <select
+            id="category"
+            name="category"
+            required
+            aria-invalid={fieldErrors?.category ? 'true' : undefined}
+            aria-describedby={fieldErrors?.category ? 'category-error' : undefined}
+          >
+            <option value="" disabled selected hidden>Choose a category</option>
+            {categories.map((category) => (
+              <option value={category.value}>{category.label}</option>
+            ))}
+          </select>
+          {fieldErrors?.category && (
+            <p id="category-error" class="field-error" role="alert">{fieldErrors.category[0]}</p>
+          )}
+
+          <label for="priority">Priority</label>
+          <select
+            id="priority"
+            name="priority"
+            required
+            aria-invalid={fieldErrors?.priority ? 'true' : undefined}
+            aria-describedby={fieldErrors?.priority ? 'priority-error' : undefined}
+          >
+            <option value="" disabled selected hidden>Choose priority</option>
+            {priorities.map((priority) => (
+              <option value={priority.value}>{priority.label}</option>
+            ))}
+          </select>
+          {fieldErrors?.priority && (
+            <p id="priority-error" class="field-error" role="alert">{fieldErrors.priority[0]}</p>
+          )}
+        </fieldset>
+
+        <fieldset class="contact-step-panel" data-step-panel="3">
+          <legend>What outcome do you need?</legend>
+
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="7"
+            required
+            minlength="10"
+            maxlength="3000"
+            placeholder="Describe your goal, timeline, and any links or technical context."
+            aria-invalid={fieldErrors?.message ? 'true' : undefined}
+            aria-describedby={fieldErrors?.message ? 'message-error' : undefined}
+          ></textarea>
+          {fieldErrors?.message && (
+            <p id="message-error" class="field-error" role="alert">{fieldErrors.message[0]}</p>
+          )}
+
+          <p class="contact-note">After submit, both you and Sonicverse receive the same thread ID for fast follow-up.</p>
+        </fieldset>
+
+        <div class="contact-nav-row">
+          <button class="button button-ghost" type="button" data-step-back hidden>Back</button>
+          <button class="button button-primary" type="button" data-step-next>Continue</button>
+          <button class="button button-primary" type="submit" data-step-submit hidden>Send request</button>
+        </div>
+
+        <noscript>
+          <p class="contact-note">JavaScript is disabled, so all fields remain visible in a single step.</p>
+        </noscript>
       </form>
     </div>
 
-    <aside class="feature-card">
-      <h2>Contact channels</h2>
-      <p>Choose the fastest route and we will direct your message to the right maintainers.</p>
+    <aside class="feature-card" data-reveal>
+      <h2>Prefer a direct channel?</h2>
+      <p>Choose the route that matches your timeline. We triage every message manually.</p>
       <ul class="contact-list">
         <li><strong>Email:</strong> <a href="mailto:hello@sonicverse.dev">hello@sonicverse.dev</a></li>
         <li><strong>GitHub:</strong> <a href="https://github.com/rikvisser-dev">rikvisser-dev</a></li>
-        <li><strong>Community:</strong> <a href="/community">Contribution page</a></li>
+        <li><strong>Community:</strong> <a href="/community">Contribution hub</a></li>
+      </ul>
+      <ul class="contact-meta-list" aria-label="Response notes">
+        <li>Typical response: 1-2 business days</li>
+        <li>Support requests: include reproducible details</li>
+        <li>Partnerships: include your timeline and scope</li>
       </ul>
       {page.data.ctaHref && page.data.ctaLabel && (
         <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
@@ -107,3 +229,94 @@ const fieldErrors = isInputError(actionResult?.error) ? actionResult.error.field
     </aside>
   </section>
 </Layout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.contact-form');
+
+  if (form) {
+    const panels = Array.from(form.querySelectorAll<HTMLElement>('[data-step-panel]'));
+    const indicators = Array.from(form.querySelectorAll<HTMLElement>('[data-step-indicator]'));
+    const backButton = form.querySelector<HTMLButtonElement>('[data-step-back]');
+    const nextButton = form.querySelector<HTMLButtonElement>('[data-step-next]');
+    const submitButton = form.querySelector<HTMLButtonElement>('[data-step-submit]');
+    let activeStep = 1;
+
+    const hasErrorInStep = (step: number) => {
+      const panel = form.querySelector(`[data-step-panel="${step}"]`);
+      return Boolean(panel && panel.querySelector('[aria-invalid="true"]'));
+    };
+
+    if (hasErrorInStep(2)) {
+      activeStep = 2;
+    }
+
+    if (hasErrorInStep(3)) {
+      activeStep = 3;
+    }
+
+    const updateStep = () => {
+      panels.forEach((panel) => {
+        const panelStep = Number(panel.getAttribute('data-step-panel'));
+        panel.classList.toggle('active', panelStep === activeStep);
+      });
+
+      indicators.forEach((indicator) => {
+        const indicatorStep = Number(indicator.getAttribute('data-step-indicator'));
+        indicator.classList.toggle('active', indicatorStep === activeStep);
+        indicator.classList.toggle('done', indicatorStep < activeStep);
+      });
+
+      if (backButton) {
+        backButton.hidden = activeStep === 1;
+      }
+
+      if (nextButton) {
+        nextButton.hidden = activeStep === panels.length;
+      }
+
+      if (submitButton) {
+        submitButton.hidden = activeStep !== panels.length;
+      }
+    };
+
+    const validateCurrentStep = () => {
+      const panel = form.querySelector(`[data-step-panel="${activeStep}"]`);
+      if (!panel) {
+        return true;
+      }
+
+      const controls = Array.from(panel.querySelectorAll('input, select, textarea'));
+      for (const control of controls) {
+        if (control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement || control instanceof HTMLSelectElement) {
+          if (!control.checkValidity()) {
+            control.reportValidity();
+            return false;
+          }
+        }
+      }
+
+      return true;
+    };
+
+    form.classList.add('multi-step-ready');
+    updateStep();
+
+    backButton?.addEventListener('click', () => {
+      if (activeStep > 1) {
+        activeStep -= 1;
+        updateStep();
+      }
+    });
+
+    nextButton?.addEventListener('click', () => {
+      if (!validateCurrentStep()) {
+        return;
+      }
+
+      if (activeStep < panels.length) {
+        activeStep += 1;
+        updateStep();
+      }
+    });
+  }
+</script>

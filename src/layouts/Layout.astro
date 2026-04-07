@@ -1,6 +1,7 @@
 ---
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { ClientRouter, slide } from 'astro:transitions';
 import '../styles/global.css';
 
 export interface Props {
@@ -27,14 +28,88 @@ const {
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta name="generator" content={Astro.generator} />
+		<script>
+			import { animate, inView, scroll } from 'motion';
+
+			declare global {
+				interface Window {
+					__sonicverseMotionBound?: boolean;
+					__sonicverseMotionCleanup?: Array<() => void>;
+				}
+			}
+
+			const runSonicverseMotion = () => {
+				const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+
+				window.__sonicverseMotionCleanup?.forEach((cleanup) => cleanup());
+				window.__sonicverseMotionCleanup = [];
+
+				if (!revealElements.length) {
+					return;
+				}
+
+				if (reduceMotion) {
+					revealElements.forEach((element) => {
+						element.style.opacity = '1';
+						element.style.transform = 'none';
+						element.style.filter = 'none';
+					});
+					return;
+				}
+
+				revealElements.forEach((element) => {
+					element.style.opacity = '0';
+					element.style.transform = 'translateY(18px) scale(0.985)';
+					element.style.filter = 'blur(8px)';
+				});
+
+				const stopInView = inView(
+					'[data-reveal]',
+					(element) => {
+						const target = element as HTMLElement;
+						const delay = Number(target.getAttribute('data-reveal-delay') || '0');
+						animate(
+							target,
+							{
+								opacity: [0, 1],
+								y: [18, 0],
+								scale: [0.985, 1],
+								filter: ['blur(8px)', 'blur(0px)']
+							},
+							{
+								duration: 0.7,
+								delay,
+								ease: [0.22, 1, 0.36, 1]
+							}
+						);
+					},
+					{ margin: '0px 0px -8% 0px' }
+				);
+
+				const stopScroll = scroll((progress: number) => {
+					document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(4));
+				});
+
+				window.__sonicverseMotionCleanup.push(stopInView, stopScroll);
+			};
+
+			if (!window.__sonicverseMotionBound) {
+				document.addEventListener('astro:page-load', runSonicverseMotion);
+				window.__sonicverseMotionBound = true;
+			}
+
+			runSonicverseMotion();
+		</script>
+		<ClientRouter fallback="animate" />
 		<title>{title}</title>
 	</head>
 	<body>
 		<div class="background-atmosphere" aria-hidden="true"></div>
-		<SiteHeader currentPath={currentPath} />
-		<main>
+		<SiteHeader currentPath={currentPath} transition:persist />
+		<main transition:name="page" transition:animate={slide({ duration: '0.4s' })}>
 			<slot />
 		</main>
-		<SiteFooter />
+		<SiteFooter transition:persist />
 	</body>
 </html>

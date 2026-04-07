@@ -12,7 +12,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   description="Updates from the Sonicverse open source initiative."
   currentPath="/blog"
 >
-  <section class="hero container">
+  <section class="hero container" data-reveal>
     <p class="eyebrow">Updates</p>
     <h1>Product notes, roadmap, and community progress.</h1>
     <p class="hero-subtitle">
@@ -21,11 +21,11 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
     </p>
   </section>
 
-  <section class="container section-gap">
+  <section class="container section-gap" data-reveal>
     <div class="card-grid">
       {
-        posts.map((post) => (
-          <article class="feature-card">
+        posts.map((post, index) => (
+          <article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
             <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US')}</p>
             <h2>{post.data.title}</h2>
             <p>{post.data.description}</p>

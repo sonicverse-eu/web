@@ -9,7 +9,34 @@ const pages = defineCollection({
     heroTitle: z.string(),
     heroSubtitle: z.string(),
     ctaLabel: z.string().optional(),
-    ctaHref: z.string().optional()
+    ctaHref: z.string().optional(),
+    contactDepartments: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string(),
+          description: z.string().optional()
+        })
+      )
+      .optional(),
+    contactCategories: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string(),
+          description: z.string().optional()
+        })
+      )
+      .optional(),
+    contactPriorities: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string(),
+          description: z.string().optional()
+        })
+      )
+      .optional()
   })
 });
 

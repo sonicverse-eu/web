@@ -16,7 +16,7 @@ const { Content } = await render(page);
 ---
 
 <Layout title={page.data.title} description={page.data.description} currentPath="/community">
-  <section class="hero container">
+  <section class="hero container" data-reveal>
     <p class="eyebrow">Contribute</p>
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
@@ -25,16 +25,16 @@ const { Content } = await render(page);
     )}
   </section>
 
-  <section class="container prose section-gap">
+  <section class="container prose section-gap" data-reveal>
     <Content frontmatter={page.data} />
   </section>
 
-  <section class="container section-gap">
+  <section class="container section-gap" data-reveal>
     <h2>Community FAQ</h2>
     <div class="faq-list">
       {
-        faqs.map((item) => (
-          <article class="faq-item">
+        faqs.map((item, index) => (
+          <article class="faq-item" data-reveal data-reveal-delay={index * 0.09}>
             <h3>{item.data.question}</h3>
             <p>{item.data.answer}</p>
           </article>

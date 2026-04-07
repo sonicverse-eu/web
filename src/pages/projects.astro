@@ -16,7 +16,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 ---
 
 <Layout title={page.data.title} description={page.data.description} currentPath="/projects">
-  <section class="hero container">
+  <section class="hero container" data-reveal>
     <p class="eyebrow">Open Source Stack</p>
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
@@ -25,15 +25,15 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
     )}
   </section>
 
-  <section class="container prose section-gap">
+  <section class="container prose section-gap" data-reveal>
     <Content frontmatter={page.data} />
   </section>
 
-  <section class="container section-gap">
+  <section class="container section-gap" data-reveal>
     <div class="card-grid">
       {
-        projects.map((project) => (
-          <article class="feature-card">
+        projects.map((project, index) => (
+          <article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
             <p class="eyebrow">{project.data.status}</p>
             <h2>{project.data.title}</h2>
             <p>{project.data.summary}</p>

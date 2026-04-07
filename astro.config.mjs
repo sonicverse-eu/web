@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 
 import node from '@astrojs/node';
 
-import markdoc from '@astrojs/markdoc';
+import mdx from '@astrojs/mdx';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -13,7 +13,7 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), markdoc(), partytown()],
+  integrations: [react(), mdx(), partytown()],
 
   adapter: node({
     mode: 'standalone'
