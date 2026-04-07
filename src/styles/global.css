@@ -147,12 +147,12 @@ main {
 @keyframes sonicverse-glow-pulse {
 	0%,
 	100% {
-		transform: scale(0.94);
-		opacity: 0.32;
+		transform: scale(0.985);
+		opacity: 0.16;
 	}
 	50% {
-		transform: scale(1.08);
-		opacity: 0.62;
+		transform: scale(1.01);
+		opacity: 0.26;
 	}
 }
 
@@ -462,9 +462,9 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	overflow: hidden;
 	isolation: isolate;
 	transition:
-		transform 220ms ease,
-		box-shadow 220ms ease,
-		border-color 220ms ease;
+		transform 180ms ease,
+		box-shadow 180ms ease,
+		border-color 180ms ease;
 }
 
 .feature-card::after,
@@ -477,30 +477,30 @@ html[data-nav-direction='left']::view-transition-new(page) {
 		radial-gradient(circle at 30% 40%, var(--glow-primary), transparent 64%),
 		radial-gradient(circle at 78% 72%, var(--glow-soft), transparent 58%);
 	opacity: 0;
-	transform: scale(0.92);
+	transform: scale(0.96);
 	pointer-events: none;
 	transition:
-		opacity 240ms ease,
-		transform 240ms ease;
+		opacity 200ms ease,
+		transform 200ms ease;
 	z-index: -1;
 }
 
 .feature-card:hover,
 .faq-item:hover,
 .contact-form:hover {
-	transform: translateY(-4px);
+	transform: translateY(-2px);
 	box-shadow:
-		0 24px 56px rgba(65, 30, 148, 0.16),
-		0 0 34px rgba(123, 63, 243, 0.2);
-	border-color: rgba(123, 63, 243, 0.28);
+		0 14px 30px rgba(65, 30, 148, 0.1),
+		0 0 18px rgba(123, 63, 243, 0.12);
+	border-color: rgba(123, 63, 243, 0.2);
 }
 
 .feature-card:hover::after,
 .faq-item:hover::after,
 .contact-form:hover::after {
-	opacity: 0.84;
-	transform: scale(1.02);
-	animation: sonicverse-glow-pulse 2.7s ease-in-out infinite;
+	opacity: 0.5;
+	transform: scale(0.995);
+	animation: sonicverse-glow-pulse 3.8s ease-in-out infinite;
 }
 
 .feature-card h2,
@@ -526,9 +526,9 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	overflow: hidden;
 	isolation: isolate;
 	transition:
-		transform 220ms ease,
-		box-shadow 220ms ease,
-		border-color 220ms ease;
+		transform 180ms ease,
+		box-shadow 180ms ease,
+		border-color 180ms ease;
 }
 
 .faq-item h3 {
