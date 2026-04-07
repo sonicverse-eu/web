@@ -31,7 +31,7 @@ const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.o
 	</section>
 
 	<section class="container section-gap prose">
-		<Content />
+		<Content frontmatter={home.data} />
 	</section>
 
 	<section class="container section-gap">

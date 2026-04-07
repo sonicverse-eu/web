@@ -25,7 +25,7 @@ const { Content } = await render(post);
       {post.data.tags.map((tag: string) => <span>{tag}</span>)}
     </div>
     <div class="prose">
-      <Content />
+      <Content frontmatter={post.data} />
     </div>
   </article>
 </Layout>

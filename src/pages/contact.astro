@@ -29,7 +29,7 @@ const fieldErrors = isInputError(actionResult?.error) ? actionResult.error.field
   <section class="container contact-grid section-gap">
     <div class="contact-main">
       <div class="prose">
-        <Content />
+        <Content frontmatter={page.data} />
       </div>
 
       <form class="feature-card contact-form" method="POST" action={actions.sendMail}>
