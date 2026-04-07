@@ -844,7 +844,7 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .brand:hover .brand-mark {
-	transform: rotate(-6deg) scale(1.04);
+	transform: scale(1.04);
 	filter: saturate(1.06);
 }
 
