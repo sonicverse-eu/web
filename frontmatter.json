@@ -47,5 +47,32 @@
     }
   ],
   "frontMatter.framework.id": "astro",
-  "frontMatter.preview.host": "http://localhost:4321"
+  "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "pages",
+      "path": "[[workspace]]/src/content/pages"
+    },
+    {
+      "title": "projects",
+      "path": "[[workspace]]/src/content/projects"
+    },
+    {
+      "title": "features",
+      "path": "[[workspace]]/src/content/features"
+    },
+    {
+      "title": "blog",
+      "path": "[[workspace]]/src/content/blog"
+    },
+    {
+      "title": "faq",
+      "path": "[[workspace]]/src/content/faq"
+    }
+  ],
+  "frontMatter.content.publicFolder": {
+    "path": "src/assets",
+    "relative": true
+  },
+  "frontMatter.git.enabled": true
 }
