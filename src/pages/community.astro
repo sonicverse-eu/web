@@ -15,9 +15,14 @@ const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.o
 const { Content } = await render(page);
 ---
 
-<Layout title={page.data.title} description={page.data.description} currentPath="/community">
+<Layout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
+  currentPath="/community"
+>
   <section class="hero container" data-reveal-group>
-    <p class="eyebrow">Contribute</p>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
     {page.data.ctaHref && page.data.ctaLabel && (
@@ -31,8 +36,8 @@ const { Content } = await render(page);
 
   <section class="container section-gap" data-reveal>
     <div class="section-head">
-      <p class="eyebrow">Community FAQ</p>
-      <h2>Common questions from contributors and teams.</h2>
+      {page.data.faqSectionEyebrow && <p class="eyebrow">{page.data.faqSectionEyebrow}</p>}
+      {page.data.faqSectionTitle && <h2>{page.data.faqSectionTitle}</h2>}
     </div>
     <div class="faq-list">
       {

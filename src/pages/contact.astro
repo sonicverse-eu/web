@@ -75,11 +75,28 @@ const visibleCategories = categories.filter(
     category.value === formValues.category
 );
 const formSucceeded = Boolean(actionResult?.data?.ok);
+const successThreadId = formSucceeded ? actionResult?.data?.threadId ?? '' : '';
+const actionErrorMessage = actionResult?.error?.message ?? '';
+const supportLinks = page.data.supportLinks ?? [
+  { label: 'Email', href: 'mailto:hello@sonicverse.dev', value: 'hello@sonicverse.dev' },
+  { label: 'GitHub', href: 'https://github.com/rikvisser-dev', value: 'rikvisser-dev' },
+  { label: 'Community', href: '/community', value: 'Contribution hub' }
+];
+const supportNotes = page.data.supportNotes ?? [
+  'Typical response: 1-2 business days',
+  'Support requests: include reproducible details',
+  'Partnerships: include your timeline and scope'
+];
 ---
 
-<Layout title={page.data.title} description={page.data.description} currentPath="/contact">
+<Layout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
+  currentPath="/contact"
+>
   <section class="hero container" data-reveal-group>
-    <p class="eyebrow">Get in touch</p>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
   </section>
@@ -93,9 +110,9 @@ const formSucceeded = Boolean(actionResult?.data?.ok);
       <form class="feature-card contact-form" method="POST" action={actions.sendMail} data-reveal novalidate>
         <div class="contact-form-head">
           <div>
-            <p class="contact-kicker">Structured intake</p>
-            <h2>Tell us what you are building</h2>
-            <p class="contact-subtitle">Three guided steps. Better signal in means faster routing and better replies out.</p>
+            {page.data.contactFormKicker && <p class="contact-kicker">{page.data.contactFormKicker}</p>}
+            {page.data.contactFormTitle && <h2>{page.data.contactFormTitle}</h2>}
+            {page.data.contactFormSubtitle && <p class="contact-subtitle">{page.data.contactFormSubtitle}</p>}
           </div>
           <div class="contact-stage-card" aria-live="polite">
             <p class="contact-stage-eyebrow" data-step-current>Step 1 of 3</p>
@@ -111,12 +128,12 @@ const formSucceeded = Boolean(actionResult?.data?.ok);
 
         {formSucceeded && (
           <p class="form-status form-status-success" role="status">
-            Message sent. Thread ID: <strong>{actionResult.data.threadId}</strong>
+            Message sent. Thread ID: <strong>{successThreadId}</strong>
           </p>
         )}
 
-        {actionResult?.error && (
-          <p class="form-status form-status-error" role="alert">{actionResult.error.message}</p>
+        {actionErrorMessage && (
+          <p class="form-status form-status-error" role="alert">{actionErrorMessage}</p>
         )}
 
         <div class="contact-progress-wrap" aria-hidden="true">
@@ -344,29 +361,33 @@ const formSucceeded = Boolean(actionResult?.data?.ok);
           <p class="contact-note">JavaScript is disabled, so all fields remain visible in a single step and category filtering is manual.</p>
         </noscript>
       </form>
-    </div>
 
-    <aside class="feature-card" data-reveal>
-      <h2>Prefer a direct channel?</h2>
-      <p>Choose the route that matches your timeline. We triage every message manually.</p>
-      <ul class="contact-list">
-        <li><strong>Email:</strong> <a href="mailto:hello@sonicverse.dev">hello@sonicverse.dev</a></li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/rikvisser-dev">rikvisser-dev</a></li>
-        <li><strong>Community:</strong> <a href="/community">Contribution hub</a></li>
-      </ul>
-      <ul class="contact-meta-list" aria-label="Response notes">
-        <li>Typical response: 1-2 business days</li>
-        <li>Support requests: include reproducible details</li>
-        <li>Partnerships: include your timeline and scope</li>
-      </ul>
-      {page.data.ctaHref && page.data.ctaLabel && (
-        <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
-      )}
-    </aside>
+      <aside class="feature-card contact-support-card" data-reveal>
+        {page.data.supportTitle && <h2>{page.data.supportTitle}</h2>}
+        {page.data.supportDescription && <p>{page.data.supportDescription}</p>}
+        <ul class="contact-list">
+          {supportLinks.map((link) => (
+            <li><strong>{link.label}:</strong> <a href={link.href}>{link.value}</a></li>
+          ))}
+        </ul>
+        <ul class="contact-meta-list" aria-label="Response notes">
+          {supportNotes.map((note) => <li>{note}</li>)}
+        </ul>
+        {page.data.ctaHref && page.data.ctaLabel && (
+          <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
+        )}
+      </aside>
+    </div>
   </section>
 </Layout>
 
 <script define:vars={{ departments, categories, priorities, formSucceeded }}>
+  /**
+   * Keep the step metadata explicitly typed so strict TS does not flag
+   * numeric indexing in the inline client script.
+   */
+  /** @typedef {{ label: string; description: string }} StepMeta */
+
   const form = document.querySelector('.contact-form');
 
   if (form instanceof HTMLFormElement) {
@@ -387,6 +408,7 @@ const formSucceeded = Boolean(actionResult?.data?.ok);
     const reviewCategory = form.querySelector('[data-review-category]');
     const reviewPriority = form.querySelector('[data-review-priority]');
     const storageKey = 'sonicverse-contact-form-draft';
+    /** @type {Record<number, StepMeta>} */
     const stepCopy = {
       1: {
         label: 'Step 1 of 3',

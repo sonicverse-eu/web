@@ -14,9 +14,14 @@ if (!page) {
 const { Content } = await render(page);
 ---
 
-<Layout title={page.data.title} description={page.data.description} currentPath="/about">
+<Layout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
+  currentPath="/about"
+>
   <section class="hero container" data-reveal-group>
-    <p class="eyebrow">Mission</p>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
     {page.data.ctaHref && page.data.ctaLabel && (

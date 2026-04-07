@@ -2,23 +2,30 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)blog(\.md|\.mdoc)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing blog page content at src/content/pages/blog.mdoc');
+}
+
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
 <Layout
-  title="Sonicverse Blog"
-  description="Updates from the Sonicverse open source initiative."
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
   currentPath="/blog"
 >
   <section class="hero container" data-reveal-group>
-    <p class="eyebrow">Updates</p>
-    <h1>Product notes, roadmap, and community progress.</h1>
-    <p class="hero-subtitle">
-      Every post is written in Markdoc so your team can update content quickly without changing layout
-      code.
-    </p>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
+    <h1>{page.data.heroTitle}</h1>
+    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
   </section>
 
   <section class="container section-gap" data-reveal>
@@ -40,7 +47,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
               <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
               <p>{post.data.description}</p>
               <div class="button-row">
-                <a class="button button-ghost" href={`/blog/${post.id}`}>Read article</a>
+                <a class="button button-ghost" href={`/blog/${post.id}`}>{page.data.blogArticleCtaLabel ?? 'Read article'}</a>
               </div>
             </div>
           </article>

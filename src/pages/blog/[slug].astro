@@ -12,6 +12,15 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)blog(\.md|\.mdoc)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing blog page content at src/content/pages/blog.mdoc');
+}
+
 const { Content } = await render(post);
 ---
 
@@ -26,7 +35,7 @@ const { Content } = await render(post);
   tags={post.data.tags}
 >
   <article class="container article-shell section-gap" data-reveal>
-    <a class="button button-ghost" href="/blog">Back to blog</a>
+    <a class="button button-ghost" href="/blog">{page.data.blogBackLabel ?? 'Back to blog'}</a>
     <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })} &middot; {post.data.author}</p>
     <h1>{post.data.title}</h1>
     <p class="hero-subtitle">{post.data.description}</p>

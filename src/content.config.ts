@@ -6,10 +6,40 @@ const pages = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    seoImage: z.string().optional(),
+    eyebrow: z.string().optional(),
     heroTitle: z.string(),
     heroSubtitle: z.string(),
     ctaLabel: z.string().optional(),
     ctaHref: z.string().optional(),
+    secondaryCtaLabel: z.string().optional(),
+    secondaryCtaHref: z.string().optional(),
+    featureSectionEyebrow: z.string().optional(),
+    featureSectionTitle: z.string().optional(),
+    projectSectionEyebrow: z.string().optional(),
+    projectSectionTitle: z.string().optional(),
+    projectLinkLabel: z.string().optional(),
+    faqSectionEyebrow: z.string().optional(),
+    faqSectionTitle: z.string().optional(),
+    blogArticleCtaLabel: z.string().optional(),
+    blogBackLabel: z.string().optional(),
+    contactFormKicker: z.string().optional(),
+    contactFormTitle: z.string().optional(),
+    contactFormSubtitle: z.string().optional(),
+    supportTitle: z.string().optional(),
+    supportDescription: z.string().optional(),
+    supportLinks: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string(),
+          value: z.string()
+        })
+      )
+      .optional(),
+    supportNotes: z.array(z.string()).optional(),
     contactDepartments: z
       .array(
         z.object({

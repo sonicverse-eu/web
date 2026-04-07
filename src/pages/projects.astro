@@ -15,9 +15,14 @@ const { Content } = await render(page);
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title={page.data.title} description={page.data.description} currentPath="/projects">
+<Layout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
+  currentPath="/projects"
+>
   <section class="hero container" data-reveal-group>
-    <p class="eyebrow">Open Source Stack</p>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
     {page.data.ctaHref && page.data.ctaLabel && (
@@ -30,6 +35,10 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
   </section>
 
   <section class="container section-gap" data-reveal>
+    <div class="section-head">
+      {page.data.projectSectionEyebrow && <p class="eyebrow">{page.data.projectSectionEyebrow}</p>}
+      {page.data.projectSectionTitle && <h2>{page.data.projectSectionTitle}</h2>}
+    </div>
     <div class="card-grid">
       {
         projects.map((project, index) => (
@@ -38,7 +47,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
             <h2>{project.data.title}</h2>
             <p>{project.data.summary}</p>
             <a class="button button-ghost" href={project.data.repoUrl}>
-              View Repository
+              {page.data.projectLinkLabel ?? 'View Repository'}
             </a>
           </article>
         ))

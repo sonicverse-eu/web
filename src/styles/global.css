@@ -622,14 +622,18 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .contact-grid {
-	display: grid;
-	grid-template-columns: 1.15fr 0.85fr;
-	gap: 1rem;
+	display: block;
 }
 
 .contact-main {
 	display: grid;
 	gap: 1rem;
+	max-width: 72rem;
+}
+
+.contact-support-card {
+	display: grid;
+	gap: 0.85rem;
 }
 
 .contact-form {
@@ -1193,7 +1197,7 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	}
 
 	.contact-grid {
-		grid-template-columns: 1fr;
+		display: block;
 	}
 
 	.contact-form-head,
