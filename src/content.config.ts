@@ -24,7 +24,8 @@ const pages = defineCollection({
         z.object({
           value: z.string(),
           label: z.string(),
-          description: z.string().optional()
+          description: z.string().optional(),
+          departments: z.array(z.string()).optional()
         })
       )
       .optional(),

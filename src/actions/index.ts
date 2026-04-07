@@ -25,6 +25,7 @@ function buildTeamTemplate(params: {
   name: string;
   email: string;
   company?: string;
+  detailsUrl?: string;
   department: string;
   category: string;
   priority: string;
@@ -35,6 +36,7 @@ function buildTeamTemplate(params: {
     ['Name', params.name],
     ['Email', params.email],
     ['Company', params.company || '-'],
+    ['Reference URL', params.detailsUrl || '-'],
     ['Department', params.department],
     ['Category', params.category],
     ['Priority', params.priority]
@@ -70,6 +72,7 @@ function buildTeamTemplate(params: {
 function buildSubmitterTemplate(params: {
   threadId: string;
   name: string;
+  detailsUrl?: string;
   department: string;
   category: string;
   priority: string;
@@ -89,6 +92,11 @@ function buildSubmitterTemplate(params: {
             <p style="margin:0 0 12px;font-size:15px;line-height:1.65;">Hi ${escapeHtml(params.name)}, thanks for reaching out. Your request has been routed and tracked with this thread ID:</p>
             <p style="margin:0 0 16px;padding:10px 12px;border-radius:10px;background:#eef5ff;color:#204a99;font-size:15px;font-weight:700;">${escapeHtml(params.threadId)}</p>
             <p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Routing: ${escapeHtml(params.department)} / ${escapeHtml(params.category)} / ${escapeHtml(params.priority)}</p>
+            ${
+              params.detailsUrl
+                ? `<p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Reference URL: <a href="${escapeHtml(params.detailsUrl)}" style="color:#2358bb;">${escapeHtml(params.detailsUrl)}</a></p>`
+                : ''
+            }
             <p style="margin:0 0 8px;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#6f5ea0;">Your message</p>
             <div style="padding:14px;border:1px solid #dbe8ff;border-radius:12px;background:#f9fbff;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(params.message)}</div>
             <p style="margin:16px 0 0;font-size:14px;line-height:1.6;color:#514172;">A maintainer will follow up within two business days.</p>
@@ -106,13 +114,20 @@ export const server = {
       name: z.string().min(2, 'Please share your name.').max(80),
       email: z.email('Enter a valid email address.'),
       company: z.string().max(120).optional(),
+      detailsUrl: z.union([z.url('Enter a valid URL.'), z.literal('')]).optional(),
       department: z.string().min(2, 'Select a department.').max(80),
       category: z.string().min(2, 'Select a category.').max(120),
       priority: z.string().min(2, 'Select a priority.').max(40),
-      message: z.string().min(10, 'Please include a bit more context.').max(3000)
+      message: z.string().min(10, 'Please include a bit more context.').max(3000),
+      website: z.string().max(0).optional()
     }),
-    handler: async ({ name, email, company, department, category, priority, message }) => {
+    handler: async ({ name, email, company, detailsUrl, department, category, priority, message, website }) => {
       const threadId = buildThreadId();
+
+      if (website) {
+        return { ok: true, threadId };
+      }
+
       const teamSubject = `[${threadId}] New contact request from ${name}`;
       const teamText = [
         'A new contact request was submitted on sonicverse.dev.',
@@ -121,6 +136,7 @@ export const server = {
         `Name: ${name}`,
         `Email: ${email}`,
         `Company: ${company || '-'}`,
+        `Reference URL: ${detailsUrl || '-'}`,
         `Department: ${department}`,
         `Category: ${category}`,
         `Priority: ${priority}`,
@@ -140,6 +156,7 @@ export const server = {
           name,
           email,
           company,
+          detailsUrl,
           department,
           category,
           priority,
@@ -179,6 +196,7 @@ export const server = {
         html: buildSubmitterTemplate({
           threadId,
           name,
+          detailsUrl,
           department,
           category,
           priority,
