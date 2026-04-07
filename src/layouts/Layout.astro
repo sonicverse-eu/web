@@ -1,7 +1,7 @@
 ---
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { ClientRouter, slide } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 export interface Props {
@@ -122,6 +122,19 @@ if (ogType === 'article' && author && pubDate) {
 
 			const runSonicverseMotion = () => {
 				const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+				// Stagger-reveal children of [data-reveal-group] elements
+				document.querySelectorAll<HTMLElement>('[data-reveal-group]').forEach((group) => {
+					const base = Number(group.getAttribute('data-reveal-delay') || '0');
+					Array.from(group.children).forEach((child, i) => {
+						const el = child as HTMLElement;
+						if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
+						if (!el.hasAttribute('data-reveal-delay')) {
+							el.setAttribute('data-reveal-delay', (base + i * 0.08).toFixed(2));
+						}
+					});
+				});
+
 				const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
 
 				window.__sonicverseMotionCleanup?.forEach((cleanup) => cleanup());
@@ -189,7 +202,7 @@ if (ogType === 'article' && author && pubDate) {
 	<body>
 		<div class="background-atmosphere" aria-hidden="true"></div>
 		<SiteHeader currentPath={currentPath} transition:persist />
-		<main transition:name="page" transition:animate={slide({ duration: '0.4s' })}>
+		<main transition:name="page" transition:animate="none">
 			<slot />
 		</main>
 		<SiteFooter transition:persist />

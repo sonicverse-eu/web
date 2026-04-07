@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astro Site"
+  short_description: "Astro page and content patterns"
+  default_prompt: "Use $astro-site to implement or refactor this Astro page in this repo."

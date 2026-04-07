@@ -16,7 +16,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 ---
 
 <Layout title={page.data.title} description={page.data.description} currentPath="/projects">
-  <section class="hero container" data-reveal>
+  <section class="hero container" data-reveal-group>
     <p class="eyebrow">Open Source Stack</p>
     <h1>{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
@@ -34,7 +34,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
       {
         projects.map((project, index) => (
           <article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
-            <p class="eyebrow">{project.data.status}</p>
+            <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
             <h2>{project.data.title}</h2>
             <p>{project.data.summary}</p>
             <a class="button button-ghost" href={project.data.repoUrl}>

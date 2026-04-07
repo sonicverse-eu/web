@@ -12,7 +12,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   description="Updates from the Sonicverse open source initiative."
   currentPath="/blog"
 >
-  <section class="hero container" data-reveal>
+  <section class="hero container" data-reveal-group>
     <p class="eyebrow">Updates</p>
     <h1>Product notes, roadmap, and community progress.</h1>
     <p class="hero-subtitle">
@@ -22,14 +22,27 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   </section>
 
   <section class="container section-gap" data-reveal>
-    <div class="card-grid">
+    <div class="blog-list">
       {
         posts.map((post, index) => (
-          <article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
-            <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US')}</p>
-            <h2>{post.data.title}</h2>
-            <p>{post.data.description}</p>
-            <a class="button button-ghost" href={`/blog/${post.id}`}>Read article</a>
+          <article class="blog-post-item" data-reveal data-reveal-delay={index * 0.07}>
+            <div class="blog-post-meta">
+              <p class="eyebrow">
+                {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </p>
+              {post.data.tags.length > 0 && (
+                <div class="tag-list">
+                  {post.data.tags.map((tag: string) => <span>{tag}</span>)}
+                </div>
+              )}
+            </div>
+            <div class="blog-post-content">
+              <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+              <p>{post.data.description}</p>
+              <div class="button-row">
+                <a class="button button-ghost" href={`/blog/${post.id}`}>Read article</a>
+              </div>
+            </div>
           </article>
         ))
       }

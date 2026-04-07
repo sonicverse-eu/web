@@ -38,6 +38,7 @@ const isActive = (href: string, path: string = currentPath) => {
     </a>
     <nav aria-label="Primary">
       <ul class="nav-list">
+        <span class="nav-indicator" aria-hidden="true"></span>
         {
           navLinks.map((link) => (
             <li>
@@ -76,6 +77,42 @@ const isActive = (href: string, path: string = currentPath) => {
       : normalizedPath === normalizedHref || normalizedPath.startsWith(`${normalizedHref}/`);
   };
 
+  let indicatorReady = false;
+
+  const updateNavIndicator = (instant = false) => {
+    const navList = document.querySelector<HTMLElement>('.nav-list');
+    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const activeLink = navList?.querySelector<HTMLAnchorElement>('a.active');
+
+    if (!navList || !indicator) return;
+
+    if (!activeLink) {
+      indicator.style.opacity = '0';
+      return;
+    }
+
+    const navRect = navList.getBoundingClientRect();
+    const linkRect = activeLink.getBoundingClientRect();
+    const left = linkRect.left - navRect.left;
+    const width = linkRect.width;
+
+    if (!indicatorReady || instant) {
+      // Snap to position on first render (no animation)
+      indicator.style.transition = 'none';
+      indicator.style.left = `${left}px`;
+      indicator.style.width = `${width}px`;
+      // Force reflow then re-enable transitions
+      indicator.getBoundingClientRect();
+      indicator.style.transition = '';
+      indicator.style.opacity = '1';
+      indicatorReady = true;
+    } else {
+      indicator.style.left = `${left}px`;
+      indicator.style.width = `${width}px`;
+      indicator.style.opacity = '1';
+    }
+  };
+
   const syncActiveNavItem = () => {
     const path = window.location.pathname;
     const links = document.querySelectorAll('a[data-nav-link]');
@@ -91,6 +128,8 @@ const isActive = (href: string, path: string = currentPath) => {
         link.removeAttribute('aria-current');
       }
     });
+
+    updateNavIndicator();
   };
 
   const getNavIndex = (path: string) =>
@@ -133,6 +172,17 @@ const isActive = (href: string, path: string = currentPath) => {
     }
 
     setDirectionalTransition(window.location.pathname, nextUrl.pathname);
+
+    // Slide indicator to the clicked link immediately (before page transition)
+    const navList = link.closest<HTMLElement>('.nav-list');
+    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    if (navList && indicator) {
+      const navRect = navList.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      indicator.style.left = `${linkRect.left - navRect.left}px`;
+      indicator.style.width = `${linkRect.width}px`;
+      indicator.style.opacity = '1';
+    }
   };
 
   if (!navWindow.__sonicverseNavBound) {
@@ -151,4 +201,5 @@ const isActive = (href: string, path: string = currentPath) => {
   }
 
   syncActiveNavItem();
+  updateNavIndicator(true);
 </script>

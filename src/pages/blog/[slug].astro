@@ -27,7 +27,7 @@ const { Content } = await render(post);
 >
   <article class="container article-shell section-gap" data-reveal>
     <a class="button button-ghost" href="/blog">Back to blog</a>
-    <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US')} by {post.data.author}</p>
+    <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })} &middot; {post.data.author}</p>
     <h1>{post.data.title}</h1>
     <p class="hero-subtitle">{post.data.description}</p>
     <div class="tag-list">

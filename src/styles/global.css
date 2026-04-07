@@ -77,9 +77,8 @@ p {
 	z-index: -1;
 	transform: translateY(calc(var(--scroll-progress) * -18px));
 	background:
-		radial-gradient(circle at 16% 12%, rgba(67, 45, 215, 0.2) 0%, transparent 32%),
-		radial-gradient(circle at 82% 10%, rgba(67, 45, 215, 0.16) 0%, transparent 28%),
-		radial-gradient(circle at 84% 88%, rgba(67, 45, 215, 0.12) 0%, transparent 34%),
+		radial-gradient(circle at 16% 12%, rgba(67, 45, 215, 0.18) 0%, transparent 32%),
+		radial-gradient(circle at 82% 10%, rgba(67, 45, 215, 0.13) 0%, transparent 28%),
 		var(--bg);
 }
 
@@ -170,25 +169,38 @@ main {
 	animation: none;
 }
 
-::view-transition-group(page) {
-	animation-duration: 420ms;
-	animation-timing-function: cubic-bezier(0.2, 0.9, 0.2, 1);
+/* Default: fade+scale when no nav direction is set */
+::view-transition-old(page) {
+	animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both sonicverse-page-fade-out;
 }
 
+::view-transition-new(page) {
+	animation: 340ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-page-fade-in;
+}
+
+@keyframes sonicverse-page-fade-out {
+	to { opacity: 0; scale: 0.99; }
+}
+
+@keyframes sonicverse-page-fade-in {
+	from { opacity: 0; scale: 1.005; }
+}
+
+/* Directional slide (higher specificity — overrides default above) */
 html[data-nav-direction='right']::view-transition-old(page) {
-	animation: 420ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-old-to-left;
+	animation: 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-old-to-left;
 }
 
 html[data-nav-direction='right']::view-transition-new(page) {
-	animation: 420ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-new-from-right;
+	animation: 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-new-from-right;
 }
 
 html[data-nav-direction='left']::view-transition-old(page) {
-	animation: 420ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-old-to-right;
+	animation: 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-old-to-right;
 }
 
 html[data-nav-direction='left']::view-transition-new(page) {
-	animation: 420ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-new-from-left;
+	animation: 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both sonicverse-nav-new-from-left;
 }
 
 .top-nav-wrap {
@@ -286,6 +298,23 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	display: flex;
 	gap: 0.2rem;
 	flex-wrap: wrap;
+	position: relative;
+}
+
+.nav-indicator {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background: rgba(67, 45, 215, 0.1);
+	border-radius: 0.7rem;
+	pointer-events: none;
+	opacity: 0;
+	z-index: 0;
+	transition:
+		left 280ms cubic-bezier(0.34, 1.15, 0.64, 1),
+		width 280ms cubic-bezier(0.34, 1.15, 0.64, 1),
+		opacity 180ms ease;
 }
 
 .nav-list a {
@@ -296,9 +325,10 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	font-size: 0.9rem;
 	padding: 0.48rem 0.8rem;
 	border-radius: 0.7rem;
+	position: relative;
+	z-index: 1;
 	transition:
 		transform 150ms ease,
-		background-color 150ms ease,
 		color 150ms ease,
 		box-shadow 180ms ease;
 }
@@ -306,7 +336,6 @@ html[data-nav-direction='left']::view-transition-new(page) {
 .nav-list a:hover,
 .nav-list a.active {
 	color: var(--primary-700);
-	background: rgba(67, 45, 215, 0.1);
 }
 
 .nav-list a:hover {
@@ -315,9 +344,14 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .hero {
-	margin-top: 2.2rem;
+	margin-top: 3.5rem;
 	display: grid;
 	gap: 1.2rem;
+}
+
+.hero > .button {
+	justify-self: start;
+	align-self: start;
 }
 
 .eyebrow {
@@ -371,14 +405,15 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	content: '';
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(110deg, transparent 22%, rgba(255, 255, 255, 0.52) 50%, transparent 78%);
+	border-radius: inherit;
+	background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18) 0%, transparent 68%);
 	opacity: 0;
 	pointer-events: none;
+	transition: opacity 200ms ease;
 }
 
 .button:hover::after {
-	opacity: 0.75;
-	animation: sonicverse-sheen-sweep 850ms ease;
+	opacity: 1;
 }
 
 .button-primary {
@@ -830,17 +865,8 @@ html[data-nav-direction='left']::view-transition-new(page) {
 .site-footer {
 	margin-top: 5rem;
 	border-top: 1px solid var(--border);
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(241, 236, 255, 0.72));
+	background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 60%, white) 0%, color-mix(in srgb, var(--primary-100) 55%, white) 100%);
 	position: relative;
-	overflow: hidden;
-}
-
-.site-footer::before {
-	content: '';
-	position: absolute;
-	inset: -64% 0 36%;
-	background: radial-gradient(circle at 50% 90%, rgba(123, 63, 243, 0.18), transparent 72%);
-	pointer-events: none;
 }
 
 .brand:hover .brand-mark {
@@ -946,4 +972,163 @@ html[data-nav-direction='left']::view-transition-new(page) {
 		transform: none;
 		filter: none;
 	}
+}
+
+/* ── Eyebrow accent dot ─────────────────────────────────── */
+.hero .eyebrow,
+.section-head .eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.hero .eyebrow::before,
+.section-head .eyebrow::before {
+	content: '';
+	display: inline-block;
+	width: 0.38rem;
+	height: 0.38rem;
+	border-radius: 50%;
+	background: var(--primary-500);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-500) 18%, transparent);
+	flex-shrink: 0;
+	animation: sv-dot-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes sv-dot-pulse {
+	0%, 100% {
+		box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-500) 20%, transparent);
+	}
+	50% {
+		box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary-500) 7%, transparent);
+	}
+}
+
+/* ── Status badges ──────────────────────────────────────── */
+.badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.2rem 0.6rem;
+	border-radius: 999px;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+.badge-active {
+	background: color-mix(in srgb, #16a34a 13%, white);
+	color: #15803d;
+	border: 1px solid color-mix(in srgb, #16a34a 28%, white);
+}
+
+.badge-beta {
+	background: color-mix(in srgb, #d97706 12%, white);
+	color: #b45309;
+	border: 1px solid color-mix(in srgb, #d97706 28%, white);
+}
+
+.badge-research {
+	background: color-mix(in srgb, var(--primary-500) 11%, white);
+	color: var(--primary-700);
+	border: 1px solid color-mix(in srgb, var(--primary-500) 24%, white);
+}
+
+/* ── Card top accent line ───────────────────────────────── */
+.feature-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 14%;
+	right: 14%;
+	height: 1px;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		color-mix(in srgb, var(--primary-300) 72%, transparent),
+		transparent
+	);
+}
+
+/* ── Blog list layout ───────────────────────────────────── */
+.blog-list {
+	display: grid;
+	gap: 0;
+}
+
+.blog-post-item {
+	display: grid;
+	grid-template-columns: 10rem 1fr;
+	gap: 2.5rem;
+	padding: 1.8rem 0;
+	border-bottom: 1px solid var(--border);
+	transition: background-color 160ms ease;
+}
+
+.blog-post-item:first-child {
+	border-top: 1px solid var(--border);
+}
+
+.blog-post-meta {
+	display: grid;
+	gap: 0.55rem;
+	align-content: start;
+	padding-top: 0.12rem;
+}
+
+.blog-post-content {
+	display: grid;
+	gap: 0.7rem;
+	align-content: start;
+}
+
+.blog-post-content h2 {
+	font-size: 1.3rem;
+	line-height: 1.2;
+	transition: color 160ms ease;
+}
+
+.blog-post-content h2 a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.blog-post-content h2 a:hover {
+	color: var(--primary-600);
+	text-shadow: none;
+	filter: none;
+}
+
+.blog-post-content p {
+	color: var(--text-soft);
+	font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+	.blog-post-item {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+}
+
+/* ── Footer copyright ───────────────────────────────────── */
+.footer-bottom {
+	padding: 1rem 0 1.5rem;
+	border-top: 1px solid var(--border);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+.footer-bottom p {
+	font-size: 0.8rem;
+	color: var(--text-soft);
+}
+
+.footer-bottom a {
+	color: var(--text-soft);
+	text-decoration: none;
+	font-size: 0.8rem;
 }
