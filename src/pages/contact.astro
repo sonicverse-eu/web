@@ -1,6 +1,9 @@
 ---
+import { actions, isInputError } from 'astro:actions';
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+export const prerender = false;
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
@@ -12,6 +15,8 @@ if (!page) {
 }
 
 const { Content } = await render(page);
+const actionResult = Astro.getActionResult(actions.sendMail);
+const fieldErrors = isInputError(actionResult?.error) ? actionResult.error.fields : undefined;
 ---
 
 <Layout title={page.data.title} description={page.data.description} currentPath="/contact">
@@ -22,9 +27,72 @@ const { Content } = await render(page);
   </section>
 
   <section class="container contact-grid section-gap">
-    <div class="prose">
-      <Content />
+    <div class="contact-main">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <form class="feature-card contact-form" method="POST" action={actions.sendMail}>
+        <h2>Send us a message</h2>
+        <p>Share your goal and we will route your request to the right maintainer.</p>
+
+        {actionResult?.data?.ok && (
+          <p class="form-status form-status-success" role="status">Message sent. We will follow up soon.</p>
+        )}
+
+        {actionResult?.error && (
+          <p class="form-status form-status-error" role="alert">{actionResult.error.message}</p>
+        )}
+
+        <label for="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+          minlength="2"
+          maxlength="80"
+          aria-invalid={fieldErrors?.name ? 'true' : undefined}
+          aria-describedby={fieldErrors?.name ? 'name-error' : undefined}
+        />
+        {fieldErrors?.name && (
+          <p id="name-error" class="field-error" role="alert">{fieldErrors.name[0]}</p>
+        )}
+
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          aria-invalid={fieldErrors?.email ? 'true' : undefined}
+          aria-describedby={fieldErrors?.email ? 'email-error' : undefined}
+        />
+        {fieldErrors?.email && (
+          <p id="email-error" class="field-error" role="alert">{fieldErrors.email[0]}</p>
+        )}
+
+        <label for="message">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          required
+          minlength="10"
+          maxlength="3000"
+          aria-invalid={fieldErrors?.message ? 'true' : undefined}
+          aria-describedby={fieldErrors?.message ? 'message-error' : undefined}
+        ></textarea>
+        {fieldErrors?.message && (
+          <p id="message-error" class="field-error" role="alert">{fieldErrors.message[0]}</p>
+        )}
+
+        <button class="button button-primary" type="submit">Send message</button>
+      </form>
     </div>
+
     <aside class="feature-card">
       <h2>Contact channels</h2>
       <p>Choose the fastest route and we will direct your message to the right maintainers.</p>
