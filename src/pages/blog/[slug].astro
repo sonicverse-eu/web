@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.description} currentPath="/blog">
+  <article class="container article-shell section-gap">
+    <a class="button button-ghost" href="/blog">Back to blog</a>
+    <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US')} by {post.data.author}</p>
+    <h1>{post.data.title}</h1>
+    <p class="hero-subtitle">{post.data.description}</p>
+    <div class="tag-list">
+      {post.data.tags.map((tag: string) => <span>{tag}</span>)}
+    </div>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Layout>

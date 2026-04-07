@@ -1,0 +1,46 @@
+---
+import brandIcon from '../assets/brand/2.svg';
+
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+  { href: '/community', label: 'Community' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' }
+];
+
+const isActive = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="top-nav-wrap">
+  <div class="top-nav container">
+    <a class="brand" href="/" aria-label="Sonicverse home">
+      <img class="brand-mark" src={brandIcon.src} alt="Sonicverse logo" />
+      <span class="brand-copy">
+        <strong>Sonicverse</strong>
+        <small>Open Source Initiative</small>
+      </span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a class={isActive(link.href) ? 'active' : ''} href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

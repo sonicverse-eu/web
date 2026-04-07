@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)contact(\.md|\.mdx)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing contact page content at src/content/pages/contact.mdx');
+}
+
+const { Content } = await render(page);
+---
+
+<Layout title={page.data.title} description={page.data.description} currentPath="/contact">
+  <section class="hero container">
+    <p class="eyebrow">Get in touch</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
+  </section>
+
+  <section class="container contact-grid section-gap">
+    <div class="prose">
+      <Content />
+    </div>
+    <aside class="feature-card">
+      <h2>Contact channels</h2>
+      <p>Choose the fastest route and we will direct your message to the right maintainers.</p>
+      <ul class="contact-list">
+        <li><strong>Email:</strong> <a href="mailto:hello@sonicverse.dev">hello@sonicverse.dev</a></li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/rikvisser-dev">rikvisser-dev</a></li>
+        <li><strong>Community:</strong> <a href="/community">Contribution page</a></li>
+      </ul>
+      {page.data.ctaHref && page.data.ctaLabel && (
+        <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
+      )}
+    </aside>
+  </section>
+</Layout>

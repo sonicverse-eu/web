@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)community(\.md|\.mdx)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing community page content at src/content/pages/community.mdx');
+}
+
+const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const { Content } = await render(page);
+---
+
+<Layout title={page.data.title} description={page.data.description} currentPath="/community">
+  <section class="hero container">
+    <p class="eyebrow">Contribute</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
+    {page.data.ctaHref && page.data.ctaLabel && (
+      <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
+    )}
+  </section>
+
+  <section class="container prose section-gap">
+    <Content />
+  </section>
+
+  <section class="container section-gap">
+    <h2>Community FAQ</h2>
+    <div class="faq-list">
+      {
+        faqs.map((item) => (
+          <article class="faq-item">
+            <h3>{item.data.question}</h3>
+            <p>{item.data.answer}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

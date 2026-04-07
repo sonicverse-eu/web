@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)projects(\.md|\.mdx)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing projects page content at src/content/pages/projects.mdx');
+}
+
+const { Content } = await render(page);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title={page.data.title} description={page.data.description} currentPath="/projects">
+  <section class="hero container">
+    <p class="eyebrow">Open Source Stack</p>
+    <h1>{page.data.heroTitle}</h1>
+    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
+    {page.data.ctaHref && page.data.ctaLabel && (
+      <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
+    )}
+  </section>
+
+  <section class="container prose section-gap">
+    <Content />
+  </section>
+
+  <section class="container section-gap">
+    <div class="card-grid">
+      {
+        projects.map((project) => (
+          <article class="feature-card">
+            <p class="eyebrow">{project.data.status}</p>
+            <h2>{project.data.title}</h2>
+            <p>{project.data.summary}</p>
+            <a class="button button-ghost" href={project.data.repoUrl}>
+              View Repository
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
