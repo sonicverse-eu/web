@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Sonicverse</title>
+  <desc id="desc">Open source tools for collaborative sound experiences.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#07111f" />
+      <stop offset="55%" stop-color="#12314f" />
+      <stop offset="100%" stop-color="#1d5b78" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.36" />
+      <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glow)" />
+  <circle cx="980" cy="150" r="140" fill="#f59e0b" fill-opacity="0.16" />
+  <circle cx="180" cy="500" r="220" fill="#38bdf8" fill-opacity="0.12" />
+  <text x="80" y="200" fill="#e2e8f0" font-family="Inter, Arial, sans-serif" font-size="78" font-weight="700">Sonicverse</text>
+  <text x="80" y="284" fill="#bae6fd" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500">Open source tools for collaborative sound experiences.</text>
+  <text x="80" y="394" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="400">Build, ship, and grow open audio infrastructure together.</text>
+</svg>

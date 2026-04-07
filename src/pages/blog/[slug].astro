@@ -15,7 +15,16 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout title={post.data.title} description={post.data.description} currentPath="/blog">
+<Layout 
+  title={post.data.title} 
+  description={post.data.description} 
+  currentPath={`/blog/${post.id}`}
+  image={post.data.image}
+  ogType="article"
+  author={post.data.author}
+  pubDate={post.data.pubDate.toISOString()}
+  tags={post.data.tags}
+>
   <article class="container article-shell section-gap" data-reveal>
     <a class="button button-ghost" href="/blog">Back to blog</a>
     <p class="eyebrow">{post.data.pubDate.toLocaleDateString('en-US')} by {post.data.author}</p>
