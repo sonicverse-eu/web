@@ -4,11 +4,11 @@ import Layout from '../layouts/Layout.astro';
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
-  /(^|\/)projects(\.md|\.mdx)?$/.test(entry.id)
+  /(^|\/)projects(\.md|\.mdoc)?$/.test(entry.id)
 );
 
 if (!page) {
-  throw new Error('Missing projects page content at src/content/pages/projects.mdx');
+  throw new Error('Missing projects page content at src/content/pages/projects.mdoc');
 }
 
 const { Content } = await render(page);

@@ -7,11 +7,11 @@ export const prerender = false;
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
-  /(^|\/)contact(\.md|\.mdx)?$/.test(entry.id)
+  /(^|\/)contact(\.md|\.mdoc)?$/.test(entry.id)
 );
 
 if (!page) {
-  throw new Error('Missing contact page content at src/content/pages/contact.mdx');
+  throw new Error('Missing contact page content at src/content/pages/contact.mdoc');
 }
 
 const { Content } = await render(page);

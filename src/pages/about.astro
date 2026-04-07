@@ -4,11 +4,11 @@ import Layout from '../layouts/Layout.astro';
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
-  /(^|\/)about(\.md|\.mdx)?$/.test(entry.id)
+  /(^|\/)about(\.md|\.mdoc)?$/.test(entry.id)
 );
 
 if (!page) {
-  throw new Error('Missing about page content at src/content/pages/about.mdx');
+  throw new Error('Missing about page content at src/content/pages/about.mdoc');
 }
 
 const { Content } = await render(page);

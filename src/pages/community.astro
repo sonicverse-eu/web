@@ -4,11 +4,11 @@ import Layout from '../layouts/Layout.astro';
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
-  /(^|\/)community(\.md|\.mdx)?$/.test(entry.id)
+  /(^|\/)community(\.md|\.mdoc)?$/.test(entry.id)
 );
 
 if (!page) {
-  throw new Error('Missing community page content at src/content/pages/community.mdx');
+  throw new Error('Missing community page content at src/content/pages/community.mdoc');
 }
 
 const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
