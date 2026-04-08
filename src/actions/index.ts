@@ -32,12 +32,6 @@ function sanitizeExternalUrl(value?: string) {
   return undefined;
 }
 
-function sanitizeEmailHtml(value: string) {
-  return value
-    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
-    .replace(/\son[a-z]+\s*=\s*(['"]).*?\1/gi, '');
-}
-
 function buildThreadId() {
   const date = new Date().toISOString().slice(0, 10).replaceAll('-', '');
   return `SV-${date}-${randomUUID().slice(0, 8).toUpperCase()}`;
@@ -170,6 +164,17 @@ export const server = {
         'Message:',
         message
       ].join('\n');
+      const teamHtml = buildTeamTemplate({
+        threadId,
+        name,
+        email,
+        company,
+        detailsUrl,
+        department,
+        category,
+        priority,
+        message
+      });
 
       const teamResponse = await resend.emails.send({
         from: FROM_EMAIL,
@@ -177,19 +182,7 @@ export const server = {
         replyTo: email,
         subject: teamSubject,
         text: teamText,
-        html: sanitizeEmailHtml(
-          buildTeamTemplate({
-            threadId,
-            name,
-            email,
-            company,
-            detailsUrl,
-            department,
-            category,
-            priority,
-            message
-          })
-        )
+        html: teamHtml
       });
 
       if (teamResponse.error) {
@@ -215,23 +208,22 @@ export const server = {
         '',
         'A maintainer will follow up within two business days.'
       ].join('\n');
+      const submitterHtml = buildSubmitterTemplate({
+        threadId,
+        name,
+        detailsUrl,
+        department,
+        category,
+        priority,
+        message
+      });
 
       const submitterResponse = await resend.emails.send({
         from: FROM_EMAIL,
         to: [email],
         subject: submitterSubject,
         text: submitterText,
-        html: sanitizeEmailHtml(
-          buildSubmitterTemplate({
-            threadId,
-            name,
-            detailsUrl,
-            department,
-            category,
-            priority,
-            message
-          })
-        )
+        html: submitterHtml
       });
 
       if (submitterResponse.error) {
