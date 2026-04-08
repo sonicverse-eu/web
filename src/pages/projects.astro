@@ -47,7 +47,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
             <h2>{project.data.title}</h2>
             <p>{project.data.summary}</p>
             <a class="button button-ghost" href={project.data.repoUrl}>
-              {page.data.projectLinkLabel ?? 'View Repository'}
+              {page.data.projectLinkLabel ?? 'Check out the code'}
             </a>
           </article>
         ))

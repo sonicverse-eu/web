@@ -1299,16 +1299,46 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	border: 1px solid color-mix(in srgb, #16a34a 28%, white);
 }
 
+.badge-alpha {
+	background: color-mix(in srgb, #2563eb 12%, white);
+	color: #1d4ed8;
+	border: 1px solid color-mix(in srgb, #2563eb 26%, white);
+}
+
 .badge-beta {
 	background: color-mix(in srgb, #d97706 12%, white);
 	color: #b45309;
 	border: 1px solid color-mix(in srgb, #d97706 28%, white);
 }
 
+.badge-stable {
+	background: color-mix(in srgb, #0f766e 13%, white);
+	color: #0f766e;
+	border: 1px solid color-mix(in srgb, #0f766e 28%, white);
+}
+
+.badge-planned {
+	background: color-mix(in srgb, #7c3aed 11%, white);
+	color: #6d28d9;
+	border: 1px solid color-mix(in srgb, #7c3aed 24%, white);
+}
+
+.badge-paused {
+	background: color-mix(in srgb, #64748b 12%, white);
+	color: #475569;
+	border: 1px solid color-mix(in srgb, #64748b 24%, white);
+}
+
 .badge-research {
 	background: color-mix(in srgb, var(--primary-500) 11%, white);
 	color: var(--primary-700);
 	border: 1px solid color-mix(in srgb, var(--primary-500) 24%, white);
+}
+
+.badge-archived {
+	background: color-mix(in srgb, #334155 13%, white);
+	color: #334155;
+	border: 1px solid color-mix(in srgb, #334155 24%, white);
 }
 
 /* ── Card top accent line ───────────────────────────────── */
