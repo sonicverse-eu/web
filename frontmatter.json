@@ -1,0 +1,297 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.framework.id": "astro",
+  "frontMatter.content.supportedFileTypes": [
+    "md",
+    "markdown",
+    "mdx",
+    "mdoc"
+  ],
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Pages",
+      "path": "[[workspace]]/src/content/pages",
+      "contentTypes": [
+        "page"
+      ]
+    },
+    {
+      "title": "Blog",
+      "path": "[[workspace]]/src/content/blog",
+      "contentTypes": [
+        "blog"
+      ],
+      "previewPath": "/blog"
+    },
+    {
+      "title": "Features",
+      "path": "[[workspace]]/src/content/features",
+      "contentTypes": [
+        "feature"
+      ]
+    },
+    {
+      "title": "Projects",
+      "path": "[[workspace]]/src/content/projects",
+      "contentTypes": [
+        "project"
+      ]
+    },
+    {
+      "title": "FAQ",
+      "path": "[[workspace]]/src/content/faq",
+      "contentTypes": [
+        "faq"
+      ]
+    }
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "page",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "SEO title",
+          "name": "seoTitle",
+          "type": "string"
+        },
+        {
+          "title": "SEO description",
+          "name": "seoDescription",
+          "type": "string"
+        },
+        {
+          "title": "SEO image",
+          "name": "seoImage",
+          "type": "image"
+        },
+        {
+          "title": "Eyebrow",
+          "name": "eyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Hero title",
+          "name": "heroTitle",
+          "type": "string"
+        },
+        {
+          "title": "Hero subtitle",
+          "name": "heroSubtitle",
+          "type": "string"
+        },
+        {
+          "title": "Primary CTA label",
+          "name": "ctaLabel",
+          "type": "string"
+        },
+        {
+          "title": "Primary CTA URL",
+          "name": "ctaHref",
+          "type": "string"
+        },
+        {
+          "title": "Secondary CTA label",
+          "name": "secondaryCtaLabel",
+          "type": "string"
+        },
+        {
+          "title": "Secondary CTA URL",
+          "name": "secondaryCtaHref",
+          "type": "string"
+        },
+        {
+          "title": "Feature section eyebrow",
+          "name": "featureSectionEyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Feature section title",
+          "name": "featureSectionTitle",
+          "type": "string"
+        },
+        {
+          "title": "Project section eyebrow",
+          "name": "projectSectionEyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Project section title",
+          "name": "projectSectionTitle",
+          "type": "string"
+        },
+        {
+          "title": "Project link label",
+          "name": "projectLinkLabel",
+          "type": "string"
+        },
+        {
+          "title": "FAQ section eyebrow",
+          "name": "faqSectionEyebrow",
+          "type": "string"
+        },
+        {
+          "title": "FAQ section title",
+          "name": "faqSectionTitle",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "blog",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "previewPath": "/blog",
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Publishing date",
+          "name": "pubDate",
+          "type": "datetime",
+          "default": "{{now}}",
+          "isPublishDate": true
+        },
+        {
+          "title": "Author",
+          "name": "author",
+          "type": "string"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "Image",
+          "name": "image",
+          "type": "image",
+          "isPreviewImage": true
+        },
+        {
+          "title": "Draft",
+          "name": "draft",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "feature",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Summary",
+          "name": "summary",
+          "type": "string"
+        },
+        {
+          "title": "Eyebrow",
+          "name": "eyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Order",
+          "name": "order",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "project",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Summary",
+          "name": "summary",
+          "type": "string"
+        },
+        {
+          "title": "Repository URL",
+          "name": "repoUrl",
+          "type": "string"
+        },
+        {
+          "title": "Status",
+          "name": "status",
+          "type": "choice",
+          "options": [
+            {
+              "title": "Active",
+              "value": "active"
+            },
+            {
+              "title": "Beta",
+              "value": "beta"
+            },
+            {
+              "title": "Research",
+              "value": "research"
+            }
+          ]
+        },
+        {
+          "title": "Order",
+          "name": "order",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Question",
+          "name": "question",
+          "type": "string"
+        },
+        {
+          "title": "Answer",
+          "name": "answer",
+          "type": "string"
+        },
+        {
+          "title": "Order",
+          "name": "order",
+          "type": "number"
+        }
+      ]
+    }
+  ]
+}

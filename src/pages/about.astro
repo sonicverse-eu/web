@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)about(\.md|\.mdoc)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing about page content at src/content/pages/about.mdoc');
+}
+
+const { Content } = await render(page);
+---
+
+<Layout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
+  currentPath="/about"
+>
+  <section class="hero container" data-reveal-group>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
+    <h1>{page.data.heroTitle}</h1>
+    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
+    {page.data.ctaHref && page.data.ctaLabel && (
+      <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
+    )}
+  </section>
+
+  <section class="container prose section-gap" data-reveal>
+    <Content frontmatter={page.data} />
+  </section>
+</Layout>

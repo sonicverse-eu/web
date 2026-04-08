@@ -1,0 +1,205 @@
+---
+import brandIcon from '../assets/brand/2.svg';
+
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+  { href: '/community', label: 'Community' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' }
+];
+
+const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
+
+const isActive = (href: string, path: string = currentPath) => {
+  const normalizedHref = normalizePath(href);
+  const normalizedPath = normalizePath(path);
+
+  return normalizedHref === '/'
+    ? normalizedPath === '/'
+    : normalizedPath === normalizedHref || normalizedPath.startsWith(`${normalizedHref}/`);
+};
+---
+
+<header class="top-nav-wrap" transition:persist>
+  <div class="top-nav container">
+    <a class="brand" href="/" aria-label="Sonicverse home">
+      <img class="brand-mark" src={brandIcon.src} alt="Sonicverse logo" />
+      <span class="brand-copy">
+        <strong>Sonicverse</strong>
+      </span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-list">
+        <span class="nav-indicator" aria-hidden="true"></span>
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                class={isActive(link.href) ? 'active' : ''}
+                href={link.href}
+                data-nav-link
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const navWindow = window as Window & {
+    __sonicverseNavBound?: boolean;
+    __sonicverseLastNavPath?: string;
+  };
+
+  const navOrder = ['/', '/projects', '/about', '/community', '/blog', '/contact'];
+
+  const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
+
+  const isActivePath = (href: string, path: string) => {
+    const normalizedHref = normalizePath(href);
+    const normalizedPath = normalizePath(path);
+
+    return normalizedHref === '/'
+      ? normalizedPath === '/'
+      : normalizedPath === normalizedHref || normalizedPath.startsWith(`${normalizedHref}/`);
+  };
+
+  let indicatorReady = false;
+
+  const updateNavIndicator = (instant = false) => {
+    const navList = document.querySelector<HTMLElement>('.nav-list');
+    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const activeLink = navList?.querySelector<HTMLAnchorElement>('a.active');
+
+    if (!navList || !indicator) return;
+
+    if (!activeLink) {
+      indicator.style.opacity = '0';
+      return;
+    }
+
+    const navRect = navList.getBoundingClientRect();
+    const linkRect = activeLink.getBoundingClientRect();
+    const left = linkRect.left - navRect.left;
+    const width = linkRect.width;
+
+    if (!indicatorReady || instant) {
+      // Snap to position on first render (no animation)
+      indicator.style.transition = 'none';
+      indicator.style.left = `${left}px`;
+      indicator.style.width = `${width}px`;
+      // Force reflow then re-enable transitions
+      indicator.getBoundingClientRect();
+      indicator.style.transition = '';
+      indicator.style.opacity = '1';
+      indicatorReady = true;
+    } else {
+      indicator.style.left = `${left}px`;
+      indicator.style.width = `${width}px`;
+      indicator.style.opacity = '1';
+    }
+  };
+
+  const syncActiveNavItem = () => {
+    const path = window.location.pathname;
+    const links = document.querySelectorAll('a[data-nav-link]');
+
+    links.forEach((link) => {
+      const href = link.getAttribute('href') || '/';
+      const active = isActivePath(href, path);
+
+      link.classList.toggle('active', active);
+      if (active) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+
+    updateNavIndicator();
+  };
+
+  const getNavIndex = (path: string) =>
+    navOrder.findIndex((href) => isActivePath(href, path));
+
+  const setDirectionalTransition = (fromPath: string, toPath: string) => {
+    const fromIndex = getNavIndex(fromPath);
+    const toIndex = getNavIndex(toPath);
+
+    if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) {
+      document.documentElement.removeAttribute('data-nav-direction');
+      return;
+    }
+
+    document.documentElement.setAttribute('data-nav-direction', toIndex > fromIndex ? 'left' : 'right');
+  };
+
+  const trackNavDirection = (event: Event) => {
+    const clickEvent = event as MouseEvent;
+    if (clickEvent.defaultPrevented || clickEvent.button !== 0 || clickEvent.metaKey || clickEvent.ctrlKey || clickEvent.shiftKey || clickEvent.altKey) {
+      return;
+    }
+
+    const target = clickEvent.target as Element | null;
+    const link = target?.closest('a[data-nav-link]') as HTMLAnchorElement | null;
+    if (!link || !link.href) {
+      return;
+    }
+
+    const nextUrl = new URL(link.href, window.location.origin);
+    if (nextUrl.origin !== window.location.origin) {
+      return;
+    }
+
+    if (normalizePath(nextUrl.pathname) === normalizePath(window.location.pathname)) {
+      clickEvent.preventDefault();
+      clickEvent.stopImmediatePropagation();
+      document.documentElement.removeAttribute('data-nav-direction');
+      return;
+    }
+
+    setDirectionalTransition(window.location.pathname, nextUrl.pathname);
+
+    // Slide indicator to the clicked link immediately (before page transition)
+    const navList = link.closest<HTMLElement>('.nav-list');
+    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    if (navList && indicator) {
+      const navRect = navList.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      indicator.style.left = `${linkRect.left - navRect.left}px`;
+      indicator.style.width = `${linkRect.width}px`;
+      indicator.style.opacity = '1';
+    }
+  };
+
+  if (!navWindow.__sonicverseNavBound) {
+    document.addEventListener('click', trackNavDirection, { capture: true });
+    document.addEventListener('astro:page-load', syncActiveNavItem);
+    document.addEventListener('astro:page-load', () => {
+      const previousPath = navWindow.__sonicverseLastNavPath;
+      if (previousPath) {
+        setDirectionalTransition(previousPath, window.location.pathname);
+      }
+      navWindow.__sonicverseLastNavPath = window.location.pathname;
+    });
+
+    navWindow.__sonicverseLastNavPath = window.location.pathname;
+    navWindow.__sonicverseNavBound = true;
+  }
+
+  syncActiveNavItem();
+  updateNavIndicator(true);
+</script>

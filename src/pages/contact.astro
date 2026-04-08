@@ -1,0 +1,736 @@
+---
+import { actions, isInputError } from 'astro:actions';
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+export const prerender = false;
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) =>
+  /(^|\/)contact(\.md|\.mdoc|\.mdx)?$/.test(entry.id)
+);
+
+if (!page) {
+  throw new Error('Missing contact page content at src/content/pages/contact.mdoc');
+}
+
+const { Content } = await render(page);
+const actionResult = Astro.getActionResult(actions.sendMail);
+const fieldErrors = isInputError(actionResult?.error) ? actionResult.error.fields : undefined;
+const departments = page.data.contactDepartments?.length
+  ? page.data.contactDepartments
+  : [
+      { value: 'product', label: 'Product & API', description: 'Product walkthroughs and pilots.' },
+      { value: 'community', label: 'Community', description: 'Contributor onboarding and programs.' },
+      { value: 'support', label: 'Technical Support', description: 'Troubleshooting and integrations.' }
+    ];
+const categories = page.data.contactCategories?.length
+  ? page.data.contactCategories
+  : [
+      { value: 'pilot-request', label: 'Pilot Request' },
+      { value: 'integration-help', label: 'Integration Help' },
+      { value: 'general-question', label: 'General Question' }
+    ];
+const priorities = page.data.contactPriorities?.length
+  ? page.data.contactPriorities
+  : [
+      { value: 'low', label: 'Low' },
+      { value: 'normal', label: 'Normal' },
+      { value: 'high', label: 'High' }
+    ];
+
+let submittedData: FormData | undefined;
+
+if (Astro.request.method === 'POST') {
+  try {
+    submittedData = await Astro.request.clone().formData();
+  } catch {
+    submittedData = undefined;
+  }
+}
+
+const getSubmittedValue = (name: string) => {
+  const value = submittedData?.get(name);
+  return typeof value === 'string' ? value : '';
+};
+
+const formValues = {
+  name: getSubmittedValue('name'),
+  email: getSubmittedValue('email'),
+  company: getSubmittedValue('company'),
+  department: getSubmittedValue('department'),
+  category: getSubmittedValue('category'),
+  priority: getSubmittedValue('priority'),
+  detailsUrl: getSubmittedValue('detailsUrl'),
+  message: getSubmittedValue('message')
+};
+
+const selectedDepartment =
+  formValues.department || departments[0]?.value || '';
+const visibleCategories = categories.filter(
+  (category) =>
+    !category.departments?.length ||
+    !selectedDepartment ||
+    category.departments.includes(selectedDepartment) ||
+    category.value === formValues.category
+);
+const formSucceeded = Boolean(actionResult?.data?.ok);
+const successThreadId = formSucceeded ? actionResult?.data?.threadId ?? '' : '';
+const actionErrorMessage = actionResult?.error?.message ?? '';
+const supportLinks = page.data.supportLinks ?? [
+  { label: 'Email', href: 'mailto:hello@sonicverse.dev', value: 'hello@sonicverse.dev' },
+  { label: 'GitHub', href: 'https://github.com/rikvisser-dev', value: 'rikvisser-dev' },
+  { label: 'Community', href: '/community', value: 'Contribution hub' }
+];
+const supportNotes = page.data.supportNotes ?? [
+  'Typical response: 1-2 business days',
+  'Support requests: include reproducible details',
+  'Partnerships: include your timeline and scope'
+];
+---
+
+<Layout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.seoImage}
+  currentPath="/contact"
+>
+  <section class="hero container" data-reveal-group>
+    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
+    <h1>{page.data.heroTitle}</h1>
+    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
+  </section>
+
+  <section class="container contact-grid section-gap" data-reveal>
+    <div class="contact-main">
+      <div class="prose" data-reveal>
+        <Content frontmatter={page.data} />
+      </div>
+
+      <form class="feature-card contact-form" method="POST" action={actions.sendMail} data-reveal novalidate>
+        <div class="contact-form-head">
+          <div>
+            {page.data.contactFormKicker && <p class="contact-kicker">{page.data.contactFormKicker}</p>}
+            {page.data.contactFormTitle && <h2>{page.data.contactFormTitle}</h2>}
+            {page.data.contactFormSubtitle && <p class="contact-subtitle">{page.data.contactFormSubtitle}</p>}
+          </div>
+          <div class="contact-stage-card" aria-live="polite">
+            <p class="contact-stage-eyebrow" data-step-current>Step 1 of 3</p>
+            <p class="contact-stage-copy" data-step-description>Who owns this request, and where should we reply?</p>
+          </div>
+        </div>
+
+        <ul class="contact-trust" aria-label="Contact form highlights">
+          <li>Draft is saved locally while you fill it out</li>
+          <li>Routing is narrowed to the relevant team automatically</li>
+          <li>You and Sonicverse receive the same thread ID after submit</li>
+        </ul>
+
+        {formSucceeded && (
+          <p class="form-status form-status-success" role="status">
+            Message sent. Thread ID: <strong>{successThreadId}</strong>
+          </p>
+        )}
+
+        {actionErrorMessage && (
+          <p class="form-status form-status-error" role="alert">{actionErrorMessage}</p>
+        )}
+
+        <div class="contact-progress-wrap" aria-hidden="true">
+          <div class="contact-progress-bar">
+            <span data-step-progress></span>
+          </div>
+          <div class="contact-progress" aria-label="Form steps">
+            <span class="contact-step active" data-step-indicator="1">1. Identity</span>
+            <span class="contact-step" data-step-indicator="2">2. Routing</span>
+            <span class="contact-step" data-step-indicator="3">3. Brief</span>
+          </div>
+        </div>
+
+        <input class="contact-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <fieldset class="contact-step-panel active" data-step-panel="1">
+          <legend>Who should we reply to?</legend>
+          <p class="contact-panel-intro">Use the best email for follow-up. We keep the thread anchored to one owner.</p>
+
+          <div class="contact-field-grid contact-field-grid-split">
+            <div class="contact-field">
+              <label for="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                minlength="2"
+                maxlength="80"
+                placeholder="Your full name"
+                value={formValues.name}
+                aria-invalid={fieldErrors?.name ? 'true' : undefined}
+                aria-describedby={fieldErrors?.name ? 'name-error' : undefined}
+              />
+              {fieldErrors?.name && (
+                <p id="name-error" class="field-error" role="alert">{fieldErrors.name[0]}</p>
+              )}
+            </div>
+
+            <div class="contact-field">
+              <label for="email">Work email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="name@company.com"
+                value={formValues.email}
+                aria-invalid={fieldErrors?.email ? 'true' : undefined}
+                aria-describedby={fieldErrors?.email ? 'email-error' : undefined}
+              />
+              {fieldErrors?.email && (
+                <p id="email-error" class="field-error" role="alert">{fieldErrors.email[0]}</p>
+              )}
+            </div>
+          </div>
+
+          <div class="contact-field">
+            <label for="company">Company or organization</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              maxlength="120"
+              placeholder="Sonic Labs"
+              value={formValues.company}
+            />
+          </div>
+        </fieldset>
+
+        <fieldset class="contact-step-panel" data-step-panel="2">
+          <legend>Where should this go?</legend>
+          <p class="contact-panel-intro">Pick the owning team first. Category options adapt so your request lands in the right queue.</p>
+
+          <div class="contact-choice-grid">
+            {departments.map((department, index) => (
+              <label class="contact-choice-card">
+                <input
+                  type="radio"
+                  name="department"
+                  value={department.value}
+                  required
+                  checked={formValues.department ? formValues.department === department.value : index === 0}
+                  aria-invalid={fieldErrors?.department ? 'true' : undefined}
+                  aria-describedby={fieldErrors?.department ? 'department-error' : undefined}
+                />
+                <span class="contact-choice-card-copy">
+                  <strong>{department.label}</strong>
+                  {department.description && <span>{department.description}</span>}
+                </span>
+              </label>
+            ))}
+          </div>
+          {fieldErrors?.department && (
+            <p id="department-error" class="field-error" role="alert">{fieldErrors.department[0]}</p>
+          )}
+
+          <div class="contact-field-grid contact-field-grid-split">
+            <div class="contact-field">
+              <label for="category">Category</label>
+              <select
+                id="category"
+                name="category"
+                required
+                aria-invalid={fieldErrors?.category ? 'true' : undefined}
+                aria-describedby={fieldErrors?.category ? 'category-error category-help' : 'category-help'}
+              >
+                <option value="" selected={!formValues.category}>Choose a category</option>
+                {visibleCategories.map((category) => (
+                  <option value={category.value} selected={formValues.category === category.value}>
+                    {category.label}
+                  </option>
+                ))}
+              </select>
+              <p id="category-help" class="contact-note" data-category-help>
+                Choose the closest request type. We use it to tune the follow-up.
+              </p>
+              {fieldErrors?.category && (
+                <p id="category-error" class="field-error" role="alert">{fieldErrors.category[0]}</p>
+              )}
+            </div>
+
+            <div class="contact-field">
+              <span class="contact-field-label">Priority</span>
+              <div class="contact-priority-row">
+                {priorities.map((priority, index) => (
+                  <label class="contact-priority-pill">
+                    <input
+                      type="radio"
+                      name="priority"
+                      value={priority.value}
+                      required
+                      checked={formValues.priority ? formValues.priority === priority.value : index === 1}
+                      aria-invalid={fieldErrors?.priority ? 'true' : undefined}
+                      aria-describedby={fieldErrors?.priority ? 'priority-error' : undefined}
+                    />
+                    <span>{priority.label}</span>
+                  </label>
+                ))}
+              </div>
+              {fieldErrors?.priority && (
+                <p id="priority-error" class="field-error" role="alert">{fieldErrors.priority[0]}</p>
+              )}
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="contact-step-panel" data-step-panel="3">
+          <legend>What outcome do you need?</legend>
+          <p class="contact-panel-intro">Describe the goal, timeline, blockers, and the exact result you want from the Sonicverse team.</p>
+
+          <div class="contact-field">
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="8"
+              required
+              minlength="10"
+              maxlength="3000"
+              placeholder="Describe the context, the outcome you need, any hard deadlines, and links or reproduction details."
+              aria-invalid={fieldErrors?.message ? 'true' : undefined}
+              aria-describedby={fieldErrors?.message ? 'message-error message-help' : 'message-help'}
+            >{formValues.message}</textarea>
+            <div class="contact-inline-meta">
+              <p id="message-help" class="contact-note">Include expected behavior, actual behavior, scope, or decision-makers when relevant.</p>
+              <p class="contact-count" data-message-count>0 / 3000</p>
+            </div>
+            {fieldErrors?.message && (
+              <p id="message-error" class="field-error" role="alert">{fieldErrors.message[0]}</p>
+            )}
+          </div>
+
+          <div class="contact-field">
+            <label for="detailsUrl">Reference URL (optional)</label>
+            <input
+              id="detailsUrl"
+              name="detailsUrl"
+              type="url"
+              inputmode="url"
+              placeholder="https://github.com/your-org/project/issues/123"
+              value={formValues.detailsUrl}
+              aria-invalid={fieldErrors?.detailsUrl ? 'true' : undefined}
+              aria-describedby={fieldErrors?.detailsUrl ? 'detailsUrl-error' : undefined}
+            />
+            {fieldErrors?.detailsUrl && (
+              <p id="detailsUrl-error" class="field-error" role="alert">{fieldErrors.detailsUrl[0]}</p>
+            )}
+          </div>
+
+          <div class="contact-review" aria-live="polite">
+            <p class="contact-review-kicker">Routing preview</p>
+            <div class="contact-review-grid">
+              <div>
+                <span>Reply to</span>
+                <strong data-review-owner>{formValues.name || 'Your contact details will appear here'}</strong>
+              </div>
+              <div>
+                <span>Department</span>
+                <strong data-review-department>Choose a department</strong>
+              </div>
+              <div>
+                <span>Category</span>
+                <strong data-review-category>Choose a category</strong>
+              </div>
+              <div>
+                <span>Priority</span>
+                <strong data-review-priority>Choose a priority</strong>
+              </div>
+            </div>
+            <p class="contact-note">After submit, both you and Sonicverse receive the same thread ID for follow-up.</p>
+          </div>
+        </fieldset>
+
+        <div class="contact-nav-row">
+          <button class="button button-ghost" type="button" data-step-back hidden>Back</button>
+          <button class="button button-primary" type="button" data-step-next>Continue</button>
+          <button class="button button-primary" type="submit" data-step-submit hidden>Send request</button>
+        </div>
+
+        <noscript>
+          <p class="contact-note">JavaScript is disabled, so all fields remain visible in a single step and category filtering is manual.</p>
+          <button class="button button-primary" type="submit">Send request</button>
+        </noscript>
+      </form>
+
+      <aside class="feature-card contact-support-card" data-reveal>
+        {page.data.supportTitle && <h2>{page.data.supportTitle}</h2>}
+        {page.data.supportDescription && <p>{page.data.supportDescription}</p>}
+        <ul class="contact-list">
+          {supportLinks.map((link) => (
+            <li><strong>{link.label}:</strong> <a href={link.href}>{link.value}</a></li>
+          ))}
+        </ul>
+        <ul class="contact-meta-list" aria-label="Response notes">
+          {supportNotes.map((note) => <li>{note}</li>)}
+        </ul>
+        {page.data.ctaHref && page.data.ctaLabel && (
+          <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
+        )}
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<script define:vars={{ departments, categories, priorities, formSucceeded }}>
+  /**
+   * Keep the step metadata explicitly typed so strict TS does not flag
+   * numeric indexing in the inline client script.
+   */
+  /** @typedef {{ label: string; description: string }} StepMeta */
+
+  const form = document.querySelector('.contact-form');
+
+  if (form instanceof HTMLFormElement) {
+    const panels = Array.from(form.querySelectorAll('[data-step-panel]'));
+    const indicators = Array.from(form.querySelectorAll('[data-step-indicator]'));
+    const backButton = form.querySelector('[data-step-back]');
+    const nextButton = form.querySelector('[data-step-next]');
+    const submitButton = form.querySelector('[data-step-submit]');
+    const progressBar = form.querySelector('[data-step-progress]');
+    const currentStepLabel = form.querySelector('[data-step-current]');
+    const currentStepDescription = form.querySelector('[data-step-description]');
+    const categorySelect = form.querySelector('#category');
+    const categoryHelp = form.querySelector('[data-category-help]');
+    const messageField = form.querySelector('#message');
+    const messageCount = form.querySelector('[data-message-count]');
+    const reviewOwner = form.querySelector('[data-review-owner]');
+    const reviewDepartment = form.querySelector('[data-review-department]');
+    const reviewCategory = form.querySelector('[data-review-category]');
+    const reviewPriority = form.querySelector('[data-review-priority]');
+    const storageKey = 'sonicverse-contact-form-draft';
+    /** @type {Record<number, StepMeta>} */
+    const stepCopy = {
+      1: {
+        label: 'Step 1 of 3',
+        description: 'Who owns this request, and where should we reply?'
+      },
+      2: {
+        label: 'Step 2 of 3',
+        description: 'Choose the team, category, and urgency so the right maintainers pick it up.'
+      },
+      3: {
+        label: 'Step 3 of 3',
+        description: 'Add the brief that gives the team enough context to act on the first reply.'
+      }
+    };
+    let activeStep = 1;
+
+    const getFieldValue = (fieldName) => {
+      const element = form.elements.namedItem(fieldName);
+
+      if (element instanceof RadioNodeList) {
+        return typeof element.value === 'string' ? element.value : '';
+      }
+
+      if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+        return element.value;
+      }
+
+      return '';
+    };
+
+    const setFieldValue = (fieldName, value) => {
+      const element = form.elements.namedItem(fieldName);
+
+      if (element instanceof RadioNodeList) {
+        Array.from(element).forEach((entry) => {
+          if (entry instanceof HTMLInputElement) {
+            entry.checked = entry.value === value;
+          }
+        });
+        return;
+      }
+
+      if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+        element.value = value;
+      }
+    };
+
+    const focusFirstControl = () => {
+      const panel = form.querySelector(`[data-step-panel="${activeStep}"]`);
+      const firstControl = panel?.querySelector('input:not([type="hidden"]), select, textarea');
+
+      if (firstControl instanceof HTMLElement) {
+        firstControl.focus({ preventScroll: true });
+      }
+    };
+
+    const hasErrorInStep = (step) => {
+      const panel = form.querySelector(`[data-step-panel="${step}"]`);
+      return Boolean(panel && panel.querySelector('[aria-invalid="true"]'));
+    };
+
+    const getDepartment = () => getFieldValue('department');
+    const getPriority = () => getFieldValue('priority');
+
+    const updateCategoryOptions = () => {
+      if (!(categorySelect instanceof HTMLSelectElement)) {
+        return;
+      }
+
+      const selectedDepartment = getDepartment();
+      const selectedValue = categorySelect.value;
+      const allowedCategories = categories.filter(
+        (category) =>
+          !Array.isArray(category.departments) ||
+          category.departments.length === 0 ||
+          !selectedDepartment ||
+          category.departments.includes(selectedDepartment)
+      );
+
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Choose a category';
+      placeholder.selected = !selectedValue;
+
+      categorySelect.replaceChildren(placeholder);
+
+      allowedCategories.forEach((category) => {
+        const option = document.createElement('option');
+        option.value = category.value;
+        option.textContent = category.label;
+        option.selected = category.value === selectedValue;
+        categorySelect.append(option);
+      });
+
+      if (selectedValue && !allowedCategories.some((category) => category.value === selectedValue)) {
+        categorySelect.value = '';
+      }
+
+      const activeCategory = allowedCategories.find((category) => category.value === categorySelect.value);
+      if (categoryHelp instanceof HTMLElement) {
+        categoryHelp.textContent =
+          activeCategory?.description ||
+          'Choose the closest request type. We use it to tune the follow-up.';
+      }
+    };
+
+    const updateMessageCount = () => {
+      if (messageField instanceof HTMLTextAreaElement && messageCount instanceof HTMLElement) {
+        messageCount.textContent = `${messageField.value.length} / 3000`;
+      }
+    };
+
+    const updateReview = () => {
+      const name = getFieldValue('name');
+      const department = departments.find((item) => item.value === getDepartment());
+      const category = categories.find((item) => item.value === getFieldValue('category'));
+      const priority = priorities.find((item) => item.value === getPriority());
+
+      if (reviewOwner instanceof HTMLElement) {
+        reviewOwner.textContent = name || 'Your contact details will appear here';
+      }
+
+      if (reviewDepartment instanceof HTMLElement) {
+        reviewDepartment.textContent = department?.label || 'Choose a department';
+      }
+
+      if (reviewCategory instanceof HTMLElement) {
+        reviewCategory.textContent = category?.label || 'Choose a category';
+      }
+
+      if (reviewPriority instanceof HTMLElement) {
+        reviewPriority.textContent = priority?.label || 'Choose a priority';
+      }
+    };
+
+    const persistDraft = () => {
+      if (formSucceeded) {
+        sessionStorage.removeItem(storageKey);
+        return;
+      }
+
+      const payload = Object.fromEntries(
+        Array.from(form.elements)
+          .filter((element) => element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement)
+          .filter((element) => element.name && element.name !== 'website')
+          .filter((element) => !(element instanceof HTMLInputElement && element.type === 'radio' && !element.checked))
+          .map((element) => [element.name, element.value])
+      );
+
+      sessionStorage.setItem(storageKey, JSON.stringify(payload));
+    };
+
+    const restoreDraft = () => {
+      if (formSucceeded) {
+        sessionStorage.removeItem(storageKey);
+        return;
+      }
+
+      const raw = sessionStorage.getItem(storageKey);
+      if (!raw) {
+        return;
+      }
+
+      try {
+        const payload = JSON.parse(raw);
+        Object.entries(payload).forEach(([fieldName, value]) => {
+          if (typeof value !== 'string') {
+            return;
+          }
+
+          const currentValue = getFieldValue(fieldName);
+          if (currentValue !== value) {
+            setFieldValue(fieldName, value);
+          }
+        });
+      } catch {
+        sessionStorage.removeItem(storageKey);
+      }
+    };
+
+    const updateStep = ({ focus = false } = {}) => {
+      panels.forEach((panel) => {
+        const panelStep = Number(panel.getAttribute('data-step-panel'));
+        panel.classList.toggle('active', panelStep === activeStep);
+      });
+
+      indicators.forEach((indicator) => {
+        const indicatorStep = Number(indicator.getAttribute('data-step-indicator'));
+        indicator.classList.toggle('active', indicatorStep === activeStep);
+        indicator.classList.toggle('done', indicatorStep < activeStep);
+      });
+
+      if (progressBar instanceof HTMLElement) {
+        progressBar.style.width = `${(activeStep / panels.length) * 100}%`;
+      }
+
+      if (currentStepLabel instanceof HTMLElement) {
+        currentStepLabel.textContent = stepCopy[activeStep].label;
+      }
+
+      if (currentStepDescription instanceof HTMLElement) {
+        currentStepDescription.textContent = stepCopy[activeStep].description;
+      }
+
+      if (backButton instanceof HTMLButtonElement) {
+        backButton.hidden = activeStep === 1;
+      }
+
+      if (nextButton instanceof HTMLButtonElement) {
+        nextButton.hidden = activeStep === panels.length;
+      }
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.hidden = activeStep !== panels.length;
+      }
+
+      if (focus) {
+        focusFirstControl();
+      }
+    };
+
+    const validateCurrentStep = () => {
+      const panel = form.querySelector(`[data-step-panel="${activeStep}"]`);
+      if (!(panel instanceof HTMLElement)) {
+        return true;
+      }
+
+      const controls = Array.from(panel.querySelectorAll('input, select, textarea'));
+      for (const control of controls) {
+        if (
+          control instanceof HTMLInputElement ||
+          control instanceof HTMLTextAreaElement ||
+          control instanceof HTMLSelectElement
+        ) {
+          if (!control.checkValidity()) {
+            control.reportValidity();
+            return false;
+          }
+        }
+      }
+
+      return true;
+    };
+
+    restoreDraft();
+    updateCategoryOptions();
+    updateReview();
+    updateMessageCount();
+
+    if (hasErrorInStep(2)) {
+      activeStep = 2;
+    }
+
+    if (hasErrorInStep(3)) {
+      activeStep = 3;
+    }
+
+    form.classList.add('multi-step-ready');
+    updateStep();
+
+    form.addEventListener('input', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement)) {
+        return;
+      }
+
+      if (target.name === 'department' || target.name === 'category') {
+        updateCategoryOptions();
+      }
+
+      if (target.name === 'message') {
+        updateMessageCount();
+      }
+
+      updateReview();
+      persistDraft();
+    });
+
+    form.addEventListener('change', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) {
+        return;
+      }
+
+      if (target.name === 'department' || target.name === 'category' || target.name === 'priority') {
+        updateCategoryOptions();
+        updateReview();
+        persistDraft();
+      }
+    });
+
+    backButton?.addEventListener('click', () => {
+      if (activeStep > 1) {
+        activeStep -= 1;
+        updateStep({ focus: true });
+      }
+    });
+
+    nextButton?.addEventListener('click', () => {
+      if (!validateCurrentStep()) {
+        return;
+      }
+
+      if (activeStep < panels.length) {
+        activeStep += 1;
+        updateStep({ focus: true });
+      }
+    });
+
+    form.addEventListener('submit', (event) => {
+      if (!validateCurrentStep()) {
+        event.preventDefault();
+        return;
+      }
+
+      persistDraft();
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+      }
+    });
+  }
+</script>

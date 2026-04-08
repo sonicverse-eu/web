@@ -1,46 +1,92 @@
-# Astro Starter Kit: Basics
+# Sonicverse Web
+
+The Sonicverse web repository is an Astro-powered marketing and content site for the Sonicverse open source initiative. It combines content collections, custom layouts, animated presentation layers, and a contact workflow backed by Resend.
+
+## Stack
+
+- Astro 6 with ESM
+- Markdoc and Markdown content collections via `astro:content`
+- Tailwind CSS through the Vite plugin
+- Astro transitions and `motion`-based reveal effects
+- Optional React support for interactive islands
+- Node standalone adapter for deployment
+- Resend-powered contact email actions
+
+## Requirements
+
+- Node.js `>=22.12.0`
+- `pnpm`
+
+## Getting Started
 
 ```sh
-pnpm create astro@latest -- --template basics
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The local dev server runs at [localhost:4321](http://localhost:4321).
 
-## 🚀 Project Structure
+## Available Commands
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command | Description |
+| :-- | :-- |
+| `pnpm install` | Install dependencies |
+| `pnpm dev` | Start the local Astro dev server |
+| `pnpm build` | Build the site for production |
+| `pnpm preview` | Preview the production build locally |
+| `pnpm astro -- --help` | Show Astro CLI help |
+
+## Environment Variables
+
+The contact action expects these server-side variables to be configured:
+
+- `RESEND_API_KEY`
+- `FROM_EMAIL`
+- `TO_EMAIL`
+
+These are defined in `astro.config.mjs` and consumed by `src/actions/index.ts`.
+
+## Project Structure
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── public/                 # Static assets such as icons and robots.txt
+├── src/
+│   ├── actions/            # Server actions, including contact email handling
+│   ├── assets/             # Local images and brand assets
+│   ├── components/         # Shared Astro components
+│   ├── content/            # Markdoc/Markdown content collections
+│   ├── layouts/            # Shared page shell and SEO setup
+│   ├── pages/              # Route entrypoints
+│   ├── styles/             # Global styles
+│   ├── content-types.ts    # Generated content typings
+│   └── content.config.ts   # Collection schemas
+├── astro.config.mjs
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Content Model
 
-## 🧞 Commands
+Most public-facing content is driven from `src/content/**`.
 
-All commands are run from the root of the project, from a terminal:
+- `src/content/pages` holds page-level copy for routes like home, about, community, projects, and contact.
+- `src/content/features`, `src/content/projects`, and `src/content/faq` populate reusable homepage and landing page sections.
+- `src/content/blog` powers the blog index and dynamic blog detail pages.
+- When adding frontmatter fields or new collections, update `src/content.config.ts` to keep schemas in sync.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Site Architecture Notes
 
-## 👀 Want to learn more?
+- `src/layouts/Layout.astro` contains the shared document shell, metadata, JSON-LD, client router setup, and motion bootstrapping.
+- `src/components/SiteHeader.astro` and `src/components/SiteFooter.astro` define the persistent site chrome.
+- Pages are primarily server-rendered Astro routes with content rendered from collections.
+- Reduced-motion behavior is already respected in the shared layout and should be preserved when changing animations.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Validation
+
+Run a production build before shipping changes:
+
+```sh
+pnpm build
+```
+
+This is especially important after editing content collections or schemas, because collection mismatches surface during the build.

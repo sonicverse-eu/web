@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astro Web Design"
+  short_description: "Visual direction for Astro sites"
+  default_prompt: "Use $astro-web-design to redesign this Astro page with stronger hierarchy and motion."
