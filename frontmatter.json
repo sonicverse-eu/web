@@ -251,6 +251,10 @@
           "type": "choice",
           "options": [
             {
+              "title": "Alpha",
+              "value": "alpha"
+            },
+            {
               "title": "Active",
               "value": "active"
             },
@@ -259,8 +263,24 @@
               "value": "beta"
             },
             {
+              "title": "Stable",
+              "value": "stable"
+            },
+            {
+              "title": "Planned",
+              "value": "planned"
+            },
+            {
+              "title": "Paused",
+              "value": "paused"
+            },
+            {
               "title": "Research",
               "value": "research"
+            },
+            {
+              "title": "Archived",
+              "value": "archived"
             }
           ]
         },
@@ -268,6 +288,11 @@
           "title": "Order",
           "name": "order",
           "type": "number"
+        },
+        {
+          "title": "Slug",
+          "name": "slug",
+          "type": "string"
         }
       ]
     },
@@ -293,5 +318,10 @@
         }
       ]
     }
-  ]
+  ],
+  "frontMatter.content.publicFolder": {
+    "path": "src/assets",
+    "relative": true
+  },
+  "frontMatter.git.enabled": false
 }

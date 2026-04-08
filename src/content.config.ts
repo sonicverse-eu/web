@@ -110,7 +110,16 @@ const projects = defineCollection({
     title: z.string(),
     summary: z.string(),
     repoUrl: z.string().url(),
-    status: z.enum(['active', 'beta', 'research']),
+    status: z.enum([
+      'active',
+      'alpha',
+      'beta',
+      'stable',
+      'planned',
+      'paused',
+      'research',
+      'archived'
+    ]),
     order: z.number()
   })
 });
