@@ -63,26 +63,7 @@ const pages = defineCollection({
     footerBottomLinkLabel: z.string().optional(),
     footerBottomLinkHref: z.string().optional(),
     supportNotes: z.array(z.string()).optional(),
-    contactDepartments: z
-      .array(
-        z.object({
-          value: z.string(),
-          label: z.string(),
-          description: z.string().optional()
-        })
-      )
-      .optional(),
     contactCategories: z
-      .array(
-        z.object({
-          value: z.string(),
-          label: z.string(),
-          description: z.string().optional(),
-          departments: z.array(z.string()).optional()
-        })
-      )
-      .optional(),
-    contactPriorities: z
       .array(
         z.object({
           value: z.string(),

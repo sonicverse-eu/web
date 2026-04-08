@@ -925,7 +925,6 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .contact-choice-card input,
-.contact-priority-pill input,
 .contact-honeypot {
 	position: absolute;
 	opacity: 0;
@@ -971,47 +970,9 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	transform: translateY(-1px);
 }
 
-.contact-choice-card:has(input:focus-visible) .contact-choice-card-copy,
-.contact-priority-pill:has(input:focus-visible) span {
+.contact-choice-card:has(input:focus-visible) .contact-choice-card-copy {
 	outline: 2px solid color-mix(in srgb, var(--primary-500) 40%, transparent);
 	outline-offset: 2px;
-}
-
-.contact-priority-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.55rem;
-}
-
-.contact-priority-pill {
-	cursor: pointer;
-}
-
-.contact-priority-pill span {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 5.5rem;
-	padding: 0.7rem 0.9rem;
-	border-radius: 999px;
-	border: 1px solid rgba(156, 177, 220, 0.38);
-	background: rgba(255, 255, 255, 0.84);
-	font-size: 0.84rem;
-	font-weight: 700;
-	color: var(--text-soft);
-	transition:
-		background-color 160ms ease,
-		border-color 160ms ease,
-		color 160ms ease,
-		transform 160ms ease;
-}
-
-.contact-priority-pill:has(input:checked) span {
-	border-color: transparent;
-	background: linear-gradient(135deg, var(--primary-600), var(--spectrum-blue));
-	color: #fff;
-	box-shadow: 0 12px 24px rgba(61, 95, 211, 0.22);
-	transform: translateY(-1px);
 }
 
 .contact-nav-row {
