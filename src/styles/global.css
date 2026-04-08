@@ -46,14 +46,14 @@ a {
 	color: inherit;
 }
 
-a:not(.button):not(.brand) {
+a:not(.button, .brand) {
 	transition:
 		color 160ms ease,
 		text-shadow 180ms ease,
 		filter 180ms ease;
 }
 
-a:not(.button):not(.brand):hover {
+a:not(.button, .brand):hover {
 	color: var(--primary-700);
 	text-shadow: 0 0 18px color-mix(in srgb, var(--glow-primary) 58%, transparent);
 	filter: saturate(1.06);

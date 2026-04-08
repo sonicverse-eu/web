@@ -1,0 +1,206 @@
+name: AI Autolabel Issues
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+jobs:
+  autolabel:
+    name: Apply Type, Scope, and Priority labels via AI
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      models: read
+
+    steps:
+      - name: Autolabel issue
+        uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue = context.payload.issue;
+
+            function isAutomationActor(login) {
+              if (!login) return false;
+              return login.endsWith('[bot]') || /^copilot[-_\s]/i.test(login);
+            }
+
+            if (
+              issue.user.type === 'Bot' ||
+              isAutomationActor(issue.user.login) ||
+              isAutomationActor(context.actor)
+            ) {
+              core.info(
+                `Automation actor detected ` +
+                `(issue author: ${issue.user.login}, workflow actor: ${context.actor}) - skipping.`
+              );
+              return;
+            }
+
+            const TYPE_LABELS = [
+              'Type: Bug',
+              'Type: Feature',
+              'Type: Documentation',
+              'Type: Maintenance',
+              'Type: Security',
+              'Type: Performance',
+              'Type: Question',
+            ];
+
+            const SCOPE_LABELS = [
+              'Scope: homepage',
+              'Scope: content',
+              'Scope: blog',
+              'Scope: projects',
+              'Scope: contact',
+              'Scope: layout',
+              'Scope: styling',
+              'Scope: seo',
+              'Scope: cms',
+              'Scope: build',
+              'Scope: ci',
+            ];
+
+            const PRIORITY_LABELS = [
+              'Priority: Critical',
+              'Priority: High',
+              'Priority: Medium',
+              'Priority: Low',
+            ];
+
+            const existingLabels = issue.labels.map((label) => label.name);
+            const hasType = existingLabels.some((label) => label.startsWith('Type: '));
+            const hasScope = existingLabels.some((label) => label.startsWith('Scope: '));
+            const hasPriority = existingLabels.some((label) => label.startsWith('Priority: '));
+
+            if (hasType && hasScope && hasPriority) {
+              core.info('Issue already has Type, Scope, and Priority labels - skipping AI.');
+              return;
+            }
+
+            const prompt = [
+              'You are a GitHub issue labeler for the Sonicverse website repository.',
+              'This is an Astro 6 site with content collections, Astro components, global styling, SEO metadata, and GitHub automation.',
+              'Primary site areas are homepage, content collections, blog, projects, contact, layout, styling, SEO, CMS/content sources, build tooling, and CI.',
+              '',
+              'Given the issue below, reply with a JSON object with these exact keys:',
+              '  "type"     - exactly one value from: ' + TYPE_LABELS.join(', '),
+              '  "scopes"   - an array (1-3 items) from: ' + SCOPE_LABELS.join(', '),
+              '  "priority" - exactly one value from: ' + PRIORITY_LABELS.join(', '),
+              '',
+              'Priority rules:',
+              '  - Priority: Critical - production outage, data/security incident, or a broken core path affecting most visitors.',
+              '  - Priority: High     - major functionality broken or release-blocking issue.',
+              '  - Priority: Medium   - partial functionality affected; a workaround exists.',
+              '  - Priority: Low      - minor issue, content tweak, cosmetic problem, or non-urgent enhancement.',
+              '',
+              'Scope rules:',
+              '  - Use the smallest set of scopes that accurately describes the work.',
+              '  - Use "Scope: content" for Markdoc/Markdown content collection work.',
+              '  - Use "Scope: cms" for schema, content model, or editorial data-structure issues.',
+              '  - Use "Scope: build" for Astro/Vite/runtime/build pipeline problems.',
+              '  - Use "Scope: ci" for GitHub Actions, checks, or repository automation.',
+              '  - If the scope is unclear, default to "Scope: content".',
+              '',
+              'Reply ONLY with the JSON object. No explanation, no markdown fences.',
+              '',
+              `Issue title: ${issue.title}`,
+              '',
+              `Issue body:\n${(issue.body || '').slice(0, 3000)}`,
+            ].join('\n');
+
+            let aiResult;
+            try {
+              const response = await fetch(
+                'https://models.inference.ai.azure.com/chat/completions',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                  },
+                  body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0,
+                    max_tokens: 150,
+                  }),
+                }
+              );
+
+              if (!response.ok) {
+                const text = await response.text();
+                core.warning(`GitHub Models API error ${response.status}: ${text}`);
+                return;
+              }
+
+              const data = await response.json();
+              const raw = data.choices?.[0]?.message?.content?.trim();
+              core.info(`AI raw response: ${raw}`);
+              aiResult = JSON.parse(raw);
+            } catch (err) {
+              core.warning(`Failed to call or parse AI response: ${err.message}`);
+              return;
+            }
+
+            const chosenType = TYPE_LABELS.includes(aiResult.type) ? aiResult.type : null;
+            const chosenScopes = (Array.isArray(aiResult.scopes) ? aiResult.scopes : [])
+              .filter((scope) => SCOPE_LABELS.includes(scope));
+            const chosenPriority = PRIORITY_LABELS.includes(aiResult.priority)
+              ? aiResult.priority
+              : null;
+
+            if (!chosenType && chosenScopes.length === 0 && !chosenPriority) {
+              core.warning('AI returned no valid labels - skipping.');
+              return;
+            }
+
+            async function ensureLabel(name, color) {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name });
+              } catch {
+                await github.rest.issues.createLabel({ owner, repo, name, color });
+                core.info(`Created label: ${name}`);
+              }
+            }
+
+            const labelsToApply = [];
+
+            if (chosenType && !hasType) {
+              await ensureLabel(chosenType, 'e4e669');
+              labelsToApply.push(chosenType);
+            }
+
+            if (chosenScopes.length > 0 && !hasScope) {
+              for (const scope of chosenScopes) {
+                await ensureLabel(scope, '0075ca');
+                labelsToApply.push(scope);
+              }
+            }
+
+            if (chosenPriority && !hasPriority) {
+              const priorityColors = {
+                'Priority: Critical': 'b60205',
+                'Priority: High': 'e11d48',
+                'Priority: Medium': 'f97316',
+                'Priority: Low': '22c55e',
+              };
+              await ensureLabel(chosenPriority, priorityColors[chosenPriority] || 'cccccc');
+              labelsToApply.push(chosenPriority);
+            }
+
+            if (labelsToApply.length === 0) {
+              core.info('No new labels to apply.');
+              return;
+            }
+
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: issue.number,
+              labels: labelsToApply,
+            });
+
+            core.info(`Applied labels to #${issue.number}: ${labelsToApply.join(', ')}`);
