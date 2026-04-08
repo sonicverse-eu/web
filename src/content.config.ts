@@ -39,6 +39,29 @@ const pages = defineCollection({
         })
       )
       .optional(),
+    footerDescription: z.string().optional(),
+    footerNavHeading: z.string().optional(),
+    footerNavLinks: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string()
+        })
+      )
+      .optional(),
+    footerConnectHeading: z.string().optional(),
+    footerConnectLinks: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string(),
+          value: z.string().optional()
+        })
+      )
+      .optional(),
+    footerCopyright: z.string().optional(),
+    footerBottomLinkLabel: z.string().optional(),
+    footerBottomLinkHref: z.string().optional(),
     supportNotes: z.array(z.string()).optional(),
     contactDepartments: z
       .array(

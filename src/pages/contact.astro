@@ -359,6 +359,7 @@ const supportNotes = page.data.supportNotes ?? [
 
         <noscript>
           <p class="contact-note">JavaScript is disabled, so all fields remain visible in a single step and category filtering is manual.</p>
+          <button class="button button-primary" type="submit">Send request</button>
         </noscript>
       </form>
 
@@ -580,7 +581,7 @@ const supportNotes = page.data.supportNotes ?? [
           }
 
           const currentValue = getFieldValue(fieldName);
-          if (!currentValue) {
+          if (currentValue !== value) {
             setFieldValue(fieldName, value);
           }
         });

@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { ClientRouter } from 'astro:transitions';
@@ -29,6 +30,24 @@ const {
 
 const canonicalURL = new URL(currentPath, site);
 const absoluteImage = new URL(image, site);
+const footerEntry = (await getCollection('pages')).find((entry) =>
+  /(^|\/)footer(\.md|\.mdoc)?$/.test(entry.id)
+);
+
+if (!footerEntry) {
+  throw new Error('Missing footer content at src/content/pages/footer.mdoc');
+}
+
+const footerData = {
+  description: footerEntry.data.footerDescription,
+  navHeading: footerEntry.data.footerNavHeading,
+  navLinks: footerEntry.data.footerNavLinks,
+  connectHeading: footerEntry.data.footerConnectHeading,
+  connectLinks: footerEntry.data.footerConnectLinks,
+  copyright: footerEntry.data.footerCopyright,
+  bottomLinkLabel: footerEntry.data.footerBottomLinkLabel,
+  bottomLinkHref: footerEntry.data.footerBottomLinkHref
+};
 
 const baseSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -135,14 +154,20 @@ if (ogType === 'article' && author && pubDate) {
 					});
 				});
 
-				const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+					const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
 
-				window.__sonicverseMotionCleanup?.forEach((cleanup) => cleanup());
-				window.__sonicverseMotionCleanup = [];
+					window.__sonicverseMotionCleanup?.forEach((cleanup) => cleanup());
+					window.__sonicverseMotionCleanup = [];
 
-				if (!revealElements.length) {
-					return;
-				}
+					const stopScroll = scroll((progress: number) => {
+						document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(4));
+					});
+
+					window.__sonicverseMotionCleanup.push(stopScroll);
+
+					if (!revealElements.length) {
+						return;
+					}
 
 				if (reduceMotion) {
 					revealElements.forEach((element) => {
@@ -159,35 +184,31 @@ if (ogType === 'article' && author && pubDate) {
 					element.style.filter = 'blur(8px)';
 				});
 
-				const stopInView = inView(
-					'[data-reveal]',
-					(element) => {
-						const target = element as HTMLElement;
-						const delay = Number(target.getAttribute('data-reveal-delay') || '0');
-						animate(
-							target,
-							{
-								opacity: [0, 1],
-								y: [18, 0],
-								scale: [0.985, 1],
-								filter: ['blur(8px)', 'blur(0px)']
-							},
-							{
-								duration: 0.7,
-								delay,
-								ease: [0.22, 1, 0.36, 1]
-							}
-						);
-					},
-					{ margin: '0px 0px -8% 0px' }
-				);
+					const stopInView = inView(
+						'[data-reveal]',
+						(element) => {
+							const target = element as HTMLElement;
+							const delay = Number(target.getAttribute('data-reveal-delay') || '0');
+							animate(
+								target,
+								{
+									opacity: [0, 1],
+									y: [18, 0],
+									scale: [0.985, 1],
+									filter: ['blur(8px)', 'blur(0px)']
+								},
+								{
+									duration: 0.7,
+									delay,
+									ease: [0.22, 1, 0.36, 1]
+								}
+							);
+						},
+						{ margin: '0px 0px -8% 0px' }
+					);
 
-				const stopScroll = scroll((progress: number) => {
-					document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(4));
-				});
-
-				window.__sonicverseMotionCleanup.push(stopInView, stopScroll);
-			};
+					window.__sonicverseMotionCleanup.push(stopInView);
+				};
 
 			if (!window.__sonicverseMotionBound) {
 				document.addEventListener('astro:page-load', runSonicverseMotion);
@@ -197,7 +218,6 @@ if (ogType === 'article' && author && pubDate) {
 			runSonicverseMotion();
 		</script>
 		<ClientRouter fallback="animate" />
-		<title>{title}</title>
 	</head>
 	<body>
 		<div class="background-atmosphere" aria-hidden="true"></div>
@@ -205,6 +225,6 @@ if (ogType === 'article' && author && pubDate) {
 		<main transition:name="page" transition:animate="none">
 			<slot />
 		</main>
-		<SiteFooter transition:persist />
+		<SiteFooter footerData={footerData} transition:persist />
 	</body>
 </html>
