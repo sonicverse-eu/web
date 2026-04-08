@@ -12,7 +12,7 @@ export const GET: APIRoute = async ({ site }) => {
     ...blogPosts.map((post) => `/blog/${post.id}`)
   ].map((path) => {
     const url = new URL(path, base);
-    return `  <url><loc>${url}</loc></url>`;
+    return `  <url><loc>${url.toString()}</loc></url>`;
   });
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

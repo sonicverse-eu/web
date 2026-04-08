@@ -13,7 +13,7 @@ Disallow: /admin/
 Disallow: /api/
 
 # Sitemap location
-Sitemap: ${sitemapUrl}
+Sitemap: ${sitemapUrl.toString()}
 
 # Crawl delay (optional - adjust based on server capacity)
 Crawl-delay: 1

@@ -15,6 +15,29 @@ function escapeHtml(value: string) {
     .replaceAll("'", '&#039;');
 }
 
+function sanitizeExternalUrl(value?: string) {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(value);
+    if (url.protocol === 'http:' || url.protocol === 'https:') {
+      return url.toString();
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+}
+
+function sanitizeEmailHtml(value: string) {
+  return value
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
+    .replace(/\son[a-z]+\s*=\s*(['"]).*?\1/gi, '');
+}
+
 function buildThreadId() {
   const date = new Date().toISOString().slice(0, 10).replaceAll('-', '');
   return `SV-${date}-${randomUUID().slice(0, 8).toUpperCase()}`;
@@ -31,12 +54,13 @@ function buildTeamTemplate(params: {
   priority: string;
   message: string;
 }) {
+  const safeDetailsUrl = sanitizeExternalUrl(params.detailsUrl);
   const rows = [
     ['Thread ID', params.threadId],
     ['Name', params.name],
     ['Email', params.email],
     ['Company', params.company || '-'],
-    ['Reference URL', params.detailsUrl || '-'],
+    ['Reference URL', safeDetailsUrl || '-'],
     ['Department', params.department],
     ['Category', params.category],
     ['Priority', params.priority]
@@ -78,6 +102,8 @@ function buildSubmitterTemplate(params: {
   priority: string;
   message: string;
 }) {
+  const safeDetailsUrl = sanitizeExternalUrl(params.detailsUrl);
+
   return `
     <div style="margin:0;padding:28px;background:#eff4ff;font-family:Arial,sans-serif;color:#1f1236;">
       <table role="presentation" width="100%" style="max-width:640px;margin:0 auto;border-collapse:collapse;background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 12px 36px rgba(42,87,167,0.14);">
@@ -93,8 +119,8 @@ function buildSubmitterTemplate(params: {
             <p style="margin:0 0 16px;padding:10px 12px;border-radius:10px;background:#eef5ff;color:#204a99;font-size:15px;font-weight:700;">${escapeHtml(params.threadId)}</p>
             <p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Routing: ${escapeHtml(params.department)} / ${escapeHtml(params.category)} / ${escapeHtml(params.priority)}</p>
             ${
-              params.detailsUrl
-                ? `<p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Reference URL: <a href="${escapeHtml(params.detailsUrl)}" style="color:#2358bb;">${escapeHtml(params.detailsUrl)}</a></p>`
+              safeDetailsUrl
+                ? `<p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Reference URL: <a href="${escapeHtml(safeDetailsUrl)}" style="color:#2358bb;">${escapeHtml(safeDetailsUrl)}</a></p>`
                 : ''
             }
             <p style="margin:0 0 8px;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#6f5ea0;">Your message</p>
@@ -151,17 +177,19 @@ export const server = {
         replyTo: email,
         subject: teamSubject,
         text: teamText,
-        html: buildTeamTemplate({
-          threadId,
-          name,
-          email,
-          company,
-          detailsUrl,
-          department,
-          category,
-          priority,
-          message
-        })
+        html: sanitizeEmailHtml(
+          buildTeamTemplate({
+            threadId,
+            name,
+            email,
+            company,
+            detailsUrl,
+            department,
+            category,
+            priority,
+            message
+          })
+        )
       });
 
       if (teamResponse.error) {
@@ -193,15 +221,17 @@ export const server = {
         to: [email],
         subject: submitterSubject,
         text: submitterText,
-        html: buildSubmitterTemplate({
-          threadId,
-          name,
-          detailsUrl,
-          department,
-          category,
-          priority,
-          message
-        })
+        html: sanitizeEmailHtml(
+          buildSubmitterTemplate({
+            threadId,
+            name,
+            detailsUrl,
+            department,
+            category,
+            priority,
+            message
+          })
+        )
       });
 
       if (submitterResponse.error) {
