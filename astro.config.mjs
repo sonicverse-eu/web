@@ -14,6 +14,9 @@ import partytown from '@astrojs/partytown';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sonicverse.dev',
+  experimental: {
+    contentIntellisense: true
+  },
   integrations: [react(), markdoc(), partytown()],
 
   adapter: node({

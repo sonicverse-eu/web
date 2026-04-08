@@ -1,4 +1,7 @@
 {
     "snyk.advanced.organization": "16274ad9-e899-4957-a67d-a9dab76c6ea5",
-    "snyk.advanced.autoSelectOrganization": true
+    "snyk.advanced.autoSelectOrganization": true,
+    "frontMatter.panel.openOnSupportedFile": false,
+    "frontMatter.content.supportedFileTypes": ["md", "markdown", "mdx", "mdoc"],
+    "astro.content-intellisense": true
 }
