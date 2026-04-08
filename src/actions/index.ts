@@ -1,8 +1,8 @@
 import { ActionError, defineAction } from 'astro:actions';
 import { FROM_EMAIL, RESEND_API_KEY, TO_EMAIL } from 'astro:env/server';
 import { z } from 'astro:schema';
-import { randomUUID } from 'node:crypto';
 import { Resend } from 'resend';
+import { getValidThreadId } from '../utils/contact';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -15,9 +15,11 @@ function escapeHtml(value: string) {
     .replaceAll("'", '&#039;');
 }
 
-function buildThreadId() {
-  const date = new Date().toISOString().slice(0, 10).replaceAll('-', '');
-  return `SV-${date}-${randomUUID().slice(0, 8).toUpperCase()}`;
+function formatCategory(value: string) {
+  return value
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 function buildTeamTemplate(params: {
@@ -26,9 +28,7 @@ function buildTeamTemplate(params: {
   email: string;
   company?: string;
   detailsUrl?: string;
-  department: string;
   category: string;
-  priority: string;
   message: string;
 }) {
   const rows = [
@@ -37,9 +37,7 @@ function buildTeamTemplate(params: {
     ['Email', params.email],
     ['Company', params.company || '-'],
     ['Reference URL', params.detailsUrl || '-'],
-    ['Department', params.department],
-    ['Category', params.category],
-    ['Priority', params.priority]
+    ['Category', params.category]
   ]
     .map(
       ([key, value]) =>
@@ -73,9 +71,7 @@ function buildSubmitterTemplate(params: {
   threadId: string;
   name: string;
   detailsUrl?: string;
-  department: string;
   category: string;
-  priority: string;
   message: string;
 }) {
   return `
@@ -91,7 +87,7 @@ function buildSubmitterTemplate(params: {
           <td style="padding:20px 24px;">
             <p style="margin:0 0 12px;font-size:15px;line-height:1.65;">Hi ${escapeHtml(params.name)}, thanks for reaching out. Your request has been routed and tracked with this thread ID:</p>
             <p style="margin:0 0 16px;padding:10px 12px;border-radius:10px;background:#eef5ff;color:#204a99;font-size:15px;font-weight:700;">${escapeHtml(params.threadId)}</p>
-            <p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Routing: ${escapeHtml(params.department)} / ${escapeHtml(params.category)} / ${escapeHtml(params.priority)}</p>
+            <p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Request type: ${escapeHtml(params.category)}</p>
             ${
               params.detailsUrl
                 ? `<p style="margin:0 0 12px;font-size:14px;color:#3d2b63;">Reference URL: <a href="${escapeHtml(params.detailsUrl)}" style="color:#2358bb;">${escapeHtml(params.detailsUrl)}</a></p>`
@@ -115,14 +111,15 @@ export const server = {
       email: z.email('Enter a valid email address.'),
       company: z.string().max(120).optional(),
       detailsUrl: z.union([z.url('Enter a valid URL.'), z.literal('')]).optional(),
-      department: z.string().min(2, 'Select a department.').max(80),
       category: z.string().min(2, 'Select a category.').max(120),
-      priority: z.string().min(2, 'Select a priority.').max(40),
+      categoryLabel: z.string().optional(),
+      threadId: z.string().optional(),
       message: z.string().min(10, 'Please include a bit more context.').max(3000),
       website: z.string().max(0).optional()
     }),
-    handler: async ({ name, email, company, detailsUrl, department, category, priority, message, website }) => {
-      const threadId = buildThreadId();
+    handler: async ({ name, email, company, detailsUrl, category, categoryLabel, threadId: submittedThreadId, message, website }) => {
+      const threadId = getValidThreadId(submittedThreadId);
+      const resolvedCategoryLabel = categoryLabel?.trim() || formatCategory(category);
 
       if (website) {
         return { ok: true, threadId };
@@ -137,9 +134,7 @@ export const server = {
         `Email: ${email}`,
         `Company: ${company || '-'}`,
         `Reference URL: ${detailsUrl || '-'}`,
-        `Department: ${department}`,
-        `Category: ${category}`,
-        `Priority: ${priority}`,
+        `Category: ${resolvedCategoryLabel}`,
         '',
         'Message:',
         message
@@ -157,9 +152,7 @@ export const server = {
           email,
           company,
           detailsUrl,
-          department,
-          category,
-          priority,
+          category: resolvedCategoryLabel,
           message
         })
       });
@@ -178,9 +171,7 @@ export const server = {
         'Thanks for reaching out to Sonicverse. Your request is now in our queue.',
         `Thread ID: ${threadId}`,
         '',
-        `Department: ${department}`,
-        `Category: ${category}`,
-        `Priority: ${priority}`,
+        `Category: ${resolvedCategoryLabel}`,
         '',
         'Message copy:',
         message,
@@ -197,9 +188,7 @@ export const server = {
           threadId,
           name,
           detailsUrl,
-          department,
-          category,
-          priority,
+          category: resolvedCategoryLabel,
           message
         })
       });
