@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 const staticRoutes = ['/', '/about', '/community', '/contact', '/projects', '/blog'];
 
 export const GET: APIRoute = async ({ site }) => {
-  const base = site ?? new URL('https://sonicverse.dev');
+  const base = site ?? new URL('https://sonicverse.eu');
   const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 
   const urls = [
