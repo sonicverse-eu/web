@@ -575,6 +575,37 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	gap: 1rem;
 }
 
+.project-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.7fr) minmax(16rem, 0.9fr);
+	gap: 1rem;
+	align-items: start;
+}
+
+.project-article,
+.project-sidebar {
+	height: 100%;
+}
+
+.project-sidebar {
+	gap: 1rem;
+	position: sticky;
+	top: 6.5rem;
+}
+
+.project-sidebar-block {
+	display: grid;
+	gap: 0.55rem;
+}
+
+.project-sidebar-block h2 {
+	font-size: 1rem;
+}
+
+.project-sidebar-block a {
+	word-break: break-word;
+}
+
 .tag-list {
 	display: flex;
 	gap: 0.5rem;
@@ -1195,6 +1226,14 @@ html[data-nav-direction='left']::view-transition-new(page) {
 @media (max-width: 900px) {
 	.feature-card {
 		grid-column: span 6;
+	}
+
+	.project-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.project-sidebar {
+		position: static;
 	}
 
 	.contact-grid {

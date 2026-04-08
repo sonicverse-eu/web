@@ -15,6 +15,8 @@ const { Content } = await render(home);
 const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order).slice(0, 2);
+const getProjectSlug = (project: (typeof projects)[number]) =>
+	project.id.replace(/\.(md|mdoc)$/, '');
 ---
 
 <Layout
@@ -71,7 +73,7 @@ const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.o
 						<span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
 						<h3>{project.data.title}</h3>
 						<p>{project.data.summary}</p>
-						<a class="button button-ghost" href={project.data.repoUrl}>{home.data.projectLinkLabel ?? 'Check out the code'}</a>
+						<a class="button button-ghost" href={`/projects/${getProjectSlug(project)}/`}>{home.data.projectLinkLabel ?? 'View project'}</a>
 					</article>
 				))
 			}

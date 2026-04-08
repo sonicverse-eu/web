@@ -13,6 +13,8 @@ if (!page) {
 
 const { Content } = await render(page);
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const getProjectSlug = (project: (typeof projects)[number]) =>
+  project.id.replace(/\.(md|mdoc)$/, '');
 ---
 
 <Layout
@@ -46,8 +48,8 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
             <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
             <h2>{project.data.title}</h2>
             <p>{project.data.summary}</p>
-            <a class="button button-ghost" href={project.data.repoUrl}>
-              {page.data.projectLinkLabel ?? 'Check out the code'}
+            <a class="button button-ghost" href={`/projects/${getProjectSlug(project)}/`}>
+              {page.data.projectLinkLabel ?? 'View project'}
             </a>
           </article>
         ))

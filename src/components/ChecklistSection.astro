@@ -1,0 +1,90 @@
+---
+export interface Props {
+  title: string;
+  eyebrow?: string;
+}
+
+const { title, eyebrow = 'Checklist' } = Astro.props;
+const sectionId = `checklist-${crypto.randomUUID()}`;
+---
+
+<section class="checklist-section" aria-labelledby={sectionId} data-reveal>
+  <div class="checklist-shell">
+    <div class="checklist-header">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id={sectionId}>{title}</h2>
+    </div>
+    <div class="checklist-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .checklist-section {
+    margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  }
+
+  .checklist-shell {
+    display: grid;
+    gap: 1.5rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid color-mix(in srgb, var(--primary-500) 12%, rgba(255, 255, 255, 0.9));
+    border-radius: 1.5rem;
+    background:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--primary-300) 14%, transparent), transparent 45%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.78));
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  }
+
+  .checklist-header {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .checklist-header h2 {
+    margin: 0;
+  }
+
+  .checklist-body :global(ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .checklist-body :global(li) {
+    position: relative;
+    padding-left: 1.8rem;
+    margin: 0;
+  }
+
+  .checklist-body :global(li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary-500) 12%, transparent);
+  }
+
+  .checklist-body :global(p:first-child),
+  .checklist-body :global(ul:first-child) {
+    margin-top: 0;
+  }
+
+  .checklist-body :global(*:last-child) {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 50rem) {
+    .checklist-shell {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+    }
+  }
+</style>
