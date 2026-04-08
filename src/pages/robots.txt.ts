@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = ({ site }) => {
-  const base = site ?? new URL('https://sonicverse.dev');
+  const base = site ?? new URL('https://sonicverse.eu');
   const sitemapUrl = new URL('/sitemap.xml', base);
 
   const body = `# Sonicverse robots.txt

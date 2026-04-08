@@ -130,7 +130,7 @@ export const server = {
 
       const teamSubject = `[${threadId}] New contact request from ${name}`;
       const teamText = [
-        'A new contact request was submitted on sonicverse.dev.',
+        'A new contact request was submitted on sonicverse.eu.',
         '',
         `Thread: ${threadId}`,
         `Name: ${name}`,
