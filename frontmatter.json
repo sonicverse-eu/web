@@ -47,14 +47,119 @@
   ],
   "frontMatter.taxonomy.contentTypes": [
     {
-      "name": "default",
+      "name": "page",
+      "fileType": "mdoc",
       "pageBundle": false,
-      "previewPath": null,
       "fields": [
         {
           "title": "Title",
           "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Description",
+          "name": "description",
           "type": "string"
+        },
+        {
+          "title": "SEO title",
+          "name": "seoTitle",
+          "type": "string"
+        },
+        {
+          "title": "SEO description",
+          "name": "seoDescription",
+          "type": "string"
+        },
+        {
+          "title": "SEO image",
+          "name": "seoImage",
+          "type": "image"
+        },
+        {
+          "title": "Eyebrow",
+          "name": "eyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Hero title",
+          "name": "heroTitle",
+          "type": "string"
+        },
+        {
+          "title": "Hero subtitle",
+          "name": "heroSubtitle",
+          "type": "string"
+        },
+        {
+          "title": "Primary CTA label",
+          "name": "ctaLabel",
+          "type": "string"
+        },
+        {
+          "title": "Primary CTA URL",
+          "name": "ctaHref",
+          "type": "string"
+        },
+        {
+          "title": "Secondary CTA label",
+          "name": "secondaryCtaLabel",
+          "type": "string"
+        },
+        {
+          "title": "Secondary CTA URL",
+          "name": "secondaryCtaHref",
+          "type": "string"
+        },
+        {
+          "title": "Feature section eyebrow",
+          "name": "featureSectionEyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Feature section title",
+          "name": "featureSectionTitle",
+          "type": "string"
+        },
+        {
+          "title": "Project section eyebrow",
+          "name": "projectSectionEyebrow",
+          "type": "string"
+        },
+        {
+          "title": "Project section title",
+          "name": "projectSectionTitle",
+          "type": "string"
+        },
+        {
+          "title": "Project link label",
+          "name": "projectLinkLabel",
+          "type": "string"
+        },
+        {
+          "title": "FAQ section eyebrow",
+          "name": "faqSectionEyebrow",
+          "type": "string"
+        },
+        {
+          "title": "FAQ section title",
+          "name": "faqSectionTitle",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "blog",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "previewPath": "/blog",
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
         },
         {
           "title": "Description",
@@ -63,20 +168,15 @@
         },
         {
           "title": "Publishing date",
-          "name": "date",
+          "name": "pubDate",
           "type": "datetime",
           "default": "{{now}}",
           "isPublishDate": true
         },
         {
-          "title": "Content preview",
-          "name": "preview",
-          "type": "image"
-        },
-        {
-          "title": "Is in draft",
-          "name": "draft",
-          "type": "draft"
+          "title": "Author",
+          "name": "author",
+          "type": "string"
         },
         {
           "title": "Tags",
@@ -84,94 +184,112 @@
           "type": "tags"
         },
         {
-          "title": "Categories",
-          "name": "categories",
-          "type": "categories"
+          "title": "Image",
+          "name": "image",
+          "type": "image",
+          "isPreviewImage": true
         },
         {
-          "title": "seoTitle",
-          "name": "seoTitle",
+          "title": "Draft",
+          "name": "draft",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "feature",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Summary",
+          "name": "summary",
           "type": "string"
         },
         {
-          "title": "seoDescription",
-          "name": "seoDescription",
-          "type": "string"
-        },
-        {
-          "title": "seoImage",
-          "name": "seoImage",
-          "type": "image"
-        },
-        {
-          "title": "eyebrow",
+          "title": "Eyebrow",
           "name": "eyebrow",
           "type": "string"
         },
         {
-          "title": "heroTitle",
-          "name": "heroTitle",
+          "title": "Order",
+          "name": "order",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "project",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string",
+          "single": true
+        },
+        {
+          "title": "Summary",
+          "name": "summary",
           "type": "string"
         },
         {
-          "title": "heroSubtitle",
-          "name": "heroSubtitle",
+          "title": "Repository URL",
+          "name": "repoUrl",
           "type": "string"
         },
         {
-          "title": "ctaLabel",
-          "name": "ctaLabel",
+          "title": "Status",
+          "name": "status",
+          "type": "choice",
+          "options": [
+            {
+              "title": "Active",
+              "value": "active"
+            },
+            {
+              "title": "Beta",
+              "value": "beta"
+            },
+            {
+              "title": "Research",
+              "value": "research"
+            }
+          ]
+        },
+        {
+          "title": "Order",
+          "name": "order",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "fileType": "mdoc",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Question",
+          "name": "question",
           "type": "string"
         },
         {
-          "title": "ctaHref",
-          "name": "ctaHref",
+          "title": "Answer",
+          "name": "answer",
           "type": "string"
         },
         {
-          "title": "secondaryCtaLabel",
-          "name": "secondaryCtaLabel",
-          "type": "string"
-        },
-        {
-          "title": "secondaryCtaHref",
-          "name": "secondaryCtaHref",
-          "type": "string"
-        },
-        {
-          "title": "featureSectionEyebrow",
-          "name": "featureSectionEyebrow",
-          "type": "string"
-        },
-        {
-          "title": "featureSectionTitle",
-          "name": "featureSectionTitle",
-          "type": "string"
-        },
-        {
-          "title": "projectSectionEyebrow",
-          "name": "projectSectionEyebrow",
-          "type": "string"
-        },
-        {
-          "title": "projectSectionTitle",
-          "name": "projectSectionTitle",
-          "type": "string"
-        },
-        {
-          "title": "projectLinkLabel",
-          "name": "projectLinkLabel",
-          "type": "string"
-        },
-        {
-          "title": "faqSectionEyebrow",
-          "name": "faqSectionEyebrow",
-          "type": "string"
-        },
-        {
-          "title": "faqSectionTitle",
-          "name": "faqSectionTitle",
-          "type": "string"
+          "title": "Order",
+          "name": "order",
+          "type": "number"
         }
       ]
     }
