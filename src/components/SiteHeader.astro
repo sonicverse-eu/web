@@ -1,5 +1,6 @@
 ---
 import brandIcon from '../assets/brand/2.svg';
+import ThemeToggle from './ThemeToggle.astro';
 
 export interface Props {
   currentPath?: string;
@@ -80,6 +81,7 @@ const isActive = (href: string, path: string = currentPath) => {
       >
         Docs
       </a>
+      <ThemeToggle />
     </nav>
   </div>
   <div

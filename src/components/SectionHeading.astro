@@ -1,0 +1,24 @@
+---
+export interface Props {
+	eyebrow?: string;
+	title?: string;
+	subtitle?: string;
+	align?: 'left' | 'center';
+}
+
+const { eyebrow, title, subtitle, align = 'left' } = Astro.props;
+---
+
+<div class:list={['section-head', align === 'center' && 'section-head--center']}>
+	{eyebrow && <p class="eyebrow">{eyebrow}</p>}
+	{title && <h2>{title}</h2>}
+	{subtitle && <p>{subtitle}</p>}
+</div>
+
+<style>
+	.section-head--center {
+		margin-inline: auto;
+		text-align: center;
+		justify-items: center;
+	}
+</style>

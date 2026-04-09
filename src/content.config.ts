@@ -71,6 +71,33 @@ const pages = defineCollection({
           description: z.string().optional()
         })
       )
+      .optional(),
+    metrics: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string()
+        })
+      )
+      .optional(),
+    partnersLabel: z.string().optional(),
+    partners: z
+      .array(
+        z.object({
+          name: z.string(),
+          src: z.string(),
+          href: z.string().url().optional()
+        })
+      )
+      .optional(),
+    ctaBand: z
+      .object({
+        eyebrow: z.string().optional(),
+        title: z.string(),
+        subtitle: z.string().optional(),
+        primary: z.object({ label: z.string(), href: z.string() }),
+        secondary: z.object({ label: z.string(), href: z.string() }).optional()
+      })
       .optional()
   })
 });

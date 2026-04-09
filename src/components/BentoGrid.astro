@@ -1,0 +1,36 @@
+---
+export interface BentoFeature {
+	title: string;
+	summary: string;
+	eyebrow?: string;
+}
+
+export interface Props {
+	features: BentoFeature[];
+}
+
+const { features } = Astro.props;
+
+// Span pattern: lead, tall, wide, small, small (works for 5; degrades gracefully)
+const spanFor = (i: number, total: number) => {
+	if (total <= 1) return 'bento-item--wide';
+	if (total === 2) return 'bento-item--half';
+	if (total === 3) return i === 0 ? 'bento-item--wide' : 'bento-item--half';
+	if (total === 4) {
+		return ['bento-item--lead', 'bento-item--tall', 'bento-item--small', 'bento-item--small'][i] ?? 'bento-item--small';
+	}
+	// 5+
+	const pattern = ['bento-item--lead', 'bento-item--tall', 'bento-item--wide', 'bento-item--small', 'bento-item--small'];
+	return pattern[i] ?? 'bento-item--small';
+};
+---
+
+<div class="bento-grid" data-reveal-group>
+	{features.map((feature, i) => (
+		<article class:list={['bento-item', spanFor(i, features.length)]} data-reveal data-reveal-delay={(i * 0.08).toFixed(2)}>
+			{feature.eyebrow && <p class="eyebrow">{feature.eyebrow}</p>}
+			<h3>{feature.title}</h3>
+			<p>{feature.summary}</p>
+		</article>
+	))}
+</div>

@@ -26,16 +26,28 @@ const sectionId = `steps-${crypto.randomUUID()}`;
   }
 
   .steps-shell {
+    position: relative;
     display: grid;
     gap: 1.4rem;
     padding: clamp(1.5rem, 3vw, 2rem);
-    border-radius: 1.5rem;
-    border: 1px solid color-mix(in srgb, var(--primary-500) 12%, rgba(255, 255, 255, 0.92));
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.8)),
-      radial-gradient(circle at bottom left, color-mix(in srgb, var(--primary-300) 16%, transparent), transparent 42%);
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
   }
+
+  .steps-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 100% 100%, var(--brand-surface), transparent 50%);
+    pointer-events: none;
+  }
+
+  .steps-header, .steps-body { position: relative; }
+  .steps-header h2 { font-size: var(--text-xl); }
 
   .steps-header {
     display: grid;
@@ -73,11 +85,17 @@ const sectionId = `steps-${crypto.randomUUID()}`;
     display: grid;
     place-items: center;
     border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: white;
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--primary-500) 26%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--brand-contrast);
+    background: var(--brand-500);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-500) 30%, transparent);
+  }
+
+  .steps-body :global(li),
+  .steps-body :global(p) {
+    color: var(--text-muted);
   }
 
   .steps-body :global(*:first-child) {
