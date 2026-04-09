@@ -95,6 +95,11 @@ This is especially important after editing content collections or schemas, becau
 
 ## Lighthouse Testing
 
+Lighthouse CI runs automatically on pull requests and pushes to `main` via [`.github/workflows/lighthouse.yml`](.github/workflows/lighthouse.yml).
+
+- Audited pages: `/`, `/about`, `/projects`, `/community`, `/contact`, `/blog`
+- Score thresholds: performance `>= 0.80`, accessibility `>= 0.95`, best practices `>= 0.90`, SEO `>= 0.90`
+- Reports are written to `.lighthouseci`, uploaded as GitHub Actions artifacts (`lighthouse-reports`), and summarized in a pull request comment when the workflow runs on a PR.
 Lighthouse CI runs automatically on pull requests and pushes to `main` via `.github/workflows/lighthouse.yml`.
 
 - Audited pages: `/`, `/about`, `/projects`, `/community`, `/contact`, `/blog`

@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   lighthouse:
@@ -38,6 +39,174 @@ jobs:
         run: pnpm build
 
       - name: Run Lighthouse CI
+        id: lighthouse
+        continue-on-error: true
+        run: pnpm dlx @lhci/cli@0.15.x autorun --config=.lighthouserc.json
+
+      - name: Comment Lighthouse results on pull request
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        env:
+          LIGHTHOUSE_OUTCOME: ${{ steps.lighthouse.outcome }}
+          LIGHTHOUSE_RUN_ID: ${{ github.run_id }}
+          LIGHTHOUSE_REPOSITORY: ${{ github.repository }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path');
+
+            const marker = '<!-- lighthouse-ci-comment -->';
+            const reportDir = path.join(process.env.GITHUB_WORKSPACE, '.lighthouseci');
+            const manifestPath = path.join(reportDir, 'manifest.json');
+            const assertionPath = path.join(reportDir, 'assertion-results.json');
+            const runUrl = `https://github.com/${process.env.LIGHTHOUSE_REPOSITORY}/actions/runs/${process.env.LIGHTHOUSE_RUN_ID}`;
+
+            function formatScore(score) {
+              return typeof score === 'number' ? `${Math.round(score * 100)}` : 'n/a';
+            }
+
+            function normalizeRoute(rawUrl) {
+              if (!rawUrl) return '(unknown)';
+              try {
+                const url = new URL(rawUrl);
+                return `${url.pathname}${url.search}` || '/';
+              } catch {
+                return rawUrl;
+              }
+            }
+
+            function buildSummaryRows(manifest) {
+              if (!Array.isArray(manifest)) return [];
+              return manifest
+                .filter((entry) => entry?.isRepresentativeRun !== false)
+                .map((entry) => {
+                  const summary = entry.summary || {};
+                  return {
+                    route: normalizeRoute(entry.url),
+                    performance: formatScore(summary.performance),
+                    accessibility: formatScore(summary.accessibility),
+                    bestPractices: formatScore(summary['best-practices']),
+                    seo: formatScore(summary.seo),
+                  };
+                })
+                .sort((a, b) => a.route.localeCompare(b.route));
+            }
+
+            function buildAssertionSummary(assertions) {
+              if (!Array.isArray(assertions)) return [];
+
+              const failed = assertions.filter((item) => item?.level === 'error');
+              const grouped = new Map();
+
+              for (const item of failed) {
+                const route = normalizeRoute(item.url);
+                const existing = grouped.get(route) || [];
+                const expected = item.expected !== undefined ? item.expected : 'n/a';
+                const actual = item.actual !== undefined ? item.actual : 'n/a';
+                existing.push(`- \`${item.auditProperty}\`: expected ${expected}, got ${actual}`);
+                grouped.set(route, existing);
+              }
+
+              return Array.from(grouped.entries())
+                .sort((a, b) => a[0].localeCompare(b[0]))
+                .map(([route, lines]) => `### ${route}\n${lines.slice(0, 5).join('\n')}`);
+            }
+
+            let manifest = [];
+            if (fs.existsSync(manifestPath)) {
+              try {
+                manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+              } catch (error) {
+                core.warning(`Could not parse manifest.json: ${error.message}`);
+              }
+            } else {
+              core.warning('No Lighthouse manifest found.');
+            }
+
+            let assertions = [];
+            if (fs.existsSync(assertionPath)) {
+              try {
+                assertions = JSON.parse(fs.readFileSync(assertionPath, 'utf8'));
+              } catch (error) {
+                core.warning(`Could not parse assertion-results.json: ${error.message}`);
+              }
+            }
+
+            const rows = buildSummaryRows(manifest);
+            const failureSections = buildAssertionSummary(assertions);
+            const passed = process.env.LIGHTHOUSE_OUTCOME === 'success';
+
+            const lines = [
+              '## Lighthouse CI Results',
+              '',
+              passed
+                ? 'Status: ✅ All configured Lighthouse assertions passed.'
+                : 'Status: ❌ Lighthouse assertions failed. Review the failing routes below and inspect the workflow artifacts for full reports.',
+              '',
+            ];
+
+            if (rows.length > 0) {
+              lines.push('| Route | Performance | Accessibility | Best Practices | SEO |');
+              lines.push('| --- | ---: | ---: | ---: | ---: |');
+              for (const row of rows) {
+                lines.push(
+                  `| \`${row.route}\` | ${row.performance} | ${row.accessibility} | ${row.bestPractices} | ${row.seo} |`
+                );
+              }
+              lines.push('');
+            } else {
+              lines.push('No Lighthouse summary files were produced. Check the workflow logs and uploaded artifacts.');
+              lines.push('');
+            }
+
+            if (failureSections.length > 0) {
+              lines.push('<details><summary>Failing assertions</summary>');
+              lines.push('');
+              lines.push(failureSections.join('\n\n'));
+              lines.push('');
+              lines.push('</details>');
+              lines.push('');
+            }
+
+            lines.push(`Artifacts and logs: [GitHub Actions run](${runUrl})`);
+            lines.push(marker);
+
+            const body = lines.join('\n');
+            const issue_number = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existing = comments.find(
+              (comment) =>
+                comment.user?.type === 'Bot' &&
+                typeof comment.body === 'string' &&
+                comment.body.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+              core.info(`Updated Lighthouse comment on PR #${issue_number}.`);
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+              core.info(`Created Lighthouse comment on PR #${issue_number}.`);
+            }
+
         run: pnpm dlx @lhci/cli@0.15.x autorun --config=.lighthouserc.json
 
       - name: Upload Lighthouse artifacts
@@ -48,3 +217,7 @@ jobs:
           path: .lighthouseci
           if-no-files-found: ignore
           retention-days: 14
+
+      - name: Fail workflow on Lighthouse assertion errors
+        if: steps.lighthouse.outcome == 'failure'
+        run: exit 1
