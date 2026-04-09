@@ -13,7 +13,7 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sonicverse.dev',
+  site: 'https://sonicverse.eu',
   experimental: {
     contentIntellisense: true
   },
