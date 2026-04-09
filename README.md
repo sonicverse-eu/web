@@ -90,3 +90,19 @@ pnpm build
 ```
 
 This is especially important after editing content collections or schemas, because collection mismatches surface during the build.
+
+## Lighthouse Testing
+
+Lighthouse CI runs automatically on pull requests and pushes to `main` via [`.github/workflows/lighthouse.yml`](.github/workflows/lighthouse.yml).
+
+- Audited pages: `/`, `/about`, `/projects`, `/community`, `/contact`, `/blog`
+- Score thresholds: performance `>= 0.80`, accessibility `>= 0.95`, best practices `>= 0.90`, SEO `>= 0.90`
+- Reports are written to `.lighthouseci`, uploaded as GitHub Actions artifacts (`lighthouse-reports`), and summarized in a pull request comment when the workflow runs on a PR.
+
+Run Lighthouse locally with the same config:
+
+```sh
+pnpm install
+pnpm build
+pnpm dlx @lhci/cli@0.15.x autorun --config=.lighthouserc.json
+```
