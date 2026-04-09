@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' }
 ];
+const docsHref = 'https://docs.sonicverse.eu';
 
 const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
 
@@ -70,6 +71,15 @@ const isActive = (href: string, path: string = currentPath) => {
           ))
         }
       </ul>
+      <a
+        class="button button-primary docs-nav-button docs-nav-button--desktop"
+        href={docsHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Sonicverse documentation in a new tab"
+      >
+        Docs
+      </a>
     </nav>
   </div>
   <div
@@ -123,6 +133,16 @@ const isActive = (href: string, path: string = currentPath) => {
             ))
           }
         </ul>
+        <a
+          class="button button-primary docs-nav-button docs-nav-button--mobile"
+          href={docsHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Sonicverse documentation in a new tab"
+          data-mobile-nav-docs
+        >
+          Docs
+        </a>
       </nav>
     </div>
   </div>
@@ -415,6 +435,11 @@ const isActive = (href: string, path: string = currentPath) => {
     if (target.closest('[data-mobile-nav-close]')) {
       event.preventDefault();
       closeMobileNav();
+      return;
+    }
+
+    if (target.closest('[data-mobile-nav-docs]')) {
+      closeMobileNav({ restoreFocus: false });
     }
   };
 
