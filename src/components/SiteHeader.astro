@@ -36,14 +36,14 @@ const isActive = (href: string, path: string = currentPath) => {
         <strong>Sonicverse</strong>
       </span>
     </a>
-    <nav aria-label="Primary">
+    <nav class="site-nav" aria-label="Primary">
+      <span class="nav-indicator" aria-hidden="true"></span>
       <ul class="nav-list">
-        <span class="nav-indicator" aria-hidden="true"></span>
         {
           navLinks.map((link) => (
             <li>
               <a
-                class={isActive(link.href) ? 'active' : ''}
+                class:list={['nav-link', { active: isActive(link.href) }]}
                 href={link.href}
                 data-nav-link
                 aria-current={isActive(link.href) ? 'page' : undefined}
@@ -80,8 +80,9 @@ const isActive = (href: string, path: string = currentPath) => {
   let indicatorReady = false;
 
   const updateNavIndicator = (instant = false) => {
-    const navList = document.querySelector<HTMLElement>('.nav-list');
-    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const nav = document.querySelector<HTMLElement>('.site-nav');
+    const navList = nav?.querySelector<HTMLElement>('.nav-list');
+    const indicator = nav?.querySelector<HTMLElement>('.nav-indicator');
     const activeLink = navList?.querySelector<HTMLAnchorElement>('a.active');
 
     if (!navList || !indicator) return;
@@ -175,7 +176,8 @@ const isActive = (href: string, path: string = currentPath) => {
 
     // Slide indicator to the clicked link immediately (before page transition)
     const navList = link.closest<HTMLElement>('.nav-list');
-    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const nav = link.closest<HTMLElement>('.site-nav');
+    const indicator = nav?.querySelector<HTMLElement>('.nav-indicator');
     if (navList && indicator) {
       const navRect = navList.getBoundingClientRect();
       const linkRect = link.getBoundingClientRect();

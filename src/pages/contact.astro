@@ -114,7 +114,7 @@ const supportNotes = page.data.supportNotes ?? [
             {page.data.contactFormTitle && <h2>{page.data.contactFormTitle}</h2>}
             {page.data.contactFormSubtitle && <p class="contact-subtitle">{page.data.contactFormSubtitle}</p>}
           </div>
-          <div class="contact-stage-card" aria-live="polite">
+          <div class="contact-stage-card" role="status" aria-live="polite" aria-atomic="true">
             <p class="contact-stage-eyebrow" data-step-current>Step 1 of 3</p>
             <p class="contact-stage-copy" data-step-description>Who owns this request, and where should we reply?</p>
           </div>
@@ -136,225 +136,230 @@ const supportNotes = page.data.supportNotes ?? [
           <p class="form-status form-status-error" role="alert">{actionErrorMessage}</p>
         )}
 
-        <div class="contact-progress-wrap" aria-hidden="true">
+        <div class="contact-progress-wrap">
           <div class="contact-progress-bar">
             <span data-step-progress></span>
           </div>
-          <div class="contact-progress" aria-label="Form steps">
-            <span class="contact-step active" data-step-indicator="1">1. Identity</span>
-            <span class="contact-step" data-step-indicator="2">2. Routing</span>
-            <span class="contact-step" data-step-indicator="3">3. Brief</span>
-          </div>
+          <ol class="contact-progress" aria-label="Form steps">
+            <li class="contact-step active" data-step-indicator="1" aria-current="step">1. Identity</li>
+            <li class="contact-step" data-step-indicator="2">2. Routing</li>
+            <li class="contact-step" data-step-indicator="3">3. Brief</li>
+          </ol>
         </div>
 
         <input class="contact-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-        <fieldset class="contact-step-panel active" data-step-panel="1">
-          <legend>Who should we reply to?</legend>
-          <p class="contact-panel-intro">Use the best email for follow-up. We keep the thread anchored to one owner.</p>
+        <div id="contact-step-panels">
+          <fieldset class="contact-step-panel active" data-step-panel="1">
+            <legend>Who should we reply to?</legend>
+            <p class="contact-panel-intro">Use the best email for follow-up. We keep the thread anchored to one owner.</p>
 
-          <div class="contact-field-grid contact-field-grid-split">
-            <div class="contact-field">
-              <label for="name">Name</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autocomplete="name"
-                required
-                minlength="2"
-                maxlength="80"
-                placeholder="Your full name"
-                value={formValues.name}
-                aria-invalid={fieldErrors?.name ? 'true' : undefined}
-                aria-describedby={fieldErrors?.name ? 'name-error' : undefined}
-              />
-              {fieldErrors?.name && (
-                <p id="name-error" class="field-error" role="alert">{fieldErrors.name[0]}</p>
-              )}
-            </div>
-
-            <div class="contact-field">
-              <label for="email">Work email</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                placeholder="name@company.com"
-                value={formValues.email}
-                aria-invalid={fieldErrors?.email ? 'true' : undefined}
-                aria-describedby={fieldErrors?.email ? 'email-error' : undefined}
-              />
-              {fieldErrors?.email && (
-                <p id="email-error" class="field-error" role="alert">{fieldErrors.email[0]}</p>
-              )}
-            </div>
-          </div>
-
-          <div class="contact-field">
-            <label for="company">Company or organization</label>
-            <input
-              id="company"
-              name="company"
-              type="text"
-              autocomplete="organization"
-              maxlength="120"
-              placeholder="Sonic Labs"
-              value={formValues.company}
-            />
-          </div>
-        </fieldset>
-
-        <fieldset class="contact-step-panel" data-step-panel="2">
-          <legend>Where should this go?</legend>
-          <p class="contact-panel-intro">Pick the owning team first. Category options adapt so your request lands in the right queue.</p>
-
-          <div class="contact-choice-grid">
-            {departments.map((department, index) => (
-              <label class="contact-choice-card">
+            <div class="contact-field-grid contact-field-grid-split">
+              <div class="contact-field">
+                <label for="name">Name</label>
                 <input
-                  type="radio"
-                  name="department"
-                  value={department.value}
+                  id="name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
                   required
-                  checked={formValues.department ? formValues.department === department.value : index === 0}
-                  aria-invalid={fieldErrors?.department ? 'true' : undefined}
-                  aria-describedby={fieldErrors?.department ? 'department-error' : undefined}
+                  minlength="2"
+                  maxlength="80"
+                  placeholder="Your full name"
+                  value={formValues.name}
+                  aria-invalid={fieldErrors?.name ? 'true' : undefined}
+                  aria-describedby={fieldErrors?.name ? 'name-error' : undefined}
                 />
-                <span class="contact-choice-card-copy">
-                  <strong>{department.label}</strong>
-                  {department.description && <span>{department.description}</span>}
-                </span>
-              </label>
-            ))}
-          </div>
-          {fieldErrors?.department && (
-            <p id="department-error" class="field-error" role="alert">{fieldErrors.department[0]}</p>
-          )}
+                {fieldErrors?.name && (
+                  <p id="name-error" class="field-error" role="alert">{fieldErrors.name[0]}</p>
+                )}
+              </div>
 
-          <div class="contact-field-grid contact-field-grid-split">
-            <div class="contact-field">
-              <label for="category">Category</label>
-              <select
-                id="category"
-                name="category"
-                required
-                aria-invalid={fieldErrors?.category ? 'true' : undefined}
-                aria-describedby={fieldErrors?.category ? 'category-error category-help' : 'category-help'}
-              >
-                <option value="" selected={!formValues.category}>Choose a category</option>
-                {visibleCategories.map((category) => (
-                  <option value={category.value} selected={formValues.category === category.value}>
-                    {category.label}
-                  </option>
-                ))}
-              </select>
-              <p id="category-help" class="contact-note" data-category-help>
-                Choose the closest request type. We use it to tune the follow-up.
-              </p>
-              {fieldErrors?.category && (
-                <p id="category-error" class="field-error" role="alert">{fieldErrors.category[0]}</p>
-              )}
+              <div class="contact-field">
+                <label for="email">Work email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  placeholder="name@company.com"
+                  value={formValues.email}
+                  aria-invalid={fieldErrors?.email ? 'true' : undefined}
+                  aria-describedby={fieldErrors?.email ? 'email-error' : undefined}
+                />
+                {fieldErrors?.email && (
+                  <p id="email-error" class="field-error" role="alert">{fieldErrors.email[0]}</p>
+                )}
+              </div>
             </div>
 
             <div class="contact-field">
-              <span class="contact-field-label">Priority</span>
-              <div class="contact-priority-row">
-                {priorities.map((priority, index) => (
-                  <label class="contact-priority-pill">
+              <label for="company">Company or organization</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                autocomplete="organization"
+                maxlength="120"
+                placeholder="Sonic Labs"
+                value={formValues.company}
+              />
+            </div>
+          </fieldset>
+
+          <fieldset class="contact-step-panel" data-step-panel="2">
+            <legend>Where should this go?</legend>
+            <p class="contact-panel-intro">Pick the owning team first. Category options adapt so your request lands in the right queue.</p>
+
+            <fieldset class="contact-choice-group">
+              <legend class="contact-field-label">Department</legend>
+              <div class="contact-choice-grid">
+                {departments.map((department, index) => (
+                  <label class="contact-choice-card">
                     <input
                       type="radio"
-                      name="priority"
-                      value={priority.value}
+                      name="department"
+                      value={department.value}
                       required
-                      checked={formValues.priority ? formValues.priority === priority.value : index === 1}
-                      aria-invalid={fieldErrors?.priority ? 'true' : undefined}
-                      aria-describedby={fieldErrors?.priority ? 'priority-error' : undefined}
+                      checked={formValues.department ? formValues.department === department.value : index === 0}
+                      aria-invalid={fieldErrors?.department ? 'true' : undefined}
+                      aria-describedby={fieldErrors?.department ? 'department-error' : undefined}
                     />
-                    <span>{priority.label}</span>
+                    <span class="contact-choice-card-copy">
+                      <strong>{department.label}</strong>
+                      {department.description && <span>{department.description}</span>}
+                    </span>
                   </label>
                 ))}
               </div>
-              {fieldErrors?.priority && (
-                <p id="priority-error" class="field-error" role="alert">{fieldErrors.priority[0]}</p>
+            </fieldset>
+            {fieldErrors?.department && (
+              <p id="department-error" class="field-error" role="alert">{fieldErrors.department[0]}</p>
+            )}
+
+            <div class="contact-field-grid contact-field-grid-split">
+              <div class="contact-field">
+                <label for="category">Category</label>
+                <select
+                  id="category"
+                  name="category"
+                  required
+                  aria-invalid={fieldErrors?.category ? 'true' : undefined}
+                  aria-describedby={fieldErrors?.category ? 'category-error category-help' : 'category-help'}
+                >
+                  <option value="" selected={!formValues.category}>Choose a category</option>
+                  {visibleCategories.map((category) => (
+                    <option value={category.value} selected={formValues.category === category.value}>
+                      {category.label}
+                    </option>
+                  ))}
+                </select>
+                <p id="category-help" class="contact-note" data-category-help>
+                  Choose the closest request type. We use it to tune the follow-up.
+                </p>
+                {fieldErrors?.category && (
+                  <p id="category-error" class="field-error" role="alert">{fieldErrors.category[0]}</p>
+                )}
+              </div>
+
+              <fieldset class="contact-field contact-choice-group">
+                <legend class="contact-field-label">Priority</legend>
+                <div class="contact-priority-row">
+                  {priorities.map((priority, index) => (
+                    <label class="contact-priority-pill">
+                      <input
+                        type="radio"
+                        name="priority"
+                        value={priority.value}
+                        required
+                        checked={formValues.priority ? formValues.priority === priority.value : index === 1}
+                        aria-invalid={fieldErrors?.priority ? 'true' : undefined}
+                        aria-describedby={fieldErrors?.priority ? 'priority-error' : undefined}
+                      />
+                      <span>{priority.label}</span>
+                    </label>
+                  ))}
+                </div>
+                {fieldErrors?.priority && (
+                  <p id="priority-error" class="field-error" role="alert">{fieldErrors.priority[0]}</p>
+                )}
+              </fieldset>
+            </div>
+          </fieldset>
+
+          <fieldset class="contact-step-panel" data-step-panel="3">
+            <legend>What outcome do you need?</legend>
+            <p class="contact-panel-intro">Describe the goal, timeline, blockers, and the exact result you want from the Sonicverse team.</p>
+
+            <div class="contact-field">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="8"
+                required
+                minlength="10"
+                maxlength="3000"
+                placeholder="Describe the context, the outcome you need, any hard deadlines, and links or reproduction details."
+                aria-invalid={fieldErrors?.message ? 'true' : undefined}
+                aria-describedby={fieldErrors?.message ? 'message-error message-help' : 'message-help'}
+              >{formValues.message}</textarea>
+              <div class="contact-inline-meta">
+                <p id="message-help" class="contact-note">Include expected behavior, actual behavior, scope, or decision-makers when relevant.</p>
+                <p class="contact-count" data-message-count>0 / 3000</p>
+              </div>
+              {fieldErrors?.message && (
+                <p id="message-error" class="field-error" role="alert">{fieldErrors.message[0]}</p>
               )}
             </div>
-          </div>
-        </fieldset>
 
-        <fieldset class="contact-step-panel" data-step-panel="3">
-          <legend>What outcome do you need?</legend>
-          <p class="contact-panel-intro">Describe the goal, timeline, blockers, and the exact result you want from the Sonicverse team.</p>
-
-          <div class="contact-field">
-            <label for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="8"
-              required
-              minlength="10"
-              maxlength="3000"
-              placeholder="Describe the context, the outcome you need, any hard deadlines, and links or reproduction details."
-              aria-invalid={fieldErrors?.message ? 'true' : undefined}
-              aria-describedby={fieldErrors?.message ? 'message-error message-help' : 'message-help'}
-            >{formValues.message}</textarea>
-            <div class="contact-inline-meta">
-              <p id="message-help" class="contact-note">Include expected behavior, actual behavior, scope, or decision-makers when relevant.</p>
-              <p class="contact-count" data-message-count>0 / 3000</p>
+            <div class="contact-field">
+              <label for="detailsUrl">Reference URL (optional)</label>
+              <input
+                id="detailsUrl"
+                name="detailsUrl"
+                type="url"
+                inputmode="url"
+                placeholder="https://github.com/your-org/project/issues/123"
+                value={formValues.detailsUrl}
+                aria-invalid={fieldErrors?.detailsUrl ? 'true' : undefined}
+                aria-describedby={fieldErrors?.detailsUrl ? 'detailsUrl-error' : undefined}
+              />
+              {fieldErrors?.detailsUrl && (
+                <p id="detailsUrl-error" class="field-error" role="alert">{fieldErrors.detailsUrl[0]}</p>
+              )}
             </div>
-            {fieldErrors?.message && (
-              <p id="message-error" class="field-error" role="alert">{fieldErrors.message[0]}</p>
-            )}
-          </div>
 
-          <div class="contact-field">
-            <label for="detailsUrl">Reference URL (optional)</label>
-            <input
-              id="detailsUrl"
-              name="detailsUrl"
-              type="url"
-              inputmode="url"
-              placeholder="https://github.com/your-org/project/issues/123"
-              value={formValues.detailsUrl}
-              aria-invalid={fieldErrors?.detailsUrl ? 'true' : undefined}
-              aria-describedby={fieldErrors?.detailsUrl ? 'detailsUrl-error' : undefined}
-            />
-            {fieldErrors?.detailsUrl && (
-              <p id="detailsUrl-error" class="field-error" role="alert">{fieldErrors.detailsUrl[0]}</p>
-            )}
-          </div>
-
-          <div class="contact-review" aria-live="polite">
-            <p class="contact-review-kicker">Routing preview</p>
-            <div class="contact-review-grid">
-              <div>
-                <span>Reply to</span>
-                <strong data-review-owner>{formValues.name || 'Your contact details will appear here'}</strong>
+            <div class="contact-review" aria-live="polite">
+              <p class="contact-review-kicker">Routing preview</p>
+              <div class="contact-review-grid">
+                <div>
+                  <span>Reply to</span>
+                  <strong data-review-owner>{formValues.name || 'Your contact details will appear here'}</strong>
+                </div>
+                <div>
+                  <span>Department</span>
+                  <strong data-review-department>Choose a department</strong>
+                </div>
+                <div>
+                  <span>Category</span>
+                  <strong data-review-category>Choose a category</strong>
+                </div>
+                <div>
+                  <span>Priority</span>
+                  <strong data-review-priority>Choose a priority</strong>
+                </div>
               </div>
-              <div>
-                <span>Department</span>
-                <strong data-review-department>Choose a department</strong>
-              </div>
-              <div>
-                <span>Category</span>
-                <strong data-review-category>Choose a category</strong>
-              </div>
-              <div>
-                <span>Priority</span>
-                <strong data-review-priority>Choose a priority</strong>
-              </div>
+              <p class="contact-note">After submit, both you and Sonicverse receive the same thread ID for follow-up.</p>
             </div>
-            <p class="contact-note">After submit, both you and Sonicverse receive the same thread ID for follow-up.</p>
-          </div>
-        </fieldset>
+          </fieldset>
+        </div>
 
         <div class="contact-nav-row">
-          <button class="button button-ghost" type="button" data-step-back hidden>Back</button>
-          <button class="button button-primary" type="button" data-step-next>Continue</button>
-          <button class="button button-primary" type="submit" data-step-submit hidden>Send request</button>
+          <button class="button button-ghost" type="button" data-step-back hidden aria-controls="contact-step-panels">Back</button>
+          <button class="button button-primary" type="button" data-step-next aria-controls="contact-step-panels">Continue</button>
+          <button class="button button-primary" type="submit" data-step-submit hidden aria-controls="contact-step-panels">Send request</button>
         </div>
 
         <noscript>
@@ -594,12 +599,18 @@ const supportNotes = page.data.supportNotes ?? [
       panels.forEach((panel) => {
         const panelStep = Number(panel.getAttribute('data-step-panel'));
         panel.classList.toggle('active', panelStep === activeStep);
+        panel.toggleAttribute('aria-hidden', panelStep !== activeStep);
       });
 
       indicators.forEach((indicator) => {
         const indicatorStep = Number(indicator.getAttribute('data-step-indicator'));
         indicator.classList.toggle('active', indicatorStep === activeStep);
         indicator.classList.toggle('done', indicatorStep < activeStep);
+        if (indicatorStep === activeStep) {
+          indicator.setAttribute('aria-current', 'step');
+        } else {
+          indicator.removeAttribute('aria-current');
+        }
       });
 
       if (progressBar instanceof HTMLElement) {
