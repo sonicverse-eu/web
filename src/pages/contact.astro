@@ -113,7 +113,7 @@ const supportNotes = page.data.supportNotes ?? [
             {page.data.contactFormTitle && <h2>{page.data.contactFormTitle}</h2>}
             {page.data.contactFormSubtitle && <p class="contact-subtitle">{page.data.contactFormSubtitle}</p>}
           </div>
-          <div class="contact-stage-card" aria-live="polite">
+          <div class="contact-stage-card" role="status" aria-live="polite" aria-atomic="true">
             <p class="contact-stage-eyebrow" data-step-current>Step 1 of 3</p>
             <p class="contact-stage-copy" data-step-description>Who owns this request, and where should we reply?</p>
           </div>
@@ -135,24 +135,25 @@ const supportNotes = page.data.supportNotes ?? [
           <p class="form-status form-status-error" role="alert">{actionErrorMessage}</p>
         )}
 
-        <div class="contact-progress-wrap" aria-hidden="true">
+        <div class="contact-progress-wrap">
           <div class="contact-progress-bar">
             <span data-step-progress></span>
           </div>
-          <div class="contact-progress" aria-label="Form steps">
-            <span class="contact-step active" data-step-indicator="1">1. Identity</span>
-            <span class="contact-step" data-step-indicator="2">2. Request type</span>
-            <span class="contact-step" data-step-indicator="3">3. Brief</span>
-          </div>
+          <ol class="contact-progress" aria-label="Form steps">
+            <li class="contact-step active" data-step-indicator="1" aria-current="step">1. Identity</li>
+            <li class="contact-step" data-step-indicator="2">2. Request type</li>
+            <li class="contact-step" data-step-indicator="3">3. Brief</li>
+          </ol>
         </div>
 
         <input class="contact-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <input type="hidden" name="threadId" value={draftThreadId} />
         <input type="hidden" name="categoryLabel" value={categoryLabel} />
 
-        <fieldset class="contact-step-panel active" data-step-panel="1">
-          <legend>Who should we reply to?</legend>
-          <p class="contact-panel-intro">Use the best email for follow-up. We keep the thread anchored to one owner.</p>
+        <div id="contact-step-panels">
+          <fieldset class="contact-step-panel active" data-step-panel="1">
+            <legend>Who should we reply to?</legend>
+            <p class="contact-panel-intro">Use the best email for follow-up. We keep the thread anchored to one owner.</p>
 
           <div class="contact-field-grid contact-field-grid-split">
             <div class="contact-field">
@@ -194,55 +195,55 @@ const supportNotes = page.data.supportNotes ?? [
             </div>
           </div>
 
-          <div class="contact-field">
-            <label for="company">Company or organization</label>
-            <input
-              id="company"
-              name="company"
-              type="text"
-              autocomplete="organization"
-              maxlength="120"
-              placeholder="Sonic Labs"
-              value={formValues.company}
-            />
-          </div>
-        </fieldset>
+            <div class="contact-field">
+              <label for="company">Company or organization</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                autocomplete="organization"
+                maxlength="120"
+                placeholder="Sonic Labs"
+                value={formValues.company}
+              />
+            </div>
+          </fieldset>
 
-        <fieldset class="contact-step-panel" data-step-panel="2">
-          <legend>What do you need help with?</legend>
-          <p class="contact-panel-intro">Pick the closest request type. We route from here, so there is no extra routing dropdown to decipher.</p>
+          <fieldset class="contact-step-panel" data-step-panel="2">
+            <legend>What do you need help with?</legend>
+            <p class="contact-panel-intro">Pick the closest request type. We route from here, so there is no extra routing dropdown to decipher.</p>
 
-          <div class="contact-choice-grid">
-            {categories.map((category, index) => (
-              <label class="contact-choice-card" for={`category-${index}`}>
-                <input
-                  id={`category-${index}`}
-                  type="radio"
-                  name="category"
-                  value={category.value}
-                  required
-                  checked={formValues.category ? formValues.category === category.value : index === 0}
-                  aria-invalid={fieldErrors?.category ? 'true' : undefined}
-                  aria-describedby={fieldErrors?.category ? 'category-error category-help' : 'category-help'}
-                />
-                <span class="contact-choice-card-copy">
-                  <strong>{category.label}</strong>
-                  {category.description && <span>{category.description}</span>}
-                </span>
-              </label>
-            ))}
-          </div>
-          <p id="category-help" class="contact-note" data-category-help>
-            {selectedCategory?.description ?? 'Choose the closest request type. We use it to route the follow-up.'}
-          </p>
-          {fieldErrors?.category && (
-            <p id="category-error" class="field-error" role="alert">{fieldErrors.category[0]}</p>
-          )}
-        </fieldset>
+            <div class="contact-choice-grid">
+              {categories.map((category, index) => (
+                <label class="contact-choice-card" for={`category-${index}`}>
+                  <input
+                    id={`category-${index}`}
+                    type="radio"
+                    name="category"
+                    value={category.value}
+                    required
+                    checked={formValues.category ? formValues.category === category.value : index === 0}
+                    aria-invalid={fieldErrors?.category ? 'true' : undefined}
+                    aria-describedby={fieldErrors?.category ? 'category-error category-help' : 'category-help'}
+                  />
+                  <span class="contact-choice-card-copy">
+                    <strong>{category.label}</strong>
+                    {category.description && <span>{category.description}</span>}
+                  </span>
+                </label>
+              ))}
+            </div>
+            <p id="category-help" class="contact-note" data-category-help>
+              {selectedCategory?.description ?? 'Choose the closest request type. We use it to route the follow-up.'}
+            </p>
+            {fieldErrors?.category && (
+              <p id="category-error" class="field-error" role="alert">{fieldErrors.category[0]}</p>
+            )}
+          </fieldset>
 
-        <fieldset class="contact-step-panel" data-step-panel="3">
-          <legend>What outcome do you need?</legend>
-          <p class="contact-panel-intro">Describe the goal, timeline, blockers, and the exact result you want from the Sonicverse team.</p>
+          <fieldset class="contact-step-panel" data-step-panel="3">
+            <legend>What outcome do you need?</legend>
+            <p class="contact-panel-intro">Describe the goal, timeline, blockers, and the exact result you want from the Sonicverse team.</p>
 
           <div class="contact-field">
             <label for="message">Message</label>
@@ -283,30 +284,31 @@ const supportNotes = page.data.supportNotes ?? [
             )}
           </div>
 
-          <div class="contact-review" aria-live="polite">
-            <p class="contact-review-kicker">Submission preview</p>
-            <div class="contact-review-grid">
-              <div>
-                <span>Reply to</span>
-                <strong data-review-owner>{formValues.name || 'Your contact details will appear here'}</strong>
+            <div class="contact-review" aria-live="polite">
+              <p class="contact-review-kicker">Submission preview</p>
+              <div class="contact-review-grid">
+                <div>
+                  <span>Reply to</span>
+                  <strong data-review-owner>{formValues.name || 'Your contact details will appear here'}</strong>
+                </div>
+                <div>
+                  <span>Request type</span>
+                  <strong data-review-category>{categoryLabel || 'Choose a request type'}</strong>
+                </div>
+                <div>
+                  <span>Thread ID</span>
+                  <strong data-review-thread-id>{draftThreadId}</strong>
+                </div>
               </div>
-              <div>
-                <span>Request type</span>
-                <strong data-review-category>{categoryLabel || 'Choose a request type'}</strong>
-              </div>
-              <div>
-                <span>Thread ID</span>
-                <strong data-review-thread-id>{draftThreadId}</strong>
-              </div>
+              <p class="contact-note">This same thread ID is submitted with the form and appears in both email subject lines for follow-up.</p>
             </div>
-            <p class="contact-note">This same thread ID is submitted with the form and appears in both email subject lines for follow-up.</p>
-          </div>
-        </fieldset>
+          </fieldset>
+        </div>
 
         <div class="contact-nav-row">
-          <button class="button button-ghost" type="button" data-step-back hidden>Back</button>
-          <button class="button button-primary" type="button" data-step-next>Continue</button>
-          <button class="button button-primary" type="submit" data-step-submit hidden>Send request</button>
+          <button class="button button-ghost" type="button" data-step-back hidden aria-controls="contact-step-panels">Back</button>
+          <button class="button button-primary" type="button" data-step-next aria-controls="contact-step-panels">Continue</button>
+          <button class="button button-primary" type="submit" data-step-submit hidden aria-controls="contact-step-panels">Send request</button>
         </div>
 
         <noscript>
@@ -510,12 +512,18 @@ const supportNotes = page.data.supportNotes ?? [
       panels.forEach((panel) => {
         const panelStep = Number(panel.getAttribute('data-step-panel'));
         panel.classList.toggle('active', panelStep === activeStep);
+        panel.toggleAttribute('aria-hidden', panelStep !== activeStep);
       });
 
       indicators.forEach((indicator) => {
         const indicatorStep = Number(indicator.getAttribute('data-step-indicator'));
         indicator.classList.toggle('active', indicatorStep === activeStep);
         indicator.classList.toggle('done', indicatorStep < activeStep);
+        if (indicatorStep === activeStep) {
+          indicator.setAttribute('aria-current', 'step');
+        } else {
+          indicator.removeAttribute('aria-current');
+        }
       });
 
       if (progressBar instanceof HTMLElement) {

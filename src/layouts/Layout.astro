@@ -234,9 +234,10 @@ if (ogType === 'article' && author && pubDate) {
 		<ClientRouter fallback="animate" />
 	</head>
 	<body>
+		<a class="skip-link" href="#main-content">Skip to main content</a>
 		<div class="background-atmosphere" aria-hidden="true"></div>
 		<SiteHeader currentPath={currentPath} transition:persist />
-		<main transition:name="page" transition:animate="none">
+		<main id="main-content" tabindex="-1" transition:name="page" transition:animate="none">
 			<slot />
 		</main>
 		<SiteFooter footerData={footerData} transition:persist />

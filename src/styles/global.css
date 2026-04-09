@@ -42,11 +42,17 @@ body {
 	line-height: 1.55;
 }
 
+html {
+	scroll-padding-top: 6rem;
+}
+
 a {
 	color: inherit;
 }
 
 a:not(.button, .brand) {
+	text-underline-offset: 0.18em;
+	text-decoration-thickness: 0.08em;
 	transition:
 		color 160ms ease,
 		text-shadow 180ms ease,
@@ -88,8 +94,32 @@ p {
 	margin: 0 auto;
 }
 
+.skip-link {
+	position: absolute;
+	left: 1rem;
+	top: 1rem;
+	z-index: 40;
+	padding: 0.75rem 1rem;
+	border-radius: 0.8rem;
+	background: var(--surface-strong);
+	border: 1px solid var(--border);
+	box-shadow: var(--shadow);
+	text-decoration: none;
+	transform: translateY(-180%);
+	transition: transform 180ms ease;
+}
+
+.skip-link:focus-visible {
+	transform: translateY(0);
+}
+
 main {
 	padding-bottom: 3rem;
+}
+
+main:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--primary-500) 75%, white);
+	outline-offset: 0.4rem;
 }
 
 @keyframes sonicverse-nav-old-to-left {
@@ -335,8 +365,10 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .desktop-nav {
+	position: relative;
 	display: flex;
 	align-items: center;
+	gap: 0.85rem;
 }
 
 .nav-toggle,
@@ -489,6 +521,27 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	gap: 0.45rem;
 }
 
+.docs-nav-button {
+	flex-shrink: 0;
+	border-color: rgba(67, 45, 215, 0.3);
+}
+
+.docs-nav-button--desktop {
+	padding-inline: 1rem;
+	box-shadow:
+		0 12px 26px rgba(67, 45, 215, 0.28),
+		0 0 26px rgba(67, 45, 215, 0.18);
+}
+
+.docs-nav-button--mobile {
+	margin-top: 1rem;
+	width: 100%;
+	justify-content: center;
+	box-shadow:
+		0 14px 28px rgba(67, 45, 215, 0.24),
+		0 0 24px rgba(67, 45, 215, 0.14);
+}
+
 .mobile-nav-list a {
 	display: block;
 	padding: 0.95rem 1rem;
@@ -523,12 +576,12 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	transform: translateX(3px);
 }
 
-.nav-list a:hover,
-.nav-list a.active {
+.nav-link--desktop:hover,
+.nav-link--desktop.active {
 	color: var(--primary-700);
 }
 
-.nav-list a:hover {
+.nav-link--desktop:hover {
 	transform: translateY(-1px);
 	box-shadow: 0 0 0 1px rgba(67, 45, 215, 0.2), 0 0 18px rgba(67, 45, 215, 0.22);
 }
@@ -640,14 +693,25 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .button:focus-visible,
-.nav-list a:focus-visible,
+.nav-link--desktop:focus-visible,
 .nav-toggle:focus-visible,
 .mobile-nav-close:focus-visible,
+.mobile-nav-list a:focus-visible,
 .mobile-nav-panel:focus-visible,
+.footer-bottom a:focus-visible,
+.prose a:focus-visible,
+.contact-list a:focus-visible,
 .footer-grid a:focus-visible,
 .brand:focus-visible {
-	outline: 2px solid color-mix(in srgb, var(--primary-500) 55%, white);
+	outline: 3px solid color-mix(in srgb, var(--primary-500) 75%, white);
 	outline-offset: 3px;
+}
+
+.prose a,
+.contact-list a,
+.footer-grid a,
+.footer-bottom a {
+	text-decoration: underline;
 }
 
 .section-gap {
@@ -987,6 +1051,9 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 0.5rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 .contact-step {
@@ -1001,6 +1068,7 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	border: 1px solid var(--border);
 	background: rgba(255, 255, 255, 0.74);
 	transition: 180ms ease;
+	list-style: none;
 }
 
 .contact-step.active {
@@ -1093,8 +1161,8 @@ html[data-nav-direction='left']::view-transition-new(page) {
 .contact-form input:focus,
 .contact-form select:focus,
 .contact-form textarea:focus {
-	outline: 2px solid color-mix(in srgb, var(--primary-500) 40%, transparent);
-	outline-offset: 1px;
+	outline: 3px solid color-mix(in srgb, var(--primary-500) 75%, white);
+	outline-offset: 2px;
 	border-color: color-mix(in srgb, var(--primary-500) 60%, var(--border));
 	box-shadow: 0 8px 20px rgba(102, 53, 206, 0.12);
 	transform: translateY(-1px);
@@ -1163,7 +1231,7 @@ html[data-nav-direction='left']::view-transition-new(page) {
 }
 
 .contact-choice-card:has(input:focus-visible) .contact-choice-card-copy {
-	outline: 2px solid color-mix(in srgb, var(--primary-500) 40%, transparent);
+	outline: 3px solid color-mix(in srgb, var(--primary-500) 75%, white);
 	outline-offset: 2px;
 }
 
