@@ -91,12 +91,75 @@ if (ogType === 'article' && author && pubDate) {
 		{/* Theme: set data-theme before paint to avoid FOUC */}
 		<script is:inline>
 			(function () {
-				try {
-					var stored = localStorage.getItem('sv-theme');
-					var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+				var STORAGE_KEY = 'sv-theme';
+				var LIGHT_THEME = 'light';
+				var DARK_THEME = 'dark';
+				var themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+				var resolveTheme = function (storedTheme) {
+					if (storedTheme === LIGHT_THEME || storedTheme === DARK_THEME) {
+						return storedTheme;
+					}
+
+					return themeMediaQuery.matches ? DARK_THEME : LIGHT_THEME;
+				};
+
+				var syncTheme = function () {
+					try {
+						var storedTheme = localStorage.getItem(STORAGE_KEY);
+						var theme = resolveTheme(storedTheme);
+						document.documentElement.setAttribute('data-theme', theme);
+						return theme;
+					} catch (e) {
+						document.documentElement.setAttribute('data-theme', LIGHT_THEME);
+						return LIGHT_THEME;
+					}
+				};
+
+				window.__sonicverseSyncTheme = syncTheme;
+				window.__sonicverseApplyTheme = function (theme) {
 					document.documentElement.setAttribute('data-theme', theme);
+
+					try {
+						localStorage.setItem(STORAGE_KEY, theme);
+					} catch (e) {
+						/* ignore */
+					}
+
+					return theme;
+				};
+
+				if (!window.__sonicverseThemeLifecycleBound) {
+					document.addEventListener('astro:after-swap', syncTheme);
+					window.addEventListener('storage', function (event) {
+						if (!event.key || event.key === STORAGE_KEY) {
+							syncTheme();
+						}
+					});
+
+					var syncSystemTheme = function () {
+						try {
+							if (!localStorage.getItem(STORAGE_KEY)) {
+								syncTheme();
+							}
+						} catch (e) {
+							syncTheme();
+						}
+					};
+
+					if (typeof themeMediaQuery.addEventListener === 'function') {
+						themeMediaQuery.addEventListener('change', syncSystemTheme);
+					} else if (typeof themeMediaQuery.addListener === 'function') {
+						themeMediaQuery.addListener(syncSystemTheme);
+					}
+
+					window.__sonicverseThemeLifecycleBound = true;
+				}
+
+				try {
+					syncTheme();
 				} catch (e) {
-					document.documentElement.setAttribute('data-theme', 'light');
+					document.documentElement.setAttribute('data-theme', LIGHT_THEME);
 				}
 			})();
 		</script>
