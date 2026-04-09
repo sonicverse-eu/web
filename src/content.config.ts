@@ -154,10 +154,26 @@ const blog = defineCollection({
   })
 });
 
+const library = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdoc}', base: './src/content/library' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    seoImage: z.string().optional(),
+    pubDate: z.coerce.date().optional(),
+    author: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false)
+  })
+});
+
 export const collections = {
   pages,
   features,
   projects,
   faq,
-  blog
+  blog,
+  library
 };

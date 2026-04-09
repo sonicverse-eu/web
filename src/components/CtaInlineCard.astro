@@ -1,0 +1,35 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  href: string;
+  label?: string;
+}
+
+const { title, summary, href, label = 'Open' } = Astro.props;
+---
+
+<aside class="cta-inline-card" data-reveal>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  <a class="button button-ghost" href={href}>{label}</a>
+</aside>
+
+<style>
+  .cta-inline-card {
+    margin: 1.2rem 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--brand-500) 18%, transparent), transparent 45%),
+      var(--surface);
+    padding: 1.2rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+</style>
