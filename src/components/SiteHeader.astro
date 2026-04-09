@@ -235,12 +235,12 @@ const isActive = (href: string, path: string = currentPath) => {
 
     toggle.setAttribute('aria-expanded', 'false');
     toggle.setAttribute('aria-label', 'Open navigation menu');
+    shell.setAttribute('aria-hidden', 'true');
     setBackgroundLocked(false);
 
     const finishClose = () => {
       shell.hidden = true;
       shell.dataset.open = 'false';
-      shell.setAttribute('aria-hidden', 'true');
       navWindow.__sonicverseMobileNavHideTimer = undefined;
     };
 

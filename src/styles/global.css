@@ -410,13 +410,18 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	align-items: stretch;
 	justify-content: flex-end;
 	opacity: 0;
+	visibility: hidden;
 	pointer-events: none;
-	transition: opacity 220ms ease;
+	transition:
+		opacity 220ms ease,
+		visibility 0s linear 220ms;
 }
 
 .mobile-nav-shell[data-open='true'] {
 	opacity: 1;
+	visibility: visible;
 	pointer-events: auto;
+	transition-delay: 0s;
 }
 
 .mobile-nav-backdrop {
@@ -1469,12 +1474,6 @@ html[data-nav-direction='left']::view-transition-new(page) {
 	.contact-inline-meta {
 		flex-direction: column;
 		align-items: flex-start;
-	}
-}
-
-@media (min-width: 701px) {
-	.mobile-nav-shell {
-		display: none !important;
 	}
 }
 
