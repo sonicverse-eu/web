@@ -19,29 +19,55 @@
 </button>
 
 <script>
+	import {
+		DARK_THEME,
+		LIGHT_THEME,
+		STORAGE_KEY,
+		syncDocumentTheme
+	} from '../utils/theme.mjs';
+
 	declare global {
 		interface Window {
 			__sonicverseThemeBound?: boolean;
+			__sonicverseApplyTheme?: (theme: 'light' | 'dark') => 'light' | 'dark';
+			__sonicverseSyncTheme?: () => 'light' | 'dark';
 		}
 	}
 
-	const STORAGE_KEY = 'sv-theme';
-
 	const applyTheme = (theme: 'light' | 'dark') => {
-		document.documentElement.setAttribute('data-theme', theme);
+		syncDocumentTheme(document.documentElement, theme);
+
 		try {
 			localStorage.setItem(STORAGE_KEY, theme);
 		} catch {
 			/* ignore */
+		}
+
+		return theme;
+	};
+
+	const syncTheme = () => {
+		try {
+			return syncDocumentTheme(
+				document.documentElement,
+				localStorage.getItem(STORAGE_KEY),
+				window.matchMedia('(prefers-color-scheme: dark)').matches
+			);
+		} catch {
+			return syncDocumentTheme(document.documentElement, null, false);
 		}
 	};
 
 	const onClick = (event: Event) => {
 		const target = event.target as Element | null;
 		if (!target?.closest('[data-theme-toggle]')) return;
-		const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-		applyTheme(current === 'dark' ? 'light' : 'dark');
+		const current = window.__sonicverseSyncTheme?.() ?? syncTheme();
+		const nextTheme = current === DARK_THEME ? LIGHT_THEME : DARK_THEME;
+		(window.__sonicverseApplyTheme ?? applyTheme)(nextTheme);
 	};
+
+	window.__sonicverseApplyTheme ??= applyTheme;
+	window.__sonicverseSyncTheme ??= syncTheme;
 
 	if (!window.__sonicverseThemeBound) {
 		document.addEventListener('click', onClick);
