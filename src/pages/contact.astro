@@ -95,8 +95,9 @@ const supportNotes = page.data.supportNotes ?? [
   currentPath="/contact"
 >
   <section class="hero container" data-reveal-group>
+    <div class="hero-glow" aria-hidden="true"></div>
     {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
-    <h1>{page.data.heroTitle}</h1>
+    <h1 class="gradient-text">{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
   </section>
 

@@ -249,6 +249,7 @@ if (ogType === 'article' && author && pubDate) {
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 		<div class="background-atmosphere" aria-hidden="true"></div>
+		<div class="dot-grid-overlay" aria-hidden="true"></div>
 		<SiteHeader currentPath={currentPath} transition:persist />
 		<main id="main-content" tabindex="-1" transition:name="page" transition:animate="none">
 			<slot />

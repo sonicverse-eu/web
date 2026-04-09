@@ -37,8 +37,9 @@ const bentoFeatures = features.map((f) => ({
 	currentPath="/"
 >
 	<section class="hero container" data-reveal-group>
+		<div class="hero-glow" aria-hidden="true"></div>
 		{home.data.eyebrow && <p class="eyebrow">{home.data.eyebrow}</p>}
-		<h1>{home.data.heroTitle}</h1>
+		<h1 class="gradient-text">{home.data.heroTitle}</h1>
 		<p class="hero-subtitle">{home.data.heroSubtitle}</p>
 		<div class="button-row">
 			{home.data.ctaHref && home.data.ctaLabel && (
