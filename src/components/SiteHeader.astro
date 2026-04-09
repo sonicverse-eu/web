@@ -52,13 +52,13 @@ const isActive = (href: string, path: string = currentPath) => {
       <span class="nav-toggle-label">Menu</span>
     </button>
     <nav class="desktop-nav" aria-label="Primary">
+      <span class="nav-indicator" aria-hidden="true"></span>
       <ul class="nav-list nav-list--desktop">
-        <span class="nav-indicator" aria-hidden="true"></span>
         {
           navLinks.map((link) => (
             <li>
               <a
-                class={isActive(link.href) ? 'active nav-link--desktop' : 'nav-link--desktop'}
+                class:list={['nav-link--desktop', { active: isActive(link.href) }]}
                 href={link.href}
                 data-nav-link
                 data-desktop-nav-link
@@ -156,8 +156,9 @@ const isActive = (href: string, path: string = currentPath) => {
   let indicatorReady = false;
 
   const updateNavIndicator = (instant = false) => {
+    const nav = document.querySelector<HTMLElement>('.desktop-nav');
     const navList = document.querySelector<HTMLElement>('.nav-list--desktop');
-    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const indicator = nav?.querySelector<HTMLElement>('.nav-indicator');
     const activeLink = navList?.querySelector<HTMLAnchorElement>('a[data-desktop-nav-link].active');
 
     if (!navList || !indicator) return;
@@ -385,8 +386,9 @@ const isActive = (href: string, path: string = currentPath) => {
     }
 
     // Slide indicator to the clicked link immediately (before page transition)
-    const navList = link.closest<HTMLElement>('.nav-list');
-    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const navList = link.closest<HTMLElement>('.nav-list--desktop');
+    const nav = link.closest<HTMLElement>('.desktop-nav');
+    const indicator = nav?.querySelector<HTMLElement>('.nav-indicator');
     if (navList && indicator) {
       const navRect = navList.getBoundingClientRect();
       const linkRect = link.getBoundingClientRect();
