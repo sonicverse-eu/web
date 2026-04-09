@@ -32,7 +32,9 @@ The local dev server runs at [localhost:4321](http://localhost:4321).
 | :-- | :-- |
 | `pnpm install` | Install dependencies |
 | `pnpm dev` | Start the local Astro dev server |
+| `pnpm check` | Run Astro content, type, and component checks |
 | `pnpm build` | Build the site for production |
+| `pnpm ci` | Run the local CI command sequence (`check` + `build`) |
 | `pnpm preview` | Preview the production build locally |
 | `pnpm astro -- --help` | Show Astro CLI help |
 
@@ -98,6 +100,11 @@ Lighthouse CI runs automatically on pull requests and pushes to `main` via [`.gi
 - Audited pages: `/`, `/about`, `/projects`, `/community`, `/contact`, `/blog`
 - Score thresholds: performance `>= 0.80`, accessibility `>= 0.95`, best practices `>= 0.90`, SEO `>= 0.90`
 - Reports are written to `.lighthouseci`, uploaded as GitHub Actions artifacts (`lighthouse-reports`), and summarized in a pull request comment when the workflow runs on a PR.
+Lighthouse CI runs automatically on pull requests and pushes to `main` via `.github/workflows/lighthouse.yml`.
+
+- Audited pages: `/`, `/about`, `/projects`, `/community`, `/contact`, `/blog`
+- Score thresholds: performance `>= 0.80`, accessibility `>= 0.95`, best practices `>= 0.90`, SEO `>= 0.90`
+- Reports are written to `.lighthouseci` and uploaded as GitHub Actions artifacts (`lighthouse-reports`).
 
 Run Lighthouse locally with the same config:
 
@@ -106,3 +113,16 @@ pnpm install
 pnpm build
 pnpm dlx @lhci/cli@0.15.x autorun --config=.lighthouserc.json
 ```
+## Continuous Integration
+
+GitHub Actions validates every push to `main` and every pull request with the workflow in `.github/workflows/ci.yml`.
+
+The workflow currently runs:
+
+- `pnpm install --frozen-lockfile`
+- `pnpm check`
+- `pnpm build`
+
+Because the production build requires the Resend-related environment variables to exist, CI supplies non-secret placeholder values for schema validation during the build. Real email delivery is not exercised in CI.
+
+Failed runs appear in the GitHub Actions tab and as required PR checks. Team members who want email or inbox alerts for failed workflows should enable GitHub `Actions` notifications in their personal notification settings for this repository.

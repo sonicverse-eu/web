@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' }
 ];
+const docsHref = 'https://docs.sonicverse.eu';
 
 const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
 
@@ -52,13 +53,13 @@ const isActive = (href: string, path: string = currentPath) => {
       <span class="nav-toggle-label">Menu</span>
     </button>
     <nav class="desktop-nav" aria-label="Primary">
+      <span class="nav-indicator" aria-hidden="true"></span>
       <ul class="nav-list nav-list--desktop">
-        <span class="nav-indicator" aria-hidden="true"></span>
         {
           navLinks.map((link) => (
             <li>
               <a
-                class={isActive(link.href) ? 'active nav-link--desktop' : 'nav-link--desktop'}
+                class:list={['nav-link--desktop', { active: isActive(link.href) }]}
                 href={link.href}
                 data-nav-link
                 data-desktop-nav-link
@@ -70,6 +71,15 @@ const isActive = (href: string, path: string = currentPath) => {
           ))
         }
       </ul>
+      <a
+        class="button button-primary docs-nav-button docs-nav-button--desktop"
+        href={docsHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Sonicverse documentation in a new tab"
+      >
+        Docs
+      </a>
     </nav>
   </div>
   <div
@@ -123,6 +133,16 @@ const isActive = (href: string, path: string = currentPath) => {
             ))
           }
         </ul>
+        <a
+          class="button button-primary docs-nav-button docs-nav-button--mobile"
+          href={docsHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Sonicverse documentation in a new tab"
+          data-mobile-nav-docs
+        >
+          Docs
+        </a>
       </nav>
     </div>
   </div>
@@ -156,8 +176,9 @@ const isActive = (href: string, path: string = currentPath) => {
   let indicatorReady = false;
 
   const updateNavIndicator = (instant = false) => {
+    const nav = document.querySelector<HTMLElement>('.desktop-nav');
     const navList = document.querySelector<HTMLElement>('.nav-list--desktop');
-    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const indicator = nav?.querySelector<HTMLElement>('.nav-indicator');
     const activeLink = navList?.querySelector<HTMLAnchorElement>('a[data-desktop-nav-link].active');
 
     if (!navList || !indicator) return;
@@ -385,8 +406,9 @@ const isActive = (href: string, path: string = currentPath) => {
     }
 
     // Slide indicator to the clicked link immediately (before page transition)
-    const navList = link.closest<HTMLElement>('.nav-list');
-    const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
+    const navList = link.closest<HTMLElement>('.nav-list--desktop');
+    const nav = link.closest<HTMLElement>('.desktop-nav');
+    const indicator = nav?.querySelector<HTMLElement>('.nav-indicator');
     if (navList && indicator) {
       const navRect = navList.getBoundingClientRect();
       const linkRect = link.getBoundingClientRect();
@@ -413,6 +435,11 @@ const isActive = (href: string, path: string = currentPath) => {
     if (target.closest('[data-mobile-nav-close]')) {
       event.preventDefault();
       closeMobileNav();
+      return;
+    }
+
+    if (target.closest('[data-mobile-nav-docs]')) {
+      closeMobileNav({ restoreFocus: false });
     }
   };
 
