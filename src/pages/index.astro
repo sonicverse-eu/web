@@ -1,6 +1,11 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import MetricsBand from '../components/MetricsBand.astro';
+import LogoCloud from '../components/LogoCloud.astro';
+import CTABand from '../components/CTABand.astro';
 
 const pageEntries = await getCollection('pages');
 const home = pageEntries.find((entry) =>
@@ -17,6 +22,12 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order).slice(0, 2);
 const getProjectSlug = (project: (typeof projects)[number]) =>
 	project.id.replace(/\.(md|mdoc)$/, '');
+
+const bentoFeatures = features.map((f) => ({
+	title: f.data.title,
+	summary: f.data.summary,
+	eyebrow: f.data.eyebrow
+}));
 ---
 
 <Layout
@@ -26,8 +37,9 @@ const getProjectSlug = (project: (typeof projects)[number]) =>
 	currentPath="/"
 >
 	<section class="hero container" data-reveal-group>
+		<div class="hero-glow" aria-hidden="true"></div>
 		{home.data.eyebrow && <p class="eyebrow">{home.data.eyebrow}</p>}
-		<h1>{home.data.heroTitle}</h1>
+		<h1 class="gradient-text">{home.data.heroTitle}</h1>
 		<p class="hero-subtitle">{home.data.heroSubtitle}</p>
 		<div class="button-row">
 			{home.data.ctaHref && home.data.ctaLabel && (
@@ -39,56 +51,58 @@ const getProjectSlug = (project: (typeof projects)[number]) =>
 		</div>
 	</section>
 
+	{home.data.partners && home.data.partners.length > 0 && (
+		<section class="container section-gap">
+			<LogoCloud label={home.data.partnersLabel} partners={home.data.partners} />
+		</section>
+	)}
+
 	<section class="container section-gap prose" data-reveal>
 		<Content frontmatter={home.data} />
 	</section>
 
-	<section class="container section-gap" data-reveal>
-		<div class="section-head">
-			{home.data.featureSectionEyebrow && <p class="eyebrow">{home.data.featureSectionEyebrow}</p>}
-			{home.data.featureSectionTitle && <h2>{home.data.featureSectionTitle}</h2>}
-		</div>
-		<div class="card-grid">
-			{
-				features.map((feature, index) => (
-					<article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
-						<p class="eyebrow">{feature.data.eyebrow}</p>
-						<h3>{feature.data.title}</h3>
-						<p>{feature.data.summary}</p>
-					</article>
-				))
-			}
-		</div>
+	<section class="container section-gap">
+		<SectionHeading
+			eyebrow={home.data.featureSectionEyebrow}
+			title={home.data.featureSectionTitle}
+		/>
+		<BentoGrid features={bentoFeatures} />
 	</section>
 
-	<section class="container section-gap" data-reveal>
-		<div class="section-head">
-			{home.data.projectSectionEyebrow && <p class="eyebrow">{home.data.projectSectionEyebrow}</p>}
-			{home.data.projectSectionTitle && <h2>{home.data.projectSectionTitle}</h2>}
-		</div>
-		<div class="card-grid">
+	{home.data.metrics && home.data.metrics.length > 0 && (
+		<section class="container section-gap">
+			<MetricsBand metrics={home.data.metrics} />
+		</section>
+	)}
+
+	<section class="container section-gap">
+		<SectionHeading
+			eyebrow={home.data.projectSectionEyebrow}
+			title={home.data.projectSectionTitle}
+		/>
+		<div class="card-grid" data-reveal-group>
 			{
 				projects.map((project, index) => (
-					<article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
+					<article class="feature-card" data-reveal data-reveal-delay={(index * 0.09).toFixed(2)}>
 						<span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
 						<h3>{project.data.title}</h3>
 						<p>{project.data.summary}</p>
-						<a class="button button-ghost" href={`/projects/${getProjectSlug(project)}/`}>{home.data.projectLinkLabel ?? 'View project'}</a>
+						<a class="button button-ghost" href={`/projects/${getProjectSlug(project)}/`}>{home.data.projectLinkLabel ?? 'View project'} →</a>
 					</article>
 				))
 			}
 		</div>
 	</section>
 
-	<section class="container section-gap" data-reveal>
-		<div class="section-head">
-			{home.data.faqSectionEyebrow && <p class="eyebrow">{home.data.faqSectionEyebrow}</p>}
-			{home.data.faqSectionTitle && <h2>{home.data.faqSectionTitle}</h2>}
-		</div>
-		<div class="faq-list">
+	<section class="container section-gap">
+		<SectionHeading
+			eyebrow={home.data.faqSectionEyebrow}
+			title={home.data.faqSectionTitle}
+		/>
+		<div class="faq-list" data-reveal-group>
 			{
 				faqs.map((item, index) => (
-					<article class="faq-item" data-reveal data-reveal-delay={index * 0.09}>
+					<article class="faq-item" data-reveal data-reveal-delay={(index * 0.09).toFixed(2)}>
 						<h3>{item.data.question}</h3>
 						<p>{item.data.answer}</p>
 					</article>
@@ -96,4 +110,16 @@ const getProjectSlug = (project: (typeof projects)[number]) =>
 			}
 		</div>
 	</section>
+
+	{home.data.ctaBand && (
+		<section class="container section-gap">
+			<CTABand
+				eyebrow={home.data.ctaBand.eyebrow}
+				title={home.data.ctaBand.title}
+				subtitle={home.data.ctaBand.subtitle}
+				primary={home.data.ctaBand.primary}
+				secondary={home.data.ctaBand.secondary}
+			/>
+		</section>
+	)}
 </Layout>

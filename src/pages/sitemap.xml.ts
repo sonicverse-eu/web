@@ -1,15 +1,17 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-const staticRoutes = ['/', '/about', '/community', '/contact', '/projects', '/blog'];
+const staticRoutes = ['/', '/about', '/community', '/contact', '/projects', '/blog', '/library'];
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL('https://sonicverse.eu');
   const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
+  const libraryPages = await getCollection('library', ({ data }) => !data.draft);
 
   const urls = [
     ...staticRoutes,
-    ...blogPosts.map((post) => `/blog/${post.id}`)
+    ...blogPosts.map((post) => `/blog/${post.id}`),
+    ...libraryPages.map((entry) => `/library/${entry.id}`)
   ].map((path) => {
     const url = new URL(path, base);
     return `  <url><loc>${url.toString()}</loc></url>`;

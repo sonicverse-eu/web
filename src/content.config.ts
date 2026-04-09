@@ -71,6 +71,33 @@ const pages = defineCollection({
           description: z.string().optional()
         })
       )
+      .optional(),
+    metrics: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string()
+        })
+      )
+      .optional(),
+    partnersLabel: z.string().optional(),
+    partners: z
+      .array(
+        z.object({
+          name: z.string(),
+          src: z.string(),
+          href: z.string().url().optional()
+        })
+      )
+      .optional(),
+    ctaBand: z
+      .object({
+        eyebrow: z.string().optional(),
+        title: z.string(),
+        subtitle: z.string().optional(),
+        primary: z.object({ label: z.string(), href: z.string() }),
+        secondary: z.object({ label: z.string(), href: z.string() }).optional()
+      })
       .optional()
   })
 });
@@ -127,10 +154,26 @@ const blog = defineCollection({
   })
 });
 
+const library = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdoc}', base: './src/content/library' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    seoImage: z.string().optional(),
+    pubDate: z.coerce.date().optional(),
+    author: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false)
+  })
+});
+
 export const collections = {
   pages,
   features,
   projects,
   faq,
-  blog
+  blog,
+  library
 };

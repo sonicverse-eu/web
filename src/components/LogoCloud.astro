@@ -1,0 +1,29 @@
+---
+export interface Partner {
+	name: string;
+	src: string;
+	href?: string;
+}
+
+export interface Props {
+	label?: string;
+	partners: Partner[];
+}
+
+const { label, partners } = Astro.props;
+---
+
+{partners.length > 0 && (
+	<div class="logo-cloud" data-reveal>
+		{label && <p class="logo-cloud-label">{label}</p>}
+		{partners.map((partner) =>
+			partner.href ? (
+				<a href={partner.href} target="_blank" rel="noopener noreferrer" aria-label={partner.name}>
+					<img src={partner.src} alt={partner.name} loading="lazy" />
+				</a>
+			) : (
+				<img src={partner.src} alt={partner.name} loading="lazy" />
+			)
+		)}
+	</div>
+)}

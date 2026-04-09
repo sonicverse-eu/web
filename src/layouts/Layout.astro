@@ -86,7 +86,20 @@ if (ogType === 'article' && author && pubDate) {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="theme-color" content="#1a1a1a" />
+		<meta name="theme-color" content="#fafaff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#07060f" media="(prefers-color-scheme: dark)" />
+		{/* Theme: set data-theme before paint to avoid FOUC */}
+		<script is:inline>
+			(function () {
+				try {
+					var stored = localStorage.getItem('sv-theme');
+					var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+					document.documentElement.setAttribute('data-theme', theme);
+				} catch (e) {
+					document.documentElement.setAttribute('data-theme', 'light');
+				}
+			})();
+		</script>
 		<link rel="canonical" href={canonicalURL} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
@@ -236,6 +249,7 @@ if (ogType === 'article' && author && pubDate) {
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 		<div class="background-atmosphere" aria-hidden="true"></div>
+		<div class="dot-grid-overlay" aria-hidden="true"></div>
 		<SiteHeader currentPath={currentPath} transition:persist />
 		<main id="main-content" tabindex="-1" transition:name="page" transition:animate="none">
 			<slot />

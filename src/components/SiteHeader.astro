@@ -1,5 +1,6 @@
 ---
 import brandIcon from '../assets/brand/2.svg';
+import ThemeToggle from './ThemeToggle.astro';
 
 export interface Props {
   currentPath?: string;
@@ -80,73 +81,75 @@ const isActive = (href: string, path: string = currentPath) => {
       >
         Docs
       </a>
+      <ThemeToggle />
     </nav>
   </div>
-  <div
-    id="mobile-nav-shell"
-    class="mobile-nav-shell"
-    data-mobile-shell
-    aria-hidden="true"
-    hidden
-  >
-    <button
-      class="mobile-nav-backdrop"
-      type="button"
-      aria-label="Close navigation menu"
-      data-mobile-nav-close
-      tabindex="-1"
-    ></button>
-    <div
-      class="mobile-nav-panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="mobile-nav-title"
-      tabindex="-1"
-      data-mobile-nav-panel
-    >
-      <div class="mobile-nav-head">
-        <p id="mobile-nav-title">Menu</p>
-        <button
-          class="mobile-nav-close"
-          type="button"
-          aria-label="Close navigation menu"
-          data-mobile-nav-close
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <nav aria-label="Mobile">
-        <ul class="mobile-nav-list">
-          {
-            navLinks.map((link) => (
-              <li>
-                <a
-                  class={isActive(link.href) ? 'active' : ''}
-                  href={link.href}
-                  data-nav-link
-                  data-mobile-nav-link
-                  aria-current={isActive(link.href) ? 'page' : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-        <a
-          class="button button-primary docs-nav-button docs-nav-button--mobile"
-          href={docsHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open Sonicverse documentation in a new tab"
-          data-mobile-nav-docs
-        >
-          Docs
-        </a>
-      </nav>
-    </div>
-  </div>
 </header>
+<div
+  id="mobile-nav-shell"
+  class="mobile-nav-shell"
+  data-mobile-shell
+  aria-hidden="true"
+  hidden
+  transition:persist="mobile-nav"
+>
+  <button
+    class="mobile-nav-backdrop"
+    type="button"
+    aria-label="Close navigation menu"
+    data-mobile-nav-close
+    tabindex="-1"
+  ></button>
+  <div
+    class="mobile-nav-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="mobile-nav-title"
+    tabindex="-1"
+    data-mobile-nav-panel
+  >
+    <div class="mobile-nav-head">
+      <p id="mobile-nav-title">Menu</p>
+      <button
+        class="mobile-nav-close"
+        type="button"
+        aria-label="Close navigation menu"
+        data-mobile-nav-close
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <nav aria-label="Mobile">
+      <ul class="mobile-nav-list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                class={isActive(link.href) ? 'active' : ''}
+                href={link.href}
+                data-nav-link
+                data-mobile-nav-link
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        class="button button-primary docs-nav-button docs-nav-button--mobile"
+        href={docsHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Sonicverse documentation in a new tab"
+        data-mobile-nav-docs
+      >
+        Docs
+      </a>
+    </nav>
+  </div>
+</div>
 
 <script>
   const navWindow = window as Window & {
@@ -154,6 +157,7 @@ const isActive = (href: string, path: string = currentPath) => {
     __sonicverseLastNavPath?: string;
     __sonicverseMobileNavHideTimer?: number;
     __sonicverseMobileNavRestoreFocus?: HTMLElement | null;
+    __sonicverseScrollCleanup?: (() => void) | null;
   };
 
   const navOrder = ['/', '/projects', '/about', '/community', '/blog', '/contact'];
@@ -161,6 +165,84 @@ const isActive = (href: string, path: string = currentPath) => {
   const mobileNavTransitionMs = 320;
   const focusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  /* ── Scroll-direction header hide/show ── */
+  const SCROLL_THRESHOLD = 64;   // px before hide/show kicks in
+  const SCROLL_DELTA     = 8;    // minimum px change to trigger
+
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const getHeaderElement = () => document.querySelector<HTMLElement>('.top-nav-wrap');
+
+  const updateHeaderVisibility = () => {
+    const header = getHeaderElement();
+    if (!header) return;
+
+    const currentY = window.scrollY;
+    const delta = currentY - lastScrollY;
+
+    // Apply condensed styling once scrolled past threshold
+    header.dataset.scrolled = currentY > SCROLL_THRESHOLD ? 'true' : 'false';
+
+    // Never hide at the very top
+    if (currentY <= SCROLL_THRESHOLD) {
+      header.dataset.navHidden = 'false';
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    // Ignore tiny scroll movements (jitter guard)
+    if (Math.abs(delta) < SCROLL_DELTA) {
+      ticking = false;
+      return;
+    }
+
+    // Don't hide when mobile nav is open
+    if (isMobileNavOpen()) {
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    // Skip hide/show for reduced-motion users
+    if (reduceMotionQuery.matches) {
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    header.dataset.navHidden = delta > 0 ? 'true' : 'false';
+    lastScrollY = currentY;
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(updateHeaderVisibility);
+      ticking = true;
+    }
+  };
+
+  const initScrollBehavior = () => {
+    // Clean up previous listener if any (for page transitions)
+    navWindow.__sonicverseScrollCleanup?.();
+
+    lastScrollY = window.scrollY;
+    const header = getHeaderElement();
+    if (header) {
+      header.dataset.navHidden = 'false';
+      header.dataset.scrolled = window.scrollY > SCROLL_THRESHOLD ? 'true' : 'false';
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    navWindow.__sonicverseScrollCleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  };
 
   const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
 
@@ -228,7 +310,7 @@ const isActive = (href: string, path: string = currentPath) => {
     document.documentElement.toggleAttribute('data-mobile-nav-open', locked);
     document.body.style.overflow = locked ? 'hidden' : '';
 
-    [document.querySelector('main'), document.querySelector('.site-footer')].forEach((element) => {
+    [document.querySelector('.top-nav-wrap'), document.querySelector('main'), document.querySelector('.site-footer')].forEach((element) => {
       if (!element) return;
 
       if (locked) {
@@ -285,6 +367,10 @@ const isActive = (href: string, path: string = currentPath) => {
 
     navWindow.__sonicverseMobileNavRestoreFocus =
       document.activeElement instanceof HTMLElement ? document.activeElement : toggle;
+
+    // Force header visible when opening the mobile nav
+    const header = getHeaderElement();
+    if (header) header.dataset.navHidden = 'false';
 
     window.clearTimeout(navWindow.__sonicverseMobileNavHideTimer);
     shell.hidden = false;
@@ -465,6 +551,7 @@ const isActive = (href: string, path: string = currentPath) => {
       }
       navWindow.__sonicverseLastNavPath = window.location.pathname;
       closeMobileNav({ immediate: true, restoreFocus: false });
+      initScrollBehavior();
     });
     window.addEventListener('resize', () => updateNavIndicator(true));
     mobileNavMediaQuery.addEventListener('change', (event) => {
@@ -480,4 +567,5 @@ const isActive = (href: string, path: string = currentPath) => {
   closeMobileNav({ immediate: true, restoreFocus: false });
   syncActiveNavItem();
   updateNavIndicator(true);
+  initScrollBehavior();
 </script>
