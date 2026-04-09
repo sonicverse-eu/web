@@ -32,7 +32,9 @@ The local dev server runs at [localhost:4321](http://localhost:4321).
 | :-- | :-- |
 | `pnpm install` | Install dependencies |
 | `pnpm dev` | Start the local Astro dev server |
+| `pnpm check` | Run Astro content, type, and component checks |
 | `pnpm build` | Build the site for production |
+| `pnpm ci` | Run the local CI command sequence (`check` + `build`) |
 | `pnpm preview` | Preview the production build locally |
 | `pnpm astro -- --help` | Show Astro CLI help |
 
@@ -90,3 +92,17 @@ pnpm build
 ```
 
 This is especially important after editing content collections or schemas, because collection mismatches surface during the build.
+
+## Continuous Integration
+
+GitHub Actions validates every push to `main` and every pull request with the workflow in `.github/workflows/ci.yml`.
+
+The workflow currently runs:
+
+- `pnpm install --frozen-lockfile`
+- `pnpm check`
+- `pnpm build`
+
+Because the production build requires the Resend-related environment variables to exist, CI supplies non-secret placeholder values for schema validation during the build. Real email delivery is not exercised in CI.
+
+Failed runs appear in the GitHub Actions tab and as required PR checks. Team members who want email or inbox alerts for failed workflows should enable GitHub `Actions` notifications in their personal notification settings for this repository.
