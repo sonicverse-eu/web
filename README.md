@@ -96,8 +96,8 @@ This is especially important after editing content collections or schemas, becau
 Lighthouse CI runs automatically on pull requests and pushes to `main` via `.github/workflows/lighthouse.yml`.
 
 - Audited pages: `/`, `/about`, `/projects`, `/community`, `/contact`, `/blog`
-- Score thresholds: performance `>= 0.90`, accessibility `>= 0.95`, best practices `>= 0.90`, SEO `>= 0.90`
-- Reports are uploaded as GitHub Actions artifacts (`lighthouse-reports`) and also uploaded to Lighthouse temporary public storage.
+- Score thresholds: performance `>= 0.80`, accessibility `>= 0.95`, best practices `>= 0.90`, SEO `>= 0.90`
+- Reports are written to `.lighthouseci` and uploaded as GitHub Actions artifacts (`lighthouse-reports`).
 
 Run Lighthouse locally with the same config:
 
