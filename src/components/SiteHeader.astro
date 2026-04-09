@@ -84,71 +84,72 @@ const isActive = (href: string, path: string = currentPath) => {
       <ThemeToggle />
     </nav>
   </div>
-  <div
-    id="mobile-nav-shell"
-    class="mobile-nav-shell"
-    data-mobile-shell
-    aria-hidden="true"
-    hidden
-  >
-    <button
-      class="mobile-nav-backdrop"
-      type="button"
-      aria-label="Close navigation menu"
-      data-mobile-nav-close
-      tabindex="-1"
-    ></button>
-    <div
-      class="mobile-nav-panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="mobile-nav-title"
-      tabindex="-1"
-      data-mobile-nav-panel
-    >
-      <div class="mobile-nav-head">
-        <p id="mobile-nav-title">Menu</p>
-        <button
-          class="mobile-nav-close"
-          type="button"
-          aria-label="Close navigation menu"
-          data-mobile-nav-close
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <nav aria-label="Mobile">
-        <ul class="mobile-nav-list">
-          {
-            navLinks.map((link) => (
-              <li>
-                <a
-                  class={isActive(link.href) ? 'active' : ''}
-                  href={link.href}
-                  data-nav-link
-                  data-mobile-nav-link
-                  aria-current={isActive(link.href) ? 'page' : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-        <a
-          class="button button-primary docs-nav-button docs-nav-button--mobile"
-          href={docsHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open Sonicverse documentation in a new tab"
-          data-mobile-nav-docs
-        >
-          Docs
-        </a>
-      </nav>
-    </div>
-  </div>
 </header>
+<div
+  id="mobile-nav-shell"
+  class="mobile-nav-shell"
+  data-mobile-shell
+  aria-hidden="true"
+  hidden
+  transition:persist="mobile-nav"
+>
+  <button
+    class="mobile-nav-backdrop"
+    type="button"
+    aria-label="Close navigation menu"
+    data-mobile-nav-close
+    tabindex="-1"
+  ></button>
+  <div
+    class="mobile-nav-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="mobile-nav-title"
+    tabindex="-1"
+    data-mobile-nav-panel
+  >
+    <div class="mobile-nav-head">
+      <p id="mobile-nav-title">Menu</p>
+      <button
+        class="mobile-nav-close"
+        type="button"
+        aria-label="Close navigation menu"
+        data-mobile-nav-close
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <nav aria-label="Mobile">
+      <ul class="mobile-nav-list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                class={isActive(link.href) ? 'active' : ''}
+                href={link.href}
+                data-nav-link
+                data-mobile-nav-link
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        class="button button-primary docs-nav-button docs-nav-button--mobile"
+        href={docsHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Sonicverse documentation in a new tab"
+        data-mobile-nav-docs
+      >
+        Docs
+      </a>
+    </nav>
+  </div>
+</div>
 
 <script>
   const navWindow = window as Window & {
@@ -309,7 +310,7 @@ const isActive = (href: string, path: string = currentPath) => {
     document.documentElement.toggleAttribute('data-mobile-nav-open', locked);
     document.body.style.overflow = locked ? 'hidden' : '';
 
-    [document.querySelector('main'), document.querySelector('.site-footer')].forEach((element) => {
+    [document.querySelector('.top-nav-wrap'), document.querySelector('main'), document.querySelector('.site-footer')].forEach((element) => {
       if (!element) return;
 
       if (locked) {
