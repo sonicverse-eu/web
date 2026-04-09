@@ -36,16 +36,32 @@ const isActive = (href: string, path: string = currentPath) => {
         <strong>Sonicverse</strong>
       </span>
     </a>
-    <nav aria-label="Primary">
-      <ul class="nav-list">
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav-shell"
+      aria-label="Open navigation menu"
+      data-nav-toggle
+    >
+      <span class="nav-toggle-box" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="desktop-nav" aria-label="Primary">
+      <ul class="nav-list nav-list--desktop">
         <span class="nav-indicator" aria-hidden="true"></span>
         {
           navLinks.map((link) => (
             <li>
               <a
-                class={isActive(link.href) ? 'active' : ''}
+                class={isActive(link.href) ? 'active nav-link--desktop' : 'nav-link--desktop'}
                 href={link.href}
                 data-nav-link
+                data-desktop-nav-link
                 aria-current={isActive(link.href) ? 'page' : undefined}
               >
                 {link.label}
@@ -56,15 +72,75 @@ const isActive = (href: string, path: string = currentPath) => {
       </ul>
     </nav>
   </div>
+  <div
+    id="mobile-nav-shell"
+    class="mobile-nav-shell"
+    data-mobile-shell
+    aria-hidden="true"
+    hidden
+  >
+    <button
+      class="mobile-nav-backdrop"
+      type="button"
+      aria-label="Close navigation menu"
+      data-mobile-nav-close
+      tabindex="-1"
+    ></button>
+    <div
+      class="mobile-nav-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mobile-nav-title"
+      tabindex="-1"
+      data-mobile-nav-panel
+    >
+      <div class="mobile-nav-head">
+        <p id="mobile-nav-title">Menu</p>
+        <button
+          class="mobile-nav-close"
+          type="button"
+          aria-label="Close navigation menu"
+          data-mobile-nav-close
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <nav aria-label="Mobile">
+        <ul class="mobile-nav-list">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  class={isActive(link.href) ? 'active' : ''}
+                  href={link.href}
+                  data-nav-link
+                  data-mobile-nav-link
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
 </header>
 
 <script>
   const navWindow = window as Window & {
     __sonicverseNavBound?: boolean;
     __sonicverseLastNavPath?: string;
+    __sonicverseMobileNavHideTimer?: number;
+    __sonicverseMobileNavRestoreFocus?: HTMLElement | null;
   };
 
   const navOrder = ['/', '/projects', '/about', '/community', '/blog', '/contact'];
+  const mobileNavMediaQuery = window.matchMedia('(max-width: 700px)');
+  const mobileNavTransitionMs = 320;
+  const focusableSelector =
+    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
 
@@ -80,11 +156,15 @@ const isActive = (href: string, path: string = currentPath) => {
   let indicatorReady = false;
 
   const updateNavIndicator = (instant = false) => {
-    const navList = document.querySelector<HTMLElement>('.nav-list');
+    const navList = document.querySelector<HTMLElement>('.nav-list--desktop');
     const indicator = navList?.querySelector<HTMLElement>('.nav-indicator');
-    const activeLink = navList?.querySelector<HTMLAnchorElement>('a.active');
+    const activeLink = navList?.querySelector<HTMLAnchorElement>('a[data-desktop-nav-link].active');
 
     if (!navList || !indicator) return;
+    if (window.getComputedStyle(navList).display === 'none') {
+      indicator.style.opacity = '0';
+      return;
+    }
 
     if (!activeLink) {
       indicator.style.opacity = '0';
@@ -110,6 +190,131 @@ const isActive = (href: string, path: string = currentPath) => {
       indicator.style.left = `${left}px`;
       indicator.style.width = `${width}px`;
       indicator.style.opacity = '1';
+    }
+  };
+
+  const getMobileNavElements = () => {
+    const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+    const shell = document.querySelector<HTMLElement>('[data-mobile-shell]');
+    const panel = shell?.querySelector<HTMLElement>('[data-mobile-nav-panel]') ?? null;
+    const firstFocusable =
+      panel?.querySelector<HTMLElement>('[data-mobile-nav-close], a[data-mobile-nav-link]') ?? null;
+
+    return { toggle, shell, panel, firstFocusable };
+  };
+
+  const setBackgroundLocked = (locked: boolean) => {
+    document.documentElement.toggleAttribute('data-mobile-nav-open', locked);
+    document.body.style.overflow = locked ? 'hidden' : '';
+
+    [document.querySelector('main'), document.querySelector('.site-footer')].forEach((element) => {
+      if (!element) return;
+
+      if (locked) {
+        element.setAttribute('inert', '');
+      } else {
+        element.removeAttribute('inert');
+      }
+    });
+  };
+
+  const isMobileNavOpen = () => {
+    const { shell } = getMobileNavElements();
+    return shell?.dataset.open === 'true';
+  };
+
+  const closeMobileNav = ({
+    immediate = false,
+    restoreFocus = true
+  }: {
+    immediate?: boolean;
+    restoreFocus?: boolean;
+  } = {}) => {
+    const { toggle, shell } = getMobileNavElements();
+    if (!toggle || !shell) return;
+
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open navigation menu');
+    setBackgroundLocked(false);
+
+    const finishClose = () => {
+      shell.hidden = true;
+      shell.dataset.open = 'false';
+      shell.setAttribute('aria-hidden', 'true');
+      navWindow.__sonicverseMobileNavHideTimer = undefined;
+    };
+
+    window.clearTimeout(navWindow.__sonicverseMobileNavHideTimer);
+
+    if (immediate) {
+      finishClose();
+    } else {
+      shell.dataset.open = 'false';
+      navWindow.__sonicverseMobileNavHideTimer = window.setTimeout(finishClose, mobileNavTransitionMs);
+    }
+
+    if (restoreFocus && navWindow.__sonicverseMobileNavRestoreFocus) {
+      navWindow.__sonicverseMobileNavRestoreFocus.focus();
+    }
+  };
+
+  const openMobileNav = () => {
+    const { toggle, shell, firstFocusable } = getMobileNavElements();
+    if (!toggle || !shell || !mobileNavMediaQuery.matches) return;
+
+    navWindow.__sonicverseMobileNavRestoreFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : toggle;
+
+    window.clearTimeout(navWindow.__sonicverseMobileNavHideTimer);
+    shell.hidden = false;
+    shell.setAttribute('aria-hidden', 'false');
+    shell.dataset.open = 'false';
+    setBackgroundLocked(true);
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close navigation menu');
+
+    requestAnimationFrame(() => {
+      shell.dataset.open = 'true';
+      firstFocusable?.focus();
+    });
+  };
+
+  const trapMobileNavFocus = (event: KeyboardEvent) => {
+    if (!isMobileNavOpen() || event.key !== 'Tab') return;
+
+    const { panel } = getMobileNavElements();
+    if (!panel) return;
+
+    const focusableElements = Array.from(panel.querySelectorAll<HTMLElement>(focusableSelector)).filter(
+      (element) => !element.hasAttribute('disabled')
+    );
+
+    if (!focusableElements.length) {
+      event.preventDefault();
+      panel.focus();
+      return;
+    }
+
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
+    const activeElement =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    if (!activeElement || !panel.contains(activeElement)) {
+      event.preventDefault();
+      first.focus();
+      return;
+    }
+
+    if (event.shiftKey && activeElement === first) {
+      event.preventDefault();
+      last.focus();
+      return;
+    }
+
+    if (!event.shiftKey && activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   };
 
@@ -168,10 +373,16 @@ const isActive = (href: string, path: string = currentPath) => {
       clickEvent.preventDefault();
       clickEvent.stopImmediatePropagation();
       document.documentElement.removeAttribute('data-nav-direction');
+      if (link.hasAttribute('data-mobile-nav-link')) {
+        closeMobileNav();
+      }
       return;
     }
 
     setDirectionalTransition(window.location.pathname, nextUrl.pathname);
+    if (link.hasAttribute('data-mobile-nav-link')) {
+      closeMobileNav({ restoreFocus: false });
+    }
 
     // Slide indicator to the clicked link immediately (before page transition)
     const navList = link.closest<HTMLElement>('.nav-list');
@@ -185,8 +396,40 @@ const isActive = (href: string, path: string = currentPath) => {
     }
   };
 
+  const onDocumentClick = (event: Event) => {
+    const target = event.target as Element | null;
+    if (!target) return;
+
+    if (target.closest('[data-nav-toggle]')) {
+      event.preventDefault();
+      if (isMobileNavOpen()) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
+      return;
+    }
+
+    if (target.closest('[data-mobile-nav-close]')) {
+      event.preventDefault();
+      closeMobileNav();
+    }
+  };
+
+  const onDocumentKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && isMobileNavOpen()) {
+      event.preventDefault();
+      closeMobileNav();
+      return;
+    }
+
+    trapMobileNavFocus(event);
+  };
+
   if (!navWindow.__sonicverseNavBound) {
     document.addEventListener('click', trackNavDirection, { capture: true });
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentKeydown);
     document.addEventListener('astro:page-load', syncActiveNavItem);
     document.addEventListener('astro:page-load', () => {
       const previousPath = navWindow.__sonicverseLastNavPath;
@@ -194,12 +437,20 @@ const isActive = (href: string, path: string = currentPath) => {
         setDirectionalTransition(previousPath, window.location.pathname);
       }
       navWindow.__sonicverseLastNavPath = window.location.pathname;
+      closeMobileNav({ immediate: true, restoreFocus: false });
+    });
+    window.addEventListener('resize', () => updateNavIndicator(true));
+    mobileNavMediaQuery.addEventListener('change', (event) => {
+      if (!event.matches) {
+        closeMobileNav({ immediate: true, restoreFocus: false });
+      }
     });
 
     navWindow.__sonicverseLastNavPath = window.location.pathname;
     navWindow.__sonicverseNavBound = true;
   }
 
+  closeMobileNav({ immediate: true, restoreFocus: false });
   syncActiveNavItem();
   updateNavIndicator(true);
 </script>
