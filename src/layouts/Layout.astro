@@ -16,7 +16,7 @@ export interface Props {
   tags?: string[];
 }
 
-const site = Astro.site ?? new URL('https://sonicverse.dev');
+const site = Astro.site ?? new URL('https://sonicverse.eu');
 const {
   title = 'Sonicverse | Open Source Initiative',
   description = 'Open source tools for building the future of collaborative sound experiences.',
@@ -141,12 +141,26 @@ if (ogType === 'article' && author && pubDate) {
 
 			const runSonicverseMotion = () => {
 				const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				const autoRevealSkipSelector = [
+					'.button',
+					'button',
+					'input',
+					'select',
+					'textarea',
+					'[role="button"]',
+					'[data-reveal-skip]'
+				].join(', ');
 
 				// Stagger-reveal children of [data-reveal-group] elements
 				document.querySelectorAll<HTMLElement>('[data-reveal-group]').forEach((group) => {
 					const base = Number(group.getAttribute('data-reveal-delay') || '0');
 					Array.from(group.children).forEach((child, i) => {
 						const el = child as HTMLElement;
+
+						if (el.matches(autoRevealSkipSelector)) {
+							return;
+						}
+
 						if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
 						if (!el.hasAttribute('data-reveal-delay')) {
 							el.setAttribute('data-reveal-delay', (base + i * 0.08).toFixed(2));
@@ -220,9 +234,10 @@ if (ogType === 'article' && author && pubDate) {
 		<ClientRouter fallback="animate" />
 	</head>
 	<body>
+		<a class="skip-link" href="#main-content">Skip to main content</a>
 		<div class="background-atmosphere" aria-hidden="true"></div>
 		<SiteHeader currentPath={currentPath} transition:persist />
-		<main transition:name="page" transition:animate="none">
+		<main id="main-content" tabindex="-1" transition:name="page" transition:animate="none">
 			<slot />
 		</main>
 		<SiteFooter footerData={footerData} transition:persist />
