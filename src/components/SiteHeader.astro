@@ -156,6 +156,7 @@ const isActive = (href: string, path: string = currentPath) => {
     __sonicverseLastNavPath?: string;
     __sonicverseMobileNavHideTimer?: number;
     __sonicverseMobileNavRestoreFocus?: HTMLElement | null;
+    __sonicverseScrollCleanup?: (() => void) | null;
   };
 
   const navOrder = ['/', '/projects', '/about', '/community', '/blog', '/contact'];
@@ -163,6 +164,84 @@ const isActive = (href: string, path: string = currentPath) => {
   const mobileNavTransitionMs = 320;
   const focusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  /* ── Scroll-direction header hide/show ── */
+  const SCROLL_THRESHOLD = 64;   // px before hide/show kicks in
+  const SCROLL_DELTA     = 8;    // minimum px change to trigger
+
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const getHeaderElement = () => document.querySelector<HTMLElement>('.top-nav-wrap');
+
+  const updateHeaderVisibility = () => {
+    const header = getHeaderElement();
+    if (!header) return;
+
+    const currentY = window.scrollY;
+    const delta = currentY - lastScrollY;
+
+    // Apply condensed styling once scrolled past threshold
+    header.dataset.scrolled = currentY > SCROLL_THRESHOLD ? 'true' : 'false';
+
+    // Never hide at the very top
+    if (currentY <= SCROLL_THRESHOLD) {
+      header.dataset.navHidden = 'false';
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    // Ignore tiny scroll movements (jitter guard)
+    if (Math.abs(delta) < SCROLL_DELTA) {
+      ticking = false;
+      return;
+    }
+
+    // Don't hide when mobile nav is open
+    if (isMobileNavOpen()) {
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    // Skip hide/show for reduced-motion users
+    if (reduceMotionQuery.matches) {
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    header.dataset.navHidden = delta > 0 ? 'true' : 'false';
+    lastScrollY = currentY;
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(updateHeaderVisibility);
+      ticking = true;
+    }
+  };
+
+  const initScrollBehavior = () => {
+    // Clean up previous listener if any (for page transitions)
+    navWindow.__sonicverseScrollCleanup?.();
+
+    lastScrollY = window.scrollY;
+    const header = getHeaderElement();
+    if (header) {
+      header.dataset.navHidden = 'false';
+      header.dataset.scrolled = window.scrollY > SCROLL_THRESHOLD ? 'true' : 'false';
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    navWindow.__sonicverseScrollCleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  };
 
   const normalizePath = (path: string) => (path !== '/' ? path.replace(/\/+$/, '') : '/');
 
@@ -287,6 +366,10 @@ const isActive = (href: string, path: string = currentPath) => {
 
     navWindow.__sonicverseMobileNavRestoreFocus =
       document.activeElement instanceof HTMLElement ? document.activeElement : toggle;
+
+    // Force header visible when opening the mobile nav
+    const header = getHeaderElement();
+    if (header) header.dataset.navHidden = 'false';
 
     window.clearTimeout(navWindow.__sonicverseMobileNavHideTimer);
     shell.hidden = false;
@@ -467,6 +550,7 @@ const isActive = (href: string, path: string = currentPath) => {
       }
       navWindow.__sonicverseLastNavPath = window.location.pathname;
       closeMobileNav({ immediate: true, restoreFocus: false });
+      initScrollBehavior();
     });
     window.addEventListener('resize', () => updateNavIndicator(true));
     mobileNavMediaQuery.addEventListener('change', (event) => {
@@ -482,4 +566,5 @@ const isActive = (href: string, path: string = currentPath) => {
   closeMobileNav({ immediate: true, restoreFocus: false });
   syncActiveNavItem();
   updateNavIndicator(true);
+  initScrollBehavior();
 </script>
