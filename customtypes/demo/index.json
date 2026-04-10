@@ -1,51 +1,24 @@
 {
-  "id": "page",
-  "label": "Page",
-  "repeatable": true,
+  "id": "demo",
+  "label": "Demo",
+  "repeatable": false,
   "json": {
-    "Page": {
-      "uid": {
-        "type": "UID",
-        "config": {
-          "label": "UID",
-          "placeholder": "unique-identifier-eg-homepage"
-        }
-      },
+    "Demo": {
       "slices": {
         "type": "Slices",
         "fieldset": "Slice zone",
         "config": {
           "choices": {
-            "hero": {
-              "type": "SharedSlice"
-            },
-            "product_suite": {
-              "type": "SharedSlice"
-            },
-            "feature_grid": {
-              "type": "SharedSlice"
-            },
-            "proof_band": {
-              "type": "SharedSlice"
-            },
-            "testimonial_rail": {
-              "type": "SharedSlice"
-            },
-            "pricing_grid": {
-              "type": "SharedSlice"
-            },
-            "call_to_action": {
-              "type": "SharedSlice"
-            },
-            "content_columns": {
-              "type": "SharedSlice"
-            },
-            "contact_panel": {
-              "type": "SharedSlice"
-            },
-            "content_feed": {
-              "type": "SharedSlice"
-            }
+            "hero": { "type": "SharedSlice" },
+            "product_suite": { "type": "SharedSlice" },
+            "feature_grid": { "type": "SharedSlice" },
+            "proof_band": { "type": "SharedSlice" },
+            "testimonial_rail": { "type": "SharedSlice" },
+            "pricing_grid": { "type": "SharedSlice" },
+            "call_to_action": { "type": "SharedSlice" },
+            "content_columns": { "type": "SharedSlice" },
+            "contact_panel": { "type": "SharedSlice" },
+            "content_feed": { "type": "SharedSlice" }
           }
         }
       }
@@ -80,13 +53,13 @@
             "social_card_title": {
               "type": "Text",
               "config": {
-                "label": "Social Card TItle"
+                "label": "Social Card Title"
               }
             },
             "social_card_description": {
               "type": "Text",
               "config": {
-                "label": "Social card description"
+                "label": "Social Card Description"
               }
             }
           },

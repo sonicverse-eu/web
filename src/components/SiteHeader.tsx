@@ -52,8 +52,10 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const desktopNavRef = useRef<HTMLElement>(null);
 
-  const docsLabel = 'Docs';
-  const docsHref = 'https://docs.sonicverse.eu';
+  const brandName = settings.data.headerBrandName?.trim() || 'Sonicverse';
+  const brandTagline = settings.data.headerBrandTagline?.trim() || 'Audio operations platform';
+  const docsLabel = settings.data.headerLoginLabel?.trim() || 'Docs';
+  const docsHref = settings.data.headerLoginHref?.trim() || 'https://docs.sonicverse.eu';
   const ctaLabel = settings.data.headerCtaLabel?.trim() || 'Book demo';
   const ctaHref = settings.data.headerCtaHref?.trim() || '/demo';
   const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || 'Product suite';
@@ -138,8 +140,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
           <Link href="/" className="brand-lockup brand-lockup-link" aria-label="Sonicverse home">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="" />
             <div>
-              <strong>Sonicverse</strong>
-              <span>Audio operations platform</span>
+              <strong>{brandName}</strong>
+              <span>{brandTagline}</span>
             </div>
           </Link>
 

@@ -27,6 +27,8 @@ export const mockSettings: SettingsDocument = {
   type: 'settings',
   data: {
     announcement: 'Open infrastructure for broadcasters, podcast networks, and modern audio platforms.',
+    headerBrandName: 'Sonicverse',
+    headerBrandTagline: 'Audio operations platform',
     primaryNav: [
       {
         label: 'Projects',
@@ -116,8 +118,11 @@ export const mockSettings: SettingsDocument = {
     productsMenuTitle: 'Choose the project that matches the workflow pressure you need to fix first.',
     productsMenuDescription:
       'Each Sonicverse project solves one operational job cleanly and can stand alone or connect into a broader platform rollout over time.',
+    footerBrandName: 'Sonicverse',
+    footerBrandTagline: 'Audio operations platform',
     footerTagline:
       'Sonicverse is the modular audio operations platform for teams that want enterprise-grade workflows without proprietary lock-in.',
+    footerLegalText: 'Open infrastructure for modern audio teams.',
     footerLinks: [
       { label: 'Projects', href: '/projects' },
       { label: 'About', href: '/about' },
@@ -132,6 +137,10 @@ export const mockSettings: SettingsDocument = {
     footerContact: [
       { label: 'Email', href: 'mailto:oss@sonicverse.eu', value: 'oss@sonicverse.eu' },
       { label: 'Status', href: '/contact', value: 'Talk to the team' },
+    ],
+    footerBottomLinks: [
+      { label: 'Audio Streaming Stack', href: '/projects/audio-streaming-stack' },
+      { label: 'Book a demo', href: '/demo' },
     ],
   },
 };

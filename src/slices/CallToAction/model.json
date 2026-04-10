@@ -1,0 +1,156 @@
+{
+  "id": "call_to_action",
+  "type": "SharedSlice",
+  "name": "CallToAction",
+  "description": "Call to action section",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Link Label"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Link URL"
+          }
+        }
+      }
+    },
+    {
+      "id": "project_next",
+      "name": "Project Next",
+      "description": "Project Next variation",
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        }
+      },
+      "items": {
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Meta"
+          }
+        },
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Label"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Detail"
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Fallback Text"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Link URL"
+          }
+        }
+      }
+    }
+  ]
+}
