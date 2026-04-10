@@ -3,6 +3,7 @@ import { formatBlogDate, getBlogTagSummaries, getReadingTimeMinutes, sortBlogPos
 import { formatLibraryDate, getLibraryTagCount, sortLibraryEntries } from '@/lib/library';
 import type { SliceRendererProps } from '@/slices/types';
 import type { CmsSlice, SliceContext } from '@/lib/site-data/types';
+import { linkValue, textValue } from '@/slices/utils';
 
 type HeroItem = {
   label: string;
@@ -11,15 +12,6 @@ type HeroItem = {
   meta: string;
   href: string;
 };
-
-function textValue(value: unknown, fallback = '') {
-  return typeof value === 'string' ? value : fallback;
-}
-
-function linkValue(value: unknown, fallback = '') {
-  const href = textValue(value, fallback).trim();
-  return href || fallback;
-}
 
 function mapItems(items: Record<string, unknown>[]): HeroItem[] {
   return items.map((item) => ({
