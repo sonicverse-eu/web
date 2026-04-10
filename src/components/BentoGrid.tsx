@@ -36,19 +36,21 @@ export default function BentoGrid({ features }: BentoGridProps) {
       {features.map((feature, i) => (
         <article
           key={feature.title}
-          className={`bento-item ${spanFor(i, features.length)} bento-item--accent-${accentSteps[i % accentSteps.length]}`}
+          className={`bento-item card bg-base-100 shadow-lg ${spanFor(i, features.length)} bento-item--accent-${accentSteps[i % accentSteps.length]}`}
           data-reveal
           data-reveal-delay={(i * 0.08).toFixed(2)}
         >
-          <div className="bento-meta-row">
-            <span className="bento-index" aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            {feature.eyebrow && <p className="eyebrow bento-eyebrow">{feature.eyebrow}</p>}
-          </div>
-          <div className="bento-copy">
-            <h3>{feature.title}</h3>
-            <p>{feature.summary}</p>
+          <div className="card-body">
+            <div className="bento-meta-row">
+              <span className="bento-index" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              {feature.eyebrow && <p className="eyebrow bento-eyebrow">{feature.eyebrow}</p>}
+            </div>
+            <div className="bento-copy">
+              <h3>{feature.title}</h3>
+              <p>{feature.summary}</p>
+            </div>
           </div>
         </article>
       ))}

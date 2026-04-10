@@ -1,0 +1,63 @@
+{
+  "id": "settings",
+  "label": "Settings",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "announcement": {
+        "type": "Text",
+        "config": {
+          "label": "Announcement"
+        }
+      },
+      "primaryNav": {
+        "type": "Group",
+        "config": {
+          "label": "Primary nav",
+          "fields": {
+            "label": { "type": "Text", "config": { "label": "Label" } },
+            "href": { "type": "Text", "config": { "label": "Href" } }
+          }
+        }
+      },
+      "footerTagline": {
+        "type": "Text",
+        "config": {
+          "label": "Footer tagline"
+        }
+      },
+      "footerLinks": {
+        "type": "Group",
+        "config": {
+          "label": "Footer links",
+          "fields": {
+            "label": { "type": "Text", "config": { "label": "Label" } },
+            "href": { "type": "Text", "config": { "label": "Href" } }
+          }
+        }
+      },
+      "footerResources": {
+        "type": "Group",
+        "config": {
+          "label": "Footer resources",
+          "fields": {
+            "label": { "type": "Text", "config": { "label": "Label" } },
+            "href": { "type": "Text", "config": { "label": "Href" } }
+          }
+        }
+      },
+      "footerContact": {
+        "type": "Group",
+        "config": {
+          "label": "Footer contact",
+          "fields": {
+            "label": { "type": "Text", "config": { "label": "Label" } },
+            "href": { "type": "Text", "config": { "label": "Href" } },
+            "value": { "type": "Text", "config": { "label": "Value" } }
+          }
+        }
+      }
+    }
+  }
+}

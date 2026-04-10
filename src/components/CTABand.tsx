@@ -13,17 +13,17 @@ export interface CTABandProps {
 
 export default function CTABand({ eyebrow, title, subtitle, primary, secondary }: CTABandProps) {
   return (
-    <section className="cta-band" data-reveal>
+    <section className="cta-band card bg-base-100 shadow-xl" data-reveal>
       <div className="cta-glow" aria-hidden="true" />
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       <h2 className="gradient-text">{title}</h2>
       {subtitle && <p>{subtitle}</p>}
       <div className="button-row">
-        <a className="button button-primary" href={primary.href}>
+        <a className="btn btn-primary" href={primary.href}>
           {primary.label}
         </a>
         {secondary && (
-          <a className="button button-ghost" href={secondary.href}>
+          <a className="btn btn-ghost" href={secondary.href}>
             {secondary.label}
           </a>
         )}

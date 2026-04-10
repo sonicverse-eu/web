@@ -3,16 +3,16 @@ import '../styles/global.css';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import MotionProvider from '@/components/MotionProvider';
-import { getProjects, getPage } from '@/lib/content';
+import { getAllProducts, getSettings } from '@/lib/prismic/api';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sonicverse.eu'),
   title: {
-    default: 'Sonicverse | Open Source Initiative',
+    default: 'Sonicverse | Audio operations platform',
     template: '%s | Sonicverse',
   },
   description:
-    'Open source tools for building the future of collaborative sound experiences.',
+    'Sonicverse helps audio teams modernize streaming, metadata, and scheduling workflows on an open, composable stack.',
   openGraph: {
     type: 'website',
     siteName: 'Sonicverse',
@@ -61,23 +61,7 @@ const themeScript = `(function(){
 })();`;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const projects = getProjects()
-    .sort((a, b) => a.data.order - b.data.order)
-    .slice(0, 6);
-
-  const footerPage = getPage('footer');
-  const footerData = footerPage?.data
-    ? {
-        description: footerPage.data.footerDescription,
-        navHeading: footerPage.data.footerNavHeading,
-        navLinks: footerPage.data.footerNavLinks,
-        connectHeading: footerPage.data.footerConnectHeading,
-        connectLinks: footerPage.data.footerConnectLinks,
-        copyright: footerPage.data.footerCopyright,
-        bottomLinkLabel: footerPage.data.footerBottomLinkLabel,
-        bottomLinkHref: footerPage.data.footerBottomLinkHref,
-      }
-    : undefined;
+  const [products, settings] = await Promise.all([getAllProducts(), getSettings()]);
 
   return (
     <html lang="en">
@@ -95,12 +79,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Skip to main content
         </a>
         <div className="background-atmosphere" aria-hidden="true" />
-        <div className="dot-grid-overlay" aria-hidden="true" />
-        <SiteHeader projects={projects} />
+        <SiteHeader products={products} settings={settings} />
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>
-        <SiteFooter footerData={footerData} />
+        <SiteFooter settings={settings} />
         <MotionProvider />
       </body>
     </html>

@@ -49,18 +49,18 @@ export default function BlogPage() {
             {featuredPost.data.tags.length > 0 && (
               <div className="tag-list" aria-label="Featured topics">
                 {featuredPost.data.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
+                  <span key={tag} className="badge badge-outline">{tag}</span>
                 ))}
               </div>
             )}
             <div className="button-row">
-              <a className="button" href={`/blog/${featuredPost.id}`}>
+              <a className="btn btn-primary" href={`/blog/${featuredPost.id}`}>
                 {page.data.blogArticleCtaLabel ?? 'Read article'}
               </a>
             </div>
           </article>
 
-          <aside className="blog-topics-panel" data-reveal data-reveal-delay="0.08" aria-labelledby="blog-topics-title">
+          <aside className="blog-topics-panel card bg-base-100 shadow-xl" data-reveal data-reveal-delay="0.08" aria-labelledby="blog-topics-title">
             <div className="blog-panel-header">
               <p className="eyebrow">{page.data.blogTopicsLabel ?? 'Browse topics'}</p>
               <h2 id="blog-topics-title">A quick way into the archive.</h2>
@@ -69,7 +69,7 @@ export default function BlogPage() {
               {tagSummaries.slice(0, 5).map((summary) => (
                 <a
                   key={summary.tag}
-                  className="blog-topic-chip"
+                  className="blog-topic-chip card bg-base-200 shadow-sm"
                   href={`#topic-${summary.tag.toLowerCase().replace(/\s+/g, '-')}`}
                 >
                   <strong>{summary.tag}</strong>
@@ -115,12 +115,12 @@ export default function BlogPage() {
                 {post.data.tags.length > 0 && (
                   <div className="tag-list" aria-label={`Topics for ${post.data.title}`}>
                     {post.data.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
+                      <span key={tag} className="badge badge-outline">{tag}</span>
                     ))}
                   </div>
                 )}
                 <div className="button-row">
-                  <a className="button button-ghost" href={`/blog/${post.id}`}>
+                  <a className="btn btn-ghost" href={`/blog/${post.id}`}>
                     {page.data.blogArticleCtaLabel ?? 'Read article'}
                   </a>
                 </div>

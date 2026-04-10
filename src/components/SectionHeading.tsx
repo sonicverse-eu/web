@@ -12,7 +12,9 @@ export default function SectionHeading({
   align = 'left',
 }: SectionHeadingProps) {
   return (
-    <div className={`section-head${align === 'center' ? ' section-head--center' : ''}`}>
+    <div
+      className={`section-head${align === 'center' ? ' section-head--center text-center mx-auto' : ''}`}
+    >
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       {title && <h2>{title}</h2>}
       {subtitle && <p>{subtitle}</p>}

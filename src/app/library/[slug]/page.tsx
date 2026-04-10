@@ -35,14 +35,14 @@ export default async function LibraryArticlePage({ params }: LibraryArticlePageP
 
   return (
     <article className="container article-shell section-gap" data-reveal>
-      <a className="button button-ghost" href="/library">
+      <a className="btn btn-ghost" href="/library">
         {libraryPage.data.blogBackLabel ?? 'Back to library'}
       </a>
       <h1>{entry.data.title}</h1>
       <p className="hero-subtitle">{entry.data.description}</p>
       <div className="tag-list">
         {entry.data.tags.map((tag) => (
-          <span key={tag}>{tag}</span>
+          <span key={tag} className="badge badge-outline">{tag}</span>
         ))}
       </div>
       <div className="prose">{renderMarkdoc(entry.body)}</div>

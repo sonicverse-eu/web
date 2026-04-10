@@ -1,29 +1,19 @@
-import { renderMarkdoc } from '@/lib/markdoc';
-import { buildPageMetadata } from '@/lib/page-metadata';
-import { requirePage } from '@/lib/page-data';
+import { notFound } from 'next/navigation';
+import PageSliceZone from '@/components/PageSliceZone';
+import { getAllProducts, getPageByUID } from '@/lib/prismic/api';
+import { buildMetadata } from '@/lib/prismic/metadata';
 
-const page = requirePage('about');
+export async function generateMetadata() {
+  const page = await getPageByUID('about');
+  return page ? buildMetadata(page) : {};
+}
 
-export const metadata = buildPageMetadata(page);
+export default async function AboutPage() {
+  const [page, products] = await Promise.all([getPageByUID('about'), getAllProducts()]);
 
-export default function AboutPage() {
-  return (
-    <>
-      <section className="hero container" data-reveal-group>
-        <div className="hero-glow" aria-hidden="true" />
-        {page.data.eyebrow && <p className="eyebrow">{page.data.eyebrow}</p>}
-        <h1 className="gradient-text">{page.data.heroTitle}</h1>
-        <p className="hero-subtitle">{page.data.heroSubtitle}</p>
-        {page.data.ctaHref && page.data.ctaLabel && (
-          <a className="button button-primary" href={page.data.ctaHref}>
-            {page.data.ctaLabel}
-          </a>
-        )}
-      </section>
+  if (!page) {
+    notFound();
+  }
 
-      <section className="container prose section-gap" data-reveal>
-        {renderMarkdoc(page.body)}
-      </section>
-    </>
-  );
+  return <PageSliceZone slices={page.data.slices} products={products} />;
 }

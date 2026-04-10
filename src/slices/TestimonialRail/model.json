@@ -1,0 +1,1 @@
+{ "id": "testimonial_rail", "type": "SharedSlice", "name": "Testimonial Rail", "variations": [{ "id": "proof", "name": "Proof", "primary": { "eyebrow": { "type": "Text" }, "title": { "type": "Text" } }, "items": { "quote": { "type": "Text" }, "name": { "type": "Text" }, "role": { "type": "Text" } } }] }

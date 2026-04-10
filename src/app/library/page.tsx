@@ -29,7 +29,7 @@ export default function LibraryPage() {
                 {entry.data.tags.length > 0 && (
                   <div className="tag-list">
                     {entry.data.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
+                      <span key={tag} className="badge badge-outline">{tag}</span>
                     ))}
                   </div>
                 )}
@@ -40,7 +40,7 @@ export default function LibraryPage() {
                 </h2>
                 <p>{entry.data.description}</p>
                 <div className="button-row">
-                  <a className="button button-ghost" href={`/library/${entry.id}`}>
+                  <a className="btn btn-ghost" href={`/library/${entry.id}`}>
                     {page.data.blogArticleCtaLabel ?? 'Read entry'}
                   </a>
                 </div>

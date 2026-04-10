@@ -8,8 +8,8 @@ interface StepsSectionProps {
 
 export function StepsSection({ title, eyebrow = 'Steps', children }: StepsSectionProps) {
   return (
-    <section className="steps-section" data-reveal>
-      <div className="steps-shell">
+    <section className="steps-section card bg-base-100 shadow-lg" data-reveal>
+      <div className="steps-shell card-body">
         <div className="steps-header">
           <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>

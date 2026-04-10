@@ -16,7 +16,7 @@ type ContactFormProps = {
 
 function SubmitButton() {
   return (
-    <button className="button button-primary" type="submit">
+    <button className="btn btn-primary" type="submit">
       Send request
     </button>
   );
@@ -76,7 +76,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
     };
 
   return (
-    <form className="feature-card contact-form" action={formAction} noValidate>
+    <form className="feature-card card bg-base-100 shadow-xl contact-form" action={formAction} noValidate>
       <div className="contact-form-head">
         <div>
           <p className="contact-kicker">Contact Sonicverse</p>
@@ -85,7 +85,12 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
             Share the goal, timeline, and the best way for the maintainers to follow up.
           </p>
         </div>
-        <div className="contact-stage-card" role="status" aria-live="polite" aria-atomic="true">
+        <div
+          className="contact-stage-card card bg-base-200 shadow-sm"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           <p className="contact-stage-eyebrow">Thread ID</p>
           <p className="contact-stage-copy">{state.threadId}</p>
         </div>
@@ -98,7 +103,10 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
       </ul>
 
       {state.message && (
-        <p className={`form-status ${state.ok ? 'form-status-success' : 'form-status-error'}`} role={state.ok ? 'status' : 'alert'}>
+        <p
+          className={`alert ${state.ok ? 'alert-success' : 'alert-error'} form-status ${state.ok ? 'form-status-success' : 'form-status-error'}`}
+          role={state.ok ? 'status' : 'alert'}
+        >
           {state.message}
         </p>
       )}
@@ -117,6 +125,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
             autoComplete="name"
             required
             maxLength={80}
+            className={`input input-bordered w-full ${state.errors?.name ? 'input-error' : ''}`}
             value={values.name}
             onChange={handleChange('name')}
             aria-invalid={state.errors?.name ? 'true' : undefined}
@@ -137,6 +146,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
             type="email"
             autoComplete="email"
             required
+            className={`input input-bordered w-full ${state.errors?.email ? 'input-error' : ''}`}
             value={values.email}
             onChange={handleChange('email')}
             aria-invalid={state.errors?.email ? 'true' : undefined}
@@ -158,6 +168,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
           type="text"
           autoComplete="organization"
           maxLength={120}
+          className={`input input-bordered w-full ${state.errors?.company ? 'input-error' : ''}`}
           value={values.company}
           onChange={handleChange('company')}
           aria-invalid={state.errors?.company ? 'true' : undefined}
@@ -184,12 +195,13 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
                 type="radio"
                 name="category"
                 value={category.value}
+                className="radio radio-primary"
                 checked={values.category === category.value}
                 onChange={handleChange('category')}
                 aria-invalid={state.errors?.category ? 'true' : undefined}
                 aria-describedby={state.errors?.category ? 'category-error category-help' : 'category-help'}
               />
-              <span className="contact-choice-card-copy">
+              <span className="contact-choice-card-copy card bg-base-200 shadow-sm">
                 <strong>{category.label}</strong>
                 {category.description && <span>{category.description}</span>}
               </span>
@@ -214,6 +226,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
           rows={8}
           required
           maxLength={3000}
+          className={`textarea textarea-bordered w-full ${state.errors?.message ? 'textarea-error' : ''}`}
           value={values.message}
           onChange={handleChange('message')}
           aria-invalid={state.errors?.message ? 'true' : undefined}
@@ -239,6 +252,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
           name="detailsUrl"
           type="url"
           inputMode="url"
+          className={`input input-bordered w-full ${state.errors?.detailsUrl ? 'input-error' : ''}`}
           value={values.detailsUrl}
           onChange={handleChange('detailsUrl')}
           aria-invalid={state.errors?.detailsUrl ? 'true' : undefined}
@@ -251,7 +265,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
         )}
       </div>
 
-      <div className="contact-review" aria-live="polite">
+      <div className="contact-review card bg-base-200 shadow-sm" aria-live="polite">
         <p className="contact-review-kicker">Submission preview</p>
         <div className="contact-review-grid">
           <div>

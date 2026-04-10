@@ -8,7 +8,7 @@
 ## Stack
 - Next.js 15 with the App Router.
 - React 19 and TypeScript.
-- Tailwind CSS 4 plus site-specific styling in `src/styles/global.css`.
+- Tailwind CSS 4 with DaisyUI plus site-specific styling in `src/styles/global.css`.
 - Shared layout and metadata live in `src/app/layout.tsx`.
 - Motion effects are wired through `src/components/MotionProvider.tsx`.
 
@@ -23,6 +23,7 @@
 ## Working Conventions
 - Prefer App Router patterns and server-rendered React by default.
 - Keep route files in `src/app/**` reasonably thin by moving reusable UI and helper logic into `src/components/**` and `src/lib/**`.
+- Prefer DaisyUI primitives and themes for new interactive UI instead of introducing another component library.
 - Reuse existing layout/components before creating new ones.
 - Preserve reduced-motion behavior, theme bootstrapping, and existing reveal/motion hooks unless the task is specifically about changing them.
 - Favor minimal client-side JavaScript and only add client components when interactivity requires them.

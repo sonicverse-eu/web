@@ -48,13 +48,13 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
   return (
     <article className="container section-gap blog-article-shell" data-reveal>
       <header className="blog-article-hero" data-reveal-group>
-        <nav className="breadcrumbs" aria-label="Breadcrumb">
-          <a href="/">Home</a>
-          <span aria-hidden="true">/</span>
-          <a href="/blog">Blog</a>
-          <span aria-hidden="true">/</span>
-          <span aria-current="page">{post.data.title}</span>
-        </nav>
+        <div className="breadcrumbs text-sm" aria-label="Breadcrumb">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li aria-current="page">{post.data.title}</li>
+          </ul>
+        </div>
         <p className="eyebrow">{formatBlogDate(post.data.pubDate)}</p>
         <h1>{post.data.title}</h1>
         <p className="hero-subtitle">{post.data.description}</p>
@@ -65,7 +65,11 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         {post.data.tags.length > 0 && (
           <div className="tag-list" aria-label="Article topics">
             {post.data.tags.map((tag) => (
-              <a key={tag} href={`/blog#topic-${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+              <a
+                key={tag}
+                className="badge badge-outline"
+                href={`/blog#topic-${tag.toLowerCase().replace(/\s+/g, '-')}`}
+              >
                 {tag}
               </a>
             ))}
@@ -85,7 +89,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
           </div>
           <div className="blog-continue-grid">
             {newerPost && (
-              <article className="blog-related-card">
+              <article className="blog-related-card card bg-base-100 shadow-lg">
                 <p className="eyebrow">Newer post</p>
                 <h3>
                   <a href={`/blog/${newerPost.id}`}>{newerPost.data.title}</a>
@@ -94,7 +98,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
               </article>
             )}
             {olderPost && (
-              <article className="blog-related-card">
+              <article className="blog-related-card card bg-base-100 shadow-lg">
                 <p className="eyebrow">Older post</p>
                 <h3>
                   <a href={`/blog/${olderPost.id}`}>{olderPost.data.title}</a>
@@ -114,7 +118,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         {relatedPosts.length > 0 ? (
           <div className="blog-related-grid">
             {relatedPosts.slice(0, 2).map((relatedPost) => (
-              <article key={relatedPost.id} className="blog-related-card">
+              <article key={relatedPost.id} className="blog-related-card card bg-base-100 shadow-lg">
                 <p className="eyebrow">{formatBlogDate(relatedPost.data.pubDate)}</p>
                 <h3>
                   <a href={`/blog/${relatedPost.id}`}>{relatedPost.data.title}</a>
@@ -126,7 +130,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         ) : (
           <div className="blog-related-empty">
             <p>No related posts yet for these topics.</p>
-            <a className="button button-ghost" href="/blog">
+            <a className="btn btn-ghost" href="/blog">
               {blogPage.data.blogBrowseAllLabel ?? 'Browse all posts'}
             </a>
           </div>

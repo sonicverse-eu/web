@@ -1,47 +1,19 @@
-import { getFaqs } from '@/lib/content';
-import { renderMarkdoc } from '@/lib/markdoc';
-import { buildPageMetadata } from '@/lib/page-metadata';
-import { requirePage } from '@/lib/page-data';
+import { notFound } from 'next/navigation';
+import PageSliceZone from '@/components/PageSliceZone';
+import { getAllProducts, getPageByUID } from '@/lib/prismic/api';
+import { buildMetadata } from '@/lib/prismic/metadata';
 
-const page = requirePage('community');
+export async function generateMetadata() {
+  const page = await getPageByUID('community');
+  return page ? buildMetadata(page) : {};
+}
 
-export const metadata = buildPageMetadata(page);
+export default async function CommunityPage() {
+  const [page, products] = await Promise.all([getPageByUID('community'), getAllProducts()]);
 
-export default function CommunityPage() {
-  const faqs = getFaqs().sort((a, b) => a.data.order - b.data.order);
+  if (!page) {
+    notFound();
+  }
 
-  return (
-    <>
-      <section className="hero container" data-reveal-group>
-        <div className="hero-glow" aria-hidden="true" />
-        {page.data.eyebrow && <p className="eyebrow">{page.data.eyebrow}</p>}
-        <h1 className="gradient-text">{page.data.heroTitle}</h1>
-        <p className="hero-subtitle">{page.data.heroSubtitle}</p>
-        {page.data.ctaHref && page.data.ctaLabel && (
-          <a className="button button-primary" href={page.data.ctaHref}>
-            {page.data.ctaLabel}
-          </a>
-        )}
-      </section>
-
-      <section className="container prose section-gap" data-reveal>
-        {renderMarkdoc(page.body)}
-      </section>
-
-      <section className="container section-gap" data-reveal>
-        <div className="section-head">
-          {page.data.faqSectionEyebrow && <p className="eyebrow">{page.data.faqSectionEyebrow}</p>}
-          {page.data.faqSectionTitle && <h2>{page.data.faqSectionTitle}</h2>}
-        </div>
-        <div className="faq-list">
-          {faqs.map((item, index) => (
-            <article key={item.id} className="faq-item" data-reveal data-reveal-delay={index * 0.09}>
-              <h3>{item.data.question}</h3>
-              <p>{item.data.answer}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </>
-  );
+  return <PageSliceZone slices={page.data.slices} products={products} />;
 }
