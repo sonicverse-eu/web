@@ -93,11 +93,6 @@ export const mockSettings: SettingsDocument = {
         href: '/about',
         children: [
           {
-            label: 'Company overview',
-            href: '/about',
-            description: 'Our mission, operating principles, and product direction.',
-          },
-          {
             label: 'Book a demo',
             href: '/demo',
             description: 'See how Sonicverse fits your current delivery and ops stack.',

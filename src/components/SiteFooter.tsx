@@ -13,7 +13,7 @@ export default function SiteFooter({ settings }: SiteFooterProps) {
     ? settings.data.footerBottomLinks
     : [
       { label: 'Audio Streaming Stack', href: '/projects/audio-streaming-stack' },
-      { label: 'Book a demo', href: '/demo' },
+      { label: 'Book a demo', href: '/contact' },
     ];
 
   return (

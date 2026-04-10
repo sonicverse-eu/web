@@ -57,7 +57,7 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const docsLabel = settings.data.headerLoginLabel?.trim() || 'Docs';
   const docsHref = settings.data.headerLoginHref?.trim() || 'https://docs.sonicverse.eu';
   const ctaLabel = settings.data.headerCtaLabel?.trim() || 'Book demo';
-  const ctaHref = settings.data.headerCtaHref?.trim() || '/demo';
+  const ctaHref = settings.data.headerCtaHref?.trim() || '/contact';
   const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || 'Product suite';
   const menuTitle =
     settings.data.productsMenuTitle?.trim() ||

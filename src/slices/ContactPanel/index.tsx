@@ -40,7 +40,7 @@ export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
           { label: 'General questions instead?', value: 'Use the contact page', href: '/contact' },
         ]
       : [
-          { label: 'Prefer a walkthrough?', value: 'Book a focused demo', href: '/demo' },
+          { label: 'Prefer a walkthrough?', value: 'Book a focused demo', href: '/contact' },
           { label: 'Need implementation context?', value: 'Browse the library', href: '/library' },
           { label: 'Exploring the stack?', value: 'See the project lineup', href: '/projects' },
         ];
