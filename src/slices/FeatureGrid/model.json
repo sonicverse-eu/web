@@ -41,7 +41,9 @@
             "label": "Feature Body"
           }
         }
-      }
+      },
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626"
     },
     {
       "id": "project_capabilities",
@@ -80,7 +82,9 @@
             "label": "Capability Body"
           }
         }
-      }
+      },
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626"
     }
   ]
 }

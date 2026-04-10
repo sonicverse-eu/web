@@ -56,6 +56,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const loginHref = settings.data.headerLoginHref?.trim() || 'https://docs.sonicverse.eu';
   const ctaLabel = settings.data.headerCtaLabel?.trim() || '';
   const ctaHref = settings.data.headerCtaHref?.trim() || '';
+  const brandName = settings.data.headerBrandName?.trim() || 'Sonicverse';
+  const brandTagline = settings.data.headerBrandTagline?.trim() || 'Audio operations platform';
   const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || '';
   const menuTitle = settings.data.productsMenuTitle?.trim() || '';
   const menuDescription = settings.data.productsMenuDescription?.trim() || '';
@@ -134,8 +136,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
           <Link href="/" className="brand-lockup brand-lockup-link" aria-label="Sonicverse home">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="" />
             <div>
-              <strong>Sonicverse</strong>
-              <span>Audio operations platform</span>
+              <strong>{brandName}</strong>
+              <span>{brandTagline}</span>
             </div>
           </Link>
 

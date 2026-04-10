@@ -167,12 +167,22 @@ function mapSettings(document: PrismicDocument): SettingsDocument {
     };
   }).filter((link) => link.label && link.href && link.value);
 
+  const footerBottomLinks = asArray(data.footerBottomLinks).map((item) => {
+    const link = asRecord(item);
+    return {
+      label: asString(link.label),
+      href: asString(link.href),
+    };
+  }).filter((link) => link.label && link.href);
+
   return {
     id: document.id,
     uid: document.uid ?? 'settings',
     type: 'settings',
     data: {
       announcement: asString(data.announcement),
+      headerBrandName: asString(data.headerBrandName) || undefined,
+      headerBrandTagline: asString(data.headerBrandTagline) || undefined,
       primaryNav,
       headerLoginLabel: asString(data.headerLoginLabel) || undefined,
       headerLoginHref: asString(data.headerLoginHref) || undefined,
@@ -181,10 +191,14 @@ function mapSettings(document: PrismicDocument): SettingsDocument {
       productsMenuEyebrow: asString(data.productsMenuEyebrow) || undefined,
       productsMenuTitle: asString(data.productsMenuTitle) || undefined,
       productsMenuDescription: asString(data.productsMenuDescription) || undefined,
+      footerBrandName: asString(data.footerBrandName) || undefined,
+      footerBrandTagline: asString(data.footerBrandTagline) || undefined,
       footerTagline: asString(data.footerTagline),
+      footerLegalText: asString(data.footerLegalText) || undefined,
       footerLinks,
       footerResources,
       footerContact,
+      footerBottomLinks,
     },
   };
 }
@@ -196,6 +210,8 @@ function createEmptySettings(): SettingsDocument {
     type: 'settings',
     data: {
       announcement: '',
+      headerBrandName: undefined,
+      headerBrandTagline: undefined,
       primaryNav: [],
       headerLoginLabel: undefined,
       headerLoginHref: undefined,
@@ -204,10 +220,14 @@ function createEmptySettings(): SettingsDocument {
       productsMenuEyebrow: undefined,
       productsMenuTitle: undefined,
       productsMenuDescription: undefined,
+      footerBrandName: undefined,
+      footerBrandTagline: undefined,
       footerTagline: '',
+      footerLegalText: undefined,
       footerLinks: [],
       footerResources: [],
       footerContact: [],
+      footerBottomLinks: [],
     },
   };
 }

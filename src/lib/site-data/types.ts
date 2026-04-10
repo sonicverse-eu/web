@@ -108,6 +108,8 @@ export type SettingsDocument = {
   type: 'settings';
   data: {
     announcement: string;
+    headerBrandName?: string;
+    headerBrandTagline?: string;
     primaryNav: PrimaryNavItem[];
     headerLoginLabel?: string;
     headerLoginHref?: string;
@@ -116,10 +118,14 @@ export type SettingsDocument = {
     productsMenuEyebrow?: string;
     productsMenuTitle?: string;
     productsMenuDescription?: string;
+    footerBrandName?: string;
+    footerBrandTagline?: string;
     footerTagline: string;
+    footerLegalText?: string;
     footerLinks: { label: string; href: string }[];
     footerResources: { label: string; href: string }[];
     footerContact: { label: string; href: string; value: string }[];
+    footerBottomLinks: { label: string; href: string }[];
   };
 };
 

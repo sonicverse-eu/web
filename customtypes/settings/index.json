@@ -1,0 +1,235 @@
+{
+  "id": "settings",
+  "label": "Settings",
+  "repeatable": false,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Header": {
+      "announcement": {
+        "type": "Text",
+        "config": {
+          "label": "Announcement",
+          "placeholder": "Optional top-level announcement"
+        }
+      },
+      "header_brand_name": {
+        "type": "Text",
+        "config": {
+          "label": "Header Brand Name",
+          "placeholder": "Sonicverse"
+        }
+      },
+      "header_brand_tagline": {
+        "type": "Text",
+        "config": {
+          "label": "Header Brand Tagline",
+          "placeholder": "Audio operations platform"
+        }
+      },
+      "header_login_label": {
+        "type": "Text",
+        "config": {
+          "label": "Header Login Label",
+          "placeholder": "Docs"
+        }
+      },
+      "header_login_href": {
+        "type": "Link",
+        "config": {
+          "label": "Header Login Link",
+          "select": null
+        }
+      },
+      "header_cta_label": {
+        "type": "Text",
+        "config": {
+          "label": "Header CTA Label",
+          "placeholder": "Book a demo"
+        }
+      },
+      "header_cta_href": {
+        "type": "Link",
+        "config": {
+          "label": "Header CTA Link",
+          "select": null
+        }
+      },
+      "primary_nav": {
+        "type": "Group",
+        "config": {
+          "label": "Primary Navigation",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": "Products"
+              }
+            },
+            "href": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null
+              }
+            },
+            "description": {
+              "type": "Text",
+              "config": {
+                "label": "Description",
+                "placeholder": "Optional helper text"
+              }
+            }
+          }
+        }
+      },
+      "products_menu_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "Products Menu Eyebrow",
+          "placeholder": "Product map"
+        }
+      },
+      "products_menu_title": {
+        "type": "Text",
+        "config": {
+          "label": "Products Menu Title",
+          "placeholder": "Choose your stack"
+        }
+      },
+      "products_menu_description": {
+        "type": "Text",
+        "config": {
+          "label": "Products Menu Description",
+          "placeholder": "Short intro for products menu"
+        }
+      }
+    },
+    "Footer": {
+      "footer_brand_name": {
+        "type": "Text",
+        "config": {
+          "label": "Footer Brand Name",
+          "placeholder": "Sonicverse"
+        }
+      },
+      "footer_brand_tagline": {
+        "type": "Text",
+        "config": {
+          "label": "Footer Brand Tagline",
+          "placeholder": "Audio operations platform"
+        }
+      },
+      "footer_tagline": {
+        "type": "Text",
+        "config": {
+          "label": "Footer Tagline",
+          "placeholder": "Short company statement"
+        }
+      },
+      "footer_legal_text": {
+        "type": "Text",
+        "config": {
+          "label": "Footer Legal Text",
+          "placeholder": "Open infrastructure for modern audio teams."
+        }
+      },
+      "footer_links": {
+        "type": "Group",
+        "config": {
+          "label": "Footer Company Links",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": "About"
+              }
+            },
+            "href": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null
+              }
+            }
+          }
+        }
+      },
+      "footer_resources": {
+        "type": "Group",
+        "config": {
+          "label": "Footer Resource Links",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": "Library"
+              }
+            },
+            "href": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null
+              }
+            }
+          }
+        }
+      },
+      "footer_contact": {
+        "type": "Group",
+        "config": {
+          "label": "Footer Contact Links",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": "Email"
+              }
+            },
+            "href": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "Display Value",
+                "placeholder": "team@sonicverse.eu"
+              }
+            }
+          }
+        }
+      },
+      "footer_bottom_links": {
+        "type": "Group",
+        "config": {
+          "label": "Footer Bottom Links",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": "Book a demo"
+              }
+            },
+            "href": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

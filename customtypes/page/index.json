@@ -2,6 +2,8 @@
   "id": "page",
   "label": "Page",
   "repeatable": true,
+  "status": true,
+  "format": "custom",
   "json": {
     "Page": {
       "uid": {
@@ -13,37 +15,37 @@
       },
       "slices": {
         "type": "Slices",
-        "fieldset": "Slice zone",
+        "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "hero": {
+            "call_to_action": {
               "type": "SharedSlice"
             },
-            "product_suite": {
+            "contact_panel": {
+              "type": "SharedSlice"
+            },
+            "content_columns": {
+              "type": "SharedSlice"
+            },
+            "content_feed": {
               "type": "SharedSlice"
             },
             "feature_grid": {
+              "type": "SharedSlice"
+            },
+            "hero": {
+              "type": "SharedSlice"
+            },
+            "pricing_grid": {
+              "type": "SharedSlice"
+            },
+            "product_suite": {
               "type": "SharedSlice"
             },
             "proof_band": {
               "type": "SharedSlice"
             },
             "testimonial_rail": {
-              "type": "SharedSlice"
-            },
-            "pricing_grid": {
-              "type": "SharedSlice"
-            },
-            "call_to_action": {
-              "type": "SharedSlice"
-            },
-            "content_columns": {
-              "type": "SharedSlice"
-            },
-            "contact_panel": {
-              "type": "SharedSlice"
-            },
-            "content_feed": {
               "type": "SharedSlice"
             }
           }

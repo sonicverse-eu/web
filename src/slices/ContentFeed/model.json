@@ -112,7 +112,9 @@
           }
         }
       },
-      "items": {}
+      "items": {},
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626"
     },
     {
       "id": "reference_index",
@@ -210,7 +212,9 @@
           }
         }
       },
-      "items": {}
+      "items": {},
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626"
     }
   ]
 }
