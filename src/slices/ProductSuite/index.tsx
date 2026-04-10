@@ -29,7 +29,7 @@ export default function ProductSuite({
               </div>
               {slice.primary.ctaHref ? (
                 <Link className="text-link" href={String(slice.primary.ctaHref)}>
-                  {String(slice.primary.ctaLabel ?? 'View more')}
+                  {String(slice.primary.ctaLabel ?? '')}
                 </Link>
               ) : null}
             </div>
@@ -59,7 +59,7 @@ export default function ProductSuite({
                   <strong>{product.data.outcome}</strong>
                 </div>
                 <div className="project-compare-meta">
-                  <span>{product.data.heroStats[0]?.label || 'Signal'}</span>
+                  <span>{product.data.heroStats[0]?.label}</span>
                   <strong>{product.data.heroStats[0]?.value || product.data.pricingHint}</strong>
                 </div>
                 <div className="project-compare-action">
@@ -85,7 +85,7 @@ export default function ProductSuite({
             </div>
             {slice.primary.ctaHref ? (
               <Link className="text-link" href={String(slice.primary.ctaHref)}>
-                {String(slice.primary.ctaLabel ?? 'View more')}
+                {String(slice.primary.ctaLabel ?? '')}
               </Link>
             ) : null}
           </div>
@@ -96,7 +96,7 @@ export default function ProductSuite({
             <article key={product.uid} className={`product-card ${accentClass(product.data.accent)}`}>
               <div className="product-card-top">
                 <span className="product-pill">{product.data.category}</span>
-                <span className="product-pricing-hint">{product.data.heroStats[0]?.label || 'Deployment'}</span>
+                <span className="product-pricing-hint">{product.data.heroStats[0]?.label}</span>
               </div>
               <div className="product-card-body">
                 <h3>{product.data.name}</h3>

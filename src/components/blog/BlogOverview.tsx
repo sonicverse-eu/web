@@ -87,13 +87,10 @@ export default function BlogOverview({
         <section className="container blog-spotlight-shell" data-reveal>
           <div className="blog-spotlight-head">
             <div>
-              <p className="eyebrow">{page.blogFeaturedLabel ?? 'Featured story'}</p>
-              <h2>The latest note, framed like a release bulletin.</h2>
+                <p className="eyebrow">{page.blogFeaturedLabel ?? ''}</p>
+                <h2>{page.blogArchiveTitle ?? ''}</h2>
             </div>
-            <p>
-              A larger editorial lead gives the archive a focal point without borrowing the homepage
-              hero composition.
-            </p>
+              <p>{page.blogArchiveDescription ?? ''}</p>
           </div>
 
           <article className="blog-spotlight-story">
@@ -105,7 +102,7 @@ export default function BlogOverview({
               <div className="blog-spotlight-noise" />
               <div className="blog-spotlight-signal">
                 <span>{formatBlogDate(featuredPost.data.pubDate)}</span>
-                <strong>{featuredPost.data.tags[0] ?? 'Sonicverse update'}</strong>
+                <strong>{featuredPost.data.tags[0] ?? ''}</strong>
                 <p>{getReadingTimeMinutes(featuredPost.body)} minute editorial note</p>
               </div>
             </div>
@@ -130,7 +127,7 @@ export default function BlogOverview({
               ) : null}
               <div className="button-row">
                 <Link className="btn btn-primary" href={`/blog/${featuredPost.id}`}>
-                  {page.blogArticleCtaLabel ?? 'Read article'}
+                  {page.blogArticleCtaLabel ?? ''}
                 </Link>
               </div>
             </div>
@@ -142,21 +139,18 @@ export default function BlogOverview({
         <div className="blog-archive-frame">
           <div className="blog-archive-intro">
             <div>
-              <p className="eyebrow">{page.blogArchiveTitle ?? 'Latest from Sonicverse'}</p>
-              <h2>{page.blogArchiveDescription ?? 'Editorial updates from the Sonicverse ecosystem.'}</h2>
+              <p className="eyebrow">{page.blogArchiveTitle ?? ''}</p>
+              <h2>{page.blogArchiveDescription ?? ''}</h2>
             </div>
-            <p>
-              The archive now reads like a journal index: topic rail on one side, reading flow on the
-              other.
-            </p>
+            <p>{page.blogNavigationLabel ?? ''}</p>
           </div>
 
           <div className="blog-archive-grid">
             {tagSummaries.length > 0 ? (
               <aside className="blog-topic-rail" aria-labelledby="blog-topic-rail-title">
                 <div className="blog-topic-rail-head">
-                  <p className="eyebrow">{page.blogTopicsLabel ?? 'Browse topics'}</p>
-                  <h3 id="blog-topic-rail-title">Entry points into the archive.</h3>
+                  <p className="eyebrow">{page.blogTopicsLabel ?? ''}</p>
+                  <h3 id="blog-topic-rail-title">{page.blogRelatedTitle ?? ''}</h3>
                 </div>
                 <div className="blog-topic-rail-list">
                   {tagSummaries.map((summary) => (
@@ -211,7 +205,7 @@ export default function BlogOverview({
                   </div>
                   <div className="blog-archive-row-action">
                     <span>{getReadingTimeMinutes(post.body)} min read</span>
-                    <Link href={`/blog/${post.id}`}>{page.blogArticleCtaLabel ?? 'Read article'}</Link>
+                    <Link href={`/blog/${post.id}`}>{page.blogArticleCtaLabel ?? ''}</Link>
                   </div>
                 </article>
               ))}
@@ -221,14 +215,11 @@ export default function BlogOverview({
       </section>
 
       <section className="container blog-journal-cta" data-reveal>
-        <p className="eyebrow">Build in public</p>
+        <p className="eyebrow">{page.blogNavigationLabel ?? ''}</p>
         <div className="blog-journal-cta-row">
           <div>
-            <h2>Follow the notes, then step into the work behind them.</h2>
-            <p>
-              Sonicverse ships product changes, community progress, and contributor workflow updates in
-              the open.
-            </p>
+            <h2>{page.blogRelatedTitle ?? ''}</h2>
+            <p>{page.blogArchiveDescription ?? ''}</p>
           </div>
           <div className="button-row">
             <Link className="btn btn-primary" href="/projects">

@@ -54,15 +54,11 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
 
   const docsLabel = 'Docs';
   const docsHref = 'https://docs.sonicverse.eu';
-  const ctaLabel = settings.data.headerCtaLabel?.trim() || 'Book demo';
-  const ctaHref = settings.data.headerCtaHref?.trim() || '/demo';
-  const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || 'Product suite';
-  const menuTitle =
-    settings.data.productsMenuTitle?.trim() ||
-    'Choose the workflow layer that fits your team right now.';
-  const menuDescription =
-    settings.data.productsMenuDescription?.trim() ||
-    'Each Sonicverse product solves a clear operational job and can be adopted on its own or as part of a broader platform rollout.';
+  const ctaLabel = settings.data.headerCtaLabel?.trim() || '';
+  const ctaHref = settings.data.headerCtaHref?.trim() || '';
+  const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || '';
+  const menuTitle = settings.data.productsMenuTitle?.trim() || '';
+  const menuDescription = settings.data.productsMenuDescription?.trim() || '';
   const primaryNav = settings.data.primaryNav;
 
   const groupedProducts = useMemo(() => {
@@ -273,9 +269,11 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
             <Link className="header-login" href={docsHref}>
               {docsLabel}
             </Link>
-            <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
-              {ctaLabel}
-            </Link>
+            {ctaLabel && ctaHref ? (
+              <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
+                {ctaLabel}
+              </Link>
+            ) : null}
             <ThemeToggle />
             <button
               className="mobile-nav-toggle"
@@ -297,9 +295,11 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
               <Link className="mobile-nav-login" href={docsHref}>
                 {docsLabel}
               </Link>
-              <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
-                {ctaLabel}
-              </Link>
+              {ctaLabel && ctaHref ? (
+                <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
+                  {ctaLabel}
+                </Link>
+              ) : null}
             </div>
 
             <div className="mobile-nav-list">

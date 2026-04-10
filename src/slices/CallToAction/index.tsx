@@ -13,12 +13,14 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
               <h2>{String(slice.primary.title ?? '')}</h2>
               <p>{String(slice.primary.body ?? '')}</p>
               <div className="button-row">
-                <Link className="btn btn-primary" href={String(slice.primary.primaryHref ?? '/contact')}>
-                  {String(slice.primary.primaryLabel ?? 'Contact')}
-                </Link>
+                {slice.primary.primaryHref && slice.primary.primaryLabel ? (
+                  <Link className="btn btn-primary" href={String(slice.primary.primaryHref)}>
+                    {String(slice.primary.primaryLabel)}
+                  </Link>
+                ) : null}
                 {slice.primary.secondaryHref ? (
                   <Link className="btn btn-secondary" href={String(slice.primary.secondaryHref)}>
-                    {String(slice.primary.secondaryLabel ?? 'Learn more')}
+                    {String(slice.primary.secondaryLabel ?? '')}
                   </Link>
                 ) : null}
               </div>
@@ -29,8 +31,8 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
                 {slice.items.map((item, index) =>
                   item.href ? (
                     <Link key={`${slice.id}-${index}`} href={String(item.href)} className="project-next-link">
-                      <span>{String(item.meta ?? 'Related project')}</span>
-                      <strong>{String(item.label ?? 'Explore project')}</strong>
+                      <span>{String(item.meta ?? '')}</span>
+                      <strong>{String(item.label ?? '')}</strong>
                       <p>{String(item.detail ?? item.text ?? '')}</p>
                     </Link>
                   ) : null
@@ -56,7 +58,7 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
                 {slice.items.map((item, index) =>
                   item.href ? (
                     <Link key={`${slice.id}-${index}`} href={String(item.href)}>
-                      {String(item.label ?? 'Learn more')}
+                      {String(item.label ?? '')}
                     </Link>
                   ) : null
                 )}
@@ -64,12 +66,14 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
             ) : null}
           </div>
           <div className="button-row">
-            <Link className="btn btn-primary" href={String(slice.primary.primaryHref ?? '/contact')}>
-              {String(slice.primary.primaryLabel ?? 'Contact')}
-            </Link>
+            {slice.primary.primaryHref && slice.primary.primaryLabel ? (
+              <Link className="btn btn-primary" href={String(slice.primary.primaryHref)}>
+                {String(slice.primary.primaryLabel)}
+              </Link>
+            ) : null}
             {slice.primary.secondaryHref ? (
               <Link className="btn btn-secondary" href={String(slice.primary.secondaryHref)}>
-                {String(slice.primary.secondaryLabel ?? 'Learn more')}
+                {String(slice.primary.secondaryLabel ?? '')}
               </Link>
             ) : null}
           </div>
