@@ -1,0 +1,167 @@
+{
+  "id": "content_columns",
+  "type": "SharedSlice",
+  "name": "ContentColumns",
+  "description": "Two column content section",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "panelTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Title"
+          }
+        },
+        "panelBody": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Body"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Item Body"
+          }
+        }
+      }
+    },
+    {
+      "id": "project_paths",
+      "name": "Project Paths",
+      "description": "Project Paths variation",
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "panelTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Title"
+          }
+        },
+        "panelBody": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Body"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Item Body"
+          }
+        }
+      }
+    },
+    {
+      "id": "project_context",
+      "name": "Project Context",
+      "description": "Project Context variation",
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "panelTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Title"
+          }
+        },
+        "panelBody": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Body"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Item Body"
+          }
+        }
+      }
+    }
+  ]
+}
