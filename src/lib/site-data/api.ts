@@ -9,7 +9,7 @@ import type {
 } from './types';
 
 const repositoryName = 'sonicverse-eu';
-const pageSingletonTypes = ['home', 'about', 'community', 'contact', 'projects', 'blog', 'library'] as const;
+const pageSingletonTypes = ['home', 'about', 'community', 'contact', 'projects', 'blog'] as const;
 
 const routes: prismic.ClientConfig['routes'] = [
   { type: 'home', path: '/' },
@@ -18,7 +18,6 @@ const routes: prismic.ClientConfig['routes'] = [
   { type: 'contact', path: '/contact' },
   { type: 'projects', path: '/projects' },
   { type: 'blog', path: '/blog' },
-  { type: 'library', path: '/library' },
   { type: 'page', path: '/:uid' },
   { type: 'product', path: '/projects/:uid' },
 ];

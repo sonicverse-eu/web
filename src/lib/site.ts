@@ -46,5 +46,4 @@ export const staticSitemapRoutes = [
   '/contact',
   '/projects',
   '/blog',
-  '/library',
 ];

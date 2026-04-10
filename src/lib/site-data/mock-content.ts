@@ -1,85 +1,5 @@
 import type {
   CmsSlice,
-  PageDocument,
-  ProductDocument,
-  SettingsDocument,
-} from './types';
-
-function slice(
-  slice_type: CmsSlice['slice_type'],
-  variation: string,
-  primary: Record<string, unknown>,
-  items: Record<string, unknown>[] = [],
-): CmsSlice {
-  return {
-    id: `${slice_type}-${variation}-${Math.random().toString(36).slice(2, 8)}`,
-    slice_type,
-    variation,
-    version: 'sktwi1xtmkfgx8626',
-    primary,
-    items,
-  };
-}
-
-export const mockSettings: SettingsDocument = {
-  id: 'settings',
-  uid: 'settings',
-  type: 'settings',
-  data: {
-    announcement: 'Open infrastructure for broadcasters, podcast networks, and modern audio platforms.',
-    headerBrandName: 'Sonicverse',
-    headerBrandTagline: 'Audio operations platform',
-    primaryNav: [
-      {
-        label: 'Projects',
-        href: '/projects',
-        children: [
-          {
-            label: 'Compare all projects',
-            href: '/projects',
-            description: 'Read every Sonicverse project by workflow, team fit, and operational outcome.',
-          },
-          {
-            label: 'Audio Streaming Stack',
-            href: '/projects/audio-streaming-stack',
-            description: 'Resilient live delivery infrastructure with failover and playback control.',
-          },
-        ],
-      },
-      {
-        label: 'About',
-        href: '/about',
-        children: [
-          {
-            label: 'About Sonicverse',
-            href: '/about',
-            description: 'Learn how we build open infrastructure for modern audio teams.',
-          },
-          {
-            label: 'Community',
-            href: '/community',
-            description: 'Connect with contributors, operators, and implementation partners.',
-          },
-          {
-            label: 'Contact',
-            href: '/contact',
-            description: 'Reach the team for partnerships, support, or technical guidance.',
-          },
-        ],
-      },
-      {
-        label: 'Resources',
-        href: '/library',
-        children: [
-          {
-            label: 'Resource library',
-            href: '/library',
-            description: 'Guides and references for architecture, deployment, and operations.',
-          },
-          {
-            label: 'Blog',
-            href: '/blog',
-            description: 'Product updates, implementation notes, and platform strategy.',
           },
           {
             label: 'Community',
@@ -94,7 +14,7 @@ export const mockSettings: SettingsDocument = {
         children: [
           {
             label: 'Book a demo',
-            href: '/demo',
+            href: '/contact',
             description: 'See how Sonicverse fits your current delivery and ops stack.',
           },
           {
@@ -108,7 +28,7 @@ export const mockSettings: SettingsDocument = {
     headerLoginLabel: 'Login',
     headerLoginHref: 'https://app.sonicverse.eu/login',
     headerCtaLabel: 'Book demo',
-    headerCtaHref: '/demo',
+    headerCtaHref: '/contact',
     productsMenuEyebrow: 'Projects',
     productsMenuTitle: 'Choose the project that matches the workflow pressure you need to fix first.',
     productsMenuDescription:
@@ -121,12 +41,11 @@ export const mockSettings: SettingsDocument = {
     footerLinks: [
       { label: 'Projects', href: '/projects' },
       { label: 'About', href: '/about' },
-      { label: 'Book a demo', href: '/demo' },
+      { label: 'Book a demo', href: '/contact' },
     ],
     footerResources: [
       { label: 'Community', href: '/community' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Library', href: '/library' },
       { label: 'GitHub', href: 'https://github.com/sonicverse-eu' },
     ],
     footerContact: [
@@ -135,7 +54,7 @@ export const mockSettings: SettingsDocument = {
     ],
     footerBottomLinks: [
       { label: 'Audio Streaming Stack', href: '/projects/audio-streaming-stack' },
-      { label: 'Book a demo', href: '/demo' },
+      { label: 'Book a demo', href: '/contact' },
     ],
   },
 };
@@ -171,7 +90,7 @@ export const mockProducts: ProductDocument[] = [
           body:
             'Audio Streaming Stack turns relay chains, failover rules, and playback outputs into one inspectable delivery surface that can ship quickly without feeling temporary.',
           primaryLabel: 'Book a streaming review',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'View all projects',
           secondaryHref: '/projects',
           supportingLabel: 'Use when uptime risk is already an operator burden',
@@ -262,7 +181,7 @@ export const mockProducts: ProductDocument[] = [
           body:
             'If live delivery is the immediate priority, we can map a phased rollout and next milestones based on your current stack.',
           primaryLabel: 'Book a streaming review',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Talk to engineering',
           secondaryHref: '/contact',
         }),
@@ -299,7 +218,7 @@ export const mockProducts: ProductDocument[] = [
           body:
             'Media Metadata API gives archive, platform, and publishing teams one programmable boundary for reading, validating, and transforming metadata without maintaining a new parser for every system.',
           primaryLabel: 'Book a metadata review',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'View all projects',
           secondaryHref: '/projects',
           supportingLabel: 'Use when metadata disagreements are slowing publishing',
@@ -390,7 +309,7 @@ export const mockProducts: ProductDocument[] = [
           body:
             'Teams that standardize metadata often next look at streaming delivery or scheduling control, depending on where the operational pressure sits.',
           primaryLabel: 'Book a metadata review',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Talk to Sonicverse',
           secondaryHref: '/contact',
         }, [
@@ -440,7 +359,7 @@ export const mockProducts: ProductDocument[] = [
           body:
             'Broadcast Scheduler gives station planners and operators one readable surface for recurring blocks, live overrides, export logic, and fallback programming without hiding the rules inside spreadsheets.',
           primaryLabel: 'Book an operations review',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'View all projects',
           secondaryHref: '/projects',
           supportingLabel: 'Use when planning and continuity are constantly crossing wires',
@@ -531,7 +450,7 @@ export const mockProducts: ProductDocument[] = [
           body:
             'Teams that stabilize scheduling often next connect it to delivery reliability or metadata quality, depending on where the station workflow is still leaking time.',
           primaryLabel: 'Book an operations review',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Ask a project question',
           secondaryHref: '/contact',
         }, [
@@ -573,7 +492,7 @@ export const mockPages: PageDocument[] = [
           body:
             'Sonicverse gives broadcasters, podcast networks, and media platforms three connected projects for live delivery, metadata automation, and scheduling control, without locking teams into a black-box stack.',
           primaryLabel: 'Book a demo',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Explore projects',
           secondaryHref: '/projects',
           supportingLabel: 'Built for technical buyers',
@@ -716,7 +635,7 @@ export const mockPages: PageDocument[] = [
           body:
             'The homepage keeps the platform story clear while still giving every visitor an obvious path forward, from self-serve exploration to a sales conversation.',
           primaryLabel: 'Book a demo',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Explore projects',
           secondaryHref: '/projects',
         }, [
@@ -746,7 +665,7 @@ export const mockPages: PageDocument[] = [
           primaryLabel: 'Explore Audio Streaming Stack',
           primaryHref: '#project-suite',
           secondaryLabel: 'Book a demo',
-          secondaryHref: '/demo',
+          secondaryHref: '/contact',
           supportingLabel: 'One project. A clear first implementation path.',
           supportingText:
             'Start with live delivery reliability, then extend from a stable baseline.',
@@ -792,7 +711,7 @@ export const mockPages: PageDocument[] = [
           body:
             'That conversation works whether you are replacing one workflow now or planning a broader infrastructure refresh over time.',
           primaryLabel: 'Book a project walkthrough',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Contact sales',
           secondaryHref: '/contact',
         }),
@@ -816,7 +735,7 @@ export const mockPages: PageDocument[] = [
           body:
             'Sonicverse keeps the product core open while offering structured help for teams that need architecture guidance, implementation support, or a faster path to deployment.',
           primaryLabel: 'Book a demo',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Contact us',
           secondaryHref: '/contact',
           supportingLabel: 'Commercial shape',
@@ -877,7 +796,7 @@ export const mockPages: PageDocument[] = [
             feature_3: 'Structured rollout checkpoints',
             feature_4: 'Best for teams evaluating one high-priority workflow',
             cta_label: 'Request a pilot',
-            cta_href: '/demo',
+            cta_href: '/contact',
           },
           {
             tier: 'Platform Partnership',
@@ -906,7 +825,7 @@ export const mockPages: PageDocument[] = [
           body:
             'That conversation can stay practical from the first reply: what is open, what needs support, and what the next milestone should look like.',
           primaryLabel: 'Book a pricing walkthrough',
-          primaryHref: '/demo',
+          primaryHref: '/contact',
           secondaryLabel: 'Talk to Sonicverse',
           secondaryHref: '/contact',
         }),
@@ -1018,8 +937,8 @@ export const mockPages: PageDocument[] = [
             'Tell us what is under pressure, what you are evaluating, or where the workflow is getting stuck. We will keep the first reply specific and route it quickly.',
           primaryLabel: 'Start a request',
           primaryHref: '#contact-panel',
-          secondaryLabel: 'Browse the library',
-          secondaryHref: '/library',
+          secondaryLabel: 'Browse the blog',
+          secondaryHref: '/blog',
           supportingLabel: 'Reply window',
           supportingText:
             'Most first replies land within two business days, with the same thread reference kept across follow-up.',
@@ -1066,7 +985,7 @@ export const mockPages: PageDocument[] = [
   {
     id: 'demo',
     uid: 'demo',
-    url: '/demo',
+    url: '/contact',
     type: 'page',
     data: {
       title: 'Demo',
@@ -1131,9 +1050,9 @@ export const mockPages: PageDocument[] = [
             'Platform overviews, project-fit assessments, migration planning, and architecture reviews.',
           formMode: 'demo',
         }, [
-          { label: 'Best for', value: 'Pilots and product-fit evaluation', href: '/demo' },
+          { label: 'Best for', value: 'Pilots and product-fit evaluation', href: '/contact' },
           { label: 'Response window', value: 'Usually within 2 business days', href: '/contact' },
-          { label: 'Need docs first?', value: 'Explore the library', href: '/library' },
+          { label: 'Need docs first?', value: 'Explore the blog', href: '/blog' },
         ]),
       ],
     },
@@ -1267,71 +1186,6 @@ export const mockPages: PageDocument[] = [
           primaryHref: '/projects',
           secondaryLabel: 'Join the community',
           secondaryHref: '/community',
-        }),
-      ],
-    },
-  },
-  {
-    id: 'library',
-    uid: 'library',
-    url: '/library',
-    type: 'page',
-    data: {
-      title: 'Library',
-      metaTitle: 'Library | Sonicverse',
-      metaDescription:
-        'Browse Sonicverse architecture notes, implementation references, and long-form guides in one structured manual.',
-      articleShell: {
-        backLabel: 'Back to library',
-        mark: 'Sonicverse Manual',
-        primarySectionEyebrow: 'Recently updated',
-        primarySectionTitle: 'Continue through the manual.',
-        secondarySectionEyebrow: 'Related references',
-        secondarySectionTitle: 'Keep browsing the manual.',
-        asideEyebrow: 'Reference frame',
-        asideTitle: 'Designed for rollout and contributor context.',
-        asideBody:
-          'Library entries should feel close to the product story: practical enough for operators, clear enough for contributors, and polished enough to trust.',
-        browseAllLabel: 'Browse all references',
-        secondaryCtaLabel: 'Explore projects',
-        secondaryCtaHref: '/projects',
-      },
-      slices: [
-        slice('hero', 'library_manual', {
-          mark: 'Sonicverse Manual',
-          eyebrow: 'Knowledge base',
-          title: 'Long-form guides built in public.',
-          body:
-            'Field notes, architecture explainers, and implementation references that sit beside the product story instead of drifting into a separate docs island.',
-          primaryLabel: 'Browse references',
-          primaryHref: '#library-index',
-          secondaryLabel: 'Explore projects',
-          secondaryHref: '/projects',
-          supportingLabel: 'Why this exists',
-          supportingText:
-            'The library should help teams understand the stack, not just document it after the fact.',
-          visualEyebrow: 'Manual status',
-          visualTitle: 'One route into architecture, rollout, and contributor guidance.',
-          visualBody:
-            'Reference pages keep the same polish as the product surfaces, but they trade campaign energy for clarity, structure, and reuse.',
-          tone: 'emerald',
-        }),
-        slice('content_feed', 'reference_index', {
-          eyebrow: 'Reference index',
-          title: 'Start with the most useful guide, then fan out into the rest of the manual.',
-          body:
-            'The library should surface what is newest, what is reusable, and where to go next without forcing the reader into a generic blog grid.',
-          featureEyebrow: 'Lead reference',
-          featureCtaLabel: 'Read reference',
-          summaryEyebrow: 'Manual health',
-          summaryTitle: 'Structured like a field guide for the platform.',
-          summaryBody:
-            'Browse architecture notes, contributor guidance, and implementation references from one route that still feels connected to the broader site.',
-          primaryLabel: 'Explore projects',
-          primaryHref: '/projects',
-          secondaryLabel: 'Talk to the team',
-          secondaryHref: '/contact',
-          rowCtaLabel: 'Open reference',
         }),
       ],
     },

@@ -36,12 +36,12 @@ export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
     formMode === 'demo'
       ? [
           { label: 'Need more background first?', value: 'Browse the project lineup', href: '/projects' },
-          { label: 'Prefer written context?', value: 'Read the library', href: '/library' },
+          { label: 'Prefer written context?', value: 'Read the blog', href: '/blog' },
           { label: 'General questions instead?', value: 'Use the contact page', href: '/contact' },
         ]
       : [
           { label: 'Prefer a walkthrough?', value: 'Book a focused demo', href: '/contact' },
-          { label: 'Need implementation context?', value: 'Browse the library', href: '/library' },
+          { label: 'Need implementation context?', value: 'Browse the blog', href: '/blog' },
           { label: 'Exploring the stack?', value: 'See the project lineup', href: '/projects' },
         ];
 

@@ -147,18 +147,24 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
 
           <nav className="desktop-nav" aria-label="Primary" ref={desktopNavRef}>
             {primaryNav.map((item) => {
-              const hasChildren = Boolean(item.children?.length);
+              const isCompanyItem = item.label.trim().toLowerCase() === 'company';
+              const itemHref = isCompanyItem ? '/contact' : item.href;
+              const hasChildren = !isCompanyItem && Boolean(item.children?.length);
               const menuKey = getNavKey(item);
               const menuId = getMenuId(item);
               const isOpen = openMenuKey === menuKey;
               const isProjectsMenu = item.href === '/projects' || item.label.toLowerCase() === 'projects';
+              const isActive = isCompanyItem
+                ? isActivePath(pathname, itemHref) ||
+                  (item.children?.some((child) => isActivePath(pathname, child.href)) ?? false)
+                : isNavItemActive(pathname, item);
 
               if (!hasChildren) {
                 return (
                   <Link
                     key={`${item.label}-${item.href}`}
-                    href={item.href}
-                    className={`nav-link ${isNavItemActive(pathname, item) ? 'active' : ''}`}
+                    href={itemHref}
+                    className={`nav-link ${isActive ? 'active' : ''}`}
                   >
                     {item.label}
                   </Link>
@@ -306,17 +312,22 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
 
             <div className="mobile-nav-list">
               {primaryNav.map((item) => {
-                const hasChildren = Boolean(item.children?.length);
+                const isCompanyItem = item.label.trim().toLowerCase() === 'company';
+                const itemHref = isCompanyItem ? '/contact' : item.href;
+                const hasChildren = !isCompanyItem && Boolean(item.children?.length);
                 const itemKey = getNavKey(item);
                 const childrenId = `${getMenuId(item)}-mobile`;
                 const isExpanded = mobileExpandedKey === itemKey;
-                const isActive = isNavItemActive(pathname, item);
+                const isActive = isCompanyItem
+                  ? isActivePath(pathname, itemHref) ||
+                    (item.children?.some((child) => isActivePath(pathname, child.href)) ?? false)
+                  : isNavItemActive(pathname, item);
 
                 if (!hasChildren) {
                   return (
                     <Link
                       key={`${item.label}-${item.href}`}
-                      href={item.href}
+                      href={itemHref}
                       className={`mobile-nav-parent mobile-nav-parent-link ${isActive ? 'active' : ''}`}
                     >
                       <strong>{item.label}</strong>
