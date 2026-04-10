@@ -35,6 +35,11 @@ playwright-report/
 test-results/
 output/playwright/
 
+# legacy local files that can override App Router setup
+next.config.js
+src/pages/_app.js
+src/pages/_document.js
+
 # jetbrains setting folder
 .idea/
 /.agents/
