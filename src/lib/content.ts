@@ -165,11 +165,11 @@ function readCollection<S extends z.ZodTypeAny>(
 
   const files = fs
     .readdirSync(dir)
-    .filter((f) => /\.(md|mdx)$/.test(f))
+    .filter((f) => /\.md$/.test(f))
     .sort();
 
   return files.map((file) => {
-    const baseName = file.replace(/\.(md|mdx)$/, '');
+    const baseName = file.replace(/\.md$/, '');
     const id =
       baseName
         .toLowerCase()
