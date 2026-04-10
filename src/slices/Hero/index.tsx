@@ -3,6 +3,7 @@ import { formatBlogDate, getBlogTagSummaries, getReadingTimeMinutes, sortBlogPos
 import { formatLibraryDate, getLibraryTagCount, sortLibraryEntries } from '@/lib/library';
 import type { SliceRendererProps } from '@/slices/types';
 import type { CmsSlice, SliceContext } from '@/lib/site-data/types';
+import { linkValue, textValue } from '@/slices/utils';
 
 type HeroItem = {
   label: string;
@@ -11,15 +12,6 @@ type HeroItem = {
   meta: string;
   href: string;
 };
-
-function textValue(value: unknown, fallback = '') {
-  return typeof value === 'string' ? value : fallback;
-}
-
-function linkValue(value: unknown, fallback = '') {
-  const href = textValue(value, fallback).trim();
-  return href || fallback;
-}
 
 function mapItems(items: Record<string, unknown>[]): HeroItem[] {
   return items.map((item) => ({
@@ -149,18 +141,15 @@ function StoryHero({
               <div className="hero-visual hero-visual--platform">
                 <div className="hero-panel hero-panel--platform">
                   <div className="hero-panel-header--platform">
-                    <span className="hero-kicker">{visualEyebrow || 'Operational frame'}</span>
-                    <strong>{visualTitle || 'Give the route a second layer of signal.'}</strong>
-                    <p>
-                      {visualBody ||
-                        'The secondary panel should feel like a useful briefing, not a decorative placeholder.'}
-                    </p>
+                    {visualEyebrow ? <span className="hero-kicker">{visualEyebrow}</span> : null}
+                    {visualTitle ? <strong>{visualTitle}</strong> : null}
+                    {visualBody ? <p>{visualBody}</p> : null}
                   </div>
 
                   {(commandLabel || commandValue) ? (
                     <div className="hero-command-line">
-                      <span>{commandLabel || 'Mode'}</span>
-                      <strong>{commandValue || 'Active'}</strong>
+                      {commandLabel ? <span>{commandLabel}</span> : null}
+                      {commandValue ? <strong>{commandValue}</strong> : null}
                     </div>
                   ) : null}
 
@@ -173,7 +162,7 @@ function StoryHero({
                             className={`hero-signal-card ${accentClassName ?? ''}`.trim()}
                           >
                             <div className="hero-signal-card-top">
-                              <span>{item.label || `Signal ${index + 1}`}</span>
+                              {item.label ? <span>{item.label}</span> : null}
                               {item.meta ? <em>{item.meta}</em> : null}
                             </div>
                             {item.title ? <strong>{item.title}</strong> : null}
@@ -220,12 +209,9 @@ function GenericPageVisual({
     <div className="hero-visual hero-visual--ecosystem" aria-hidden="true">
       <div className="hero-panel hero-panel--platform">
         <div className="hero-panel-header--platform">
-          <span className="hero-kicker">{visualEyebrow || 'Project ecosystem'}</span>
-          <strong>{visualTitle || 'Choose the right layer to start with'}</strong>
-          <p>
-            {visualBody ||
-              'Each Sonicverse project solves a separate workflow, but they connect into one operational system.'}
-          </p>
+          {visualEyebrow ? <span className="hero-kicker">{visualEyebrow}</span> : null}
+          {visualTitle ? <strong>{visualTitle}</strong> : null}
+          {visualBody ? <p>{visualBody}</p> : null}
         </div>
 
         {items.length ? (
@@ -236,7 +222,7 @@ function GenericPageVisual({
                 className="hero-signal-card"
               >
                 <div className="hero-signal-card-top">
-                  <span>{item.label || `Project ${index + 1}`}</span>
+                  {item.label ? <span>{item.label}</span> : null}
                   {item.meta ? <em>{item.meta}</em> : null}
                 </div>
                 {item.title ? <strong>{item.title}</strong> : null}
@@ -327,12 +313,9 @@ export default function Hero({
 
             <div className="projects-overview-rail" aria-label="Project quick map">
               <div className="projects-overview-rail-head" data-reveal>
-                <span className="hero-kicker">{visualEyebrow || 'Project quick map'}</span>
-                <strong>{visualTitle || 'Compare the lineup at dossier speed.'}</strong>
-                <p>
-                  {visualBody ||
-                    'Scan the project roster, then open the one that matches the operational bottleneck you need to resolve first.'}
-                </p>
+                {visualEyebrow ? <span className="hero-kicker">{visualEyebrow}</span> : null}
+                {visualTitle ? <strong>{visualTitle}</strong> : null}
+                {visualBody ? <p>{visualBody}</p> : null}
               </div>
               <div className="projects-overview-rail-list" data-reveal-group>
                 {items.map((item, index) => {
@@ -342,7 +325,7 @@ export default function Hero({
                         {String(index + 1).padStart(2, '0')}
                       </div>
                       <div className="projects-overview-rail-copy">
-                        <span>{item.label || `Project ${index + 1}`}</span>
+                        {item.label ? <span>{item.label}</span> : null}
                         {item.title ? <strong>{item.title}</strong> : null}
                         {item.detail ? <p>{item.detail}</p> : null}
                       </div>
@@ -452,8 +435,8 @@ export default function Hero({
         visualEyebrow={visualEyebrow}
         visualTitle={visualTitle}
         visualBody={visualBody}
-        commandLabel={textValue(slice.primary.commandLabel, 'Company mode')}
-        commandValue={textValue(slice.primary.commandValue, 'Built in public')}
+        commandLabel={textValue(slice.primary.commandLabel)}
+        commandValue={textValue(slice.primary.commandValue)}
         items={items}
         accentClassName="hero-signal-card--emerald"
       />
@@ -477,8 +460,8 @@ export default function Hero({
         visualEyebrow={visualEyebrow}
         visualTitle={visualTitle}
         visualBody={visualBody}
-        commandLabel={textValue(slice.primary.commandLabel, 'Commercial frame')}
-        commandValue={textValue(slice.primary.commandValue, 'Open core first')}
+        commandLabel={textValue(slice.primary.commandLabel)}
+        commandValue={textValue(slice.primary.commandValue)}
         items={items}
         accentClassName="hero-signal-card--amber"
       />
@@ -502,8 +485,8 @@ export default function Hero({
         visualEyebrow={visualEyebrow}
         visualTitle={visualTitle}
         visualBody={visualBody}
-        commandLabel={textValue(slice.primary.commandLabel, 'Session type')}
-        commandValue={textValue(slice.primary.commandValue, 'Focused walkthrough')}
+        commandLabel={textValue(slice.primary.commandLabel)}
+        commandValue={textValue(slice.primary.commandValue)}
         items={items}
         accentClassName="hero-signal-card--violet"
       />
@@ -527,8 +510,8 @@ export default function Hero({
         visualEyebrow={visualEyebrow}
         visualTitle={visualTitle}
         visualBody={visualBody}
-        commandLabel={textValue(slice.primary.commandLabel, 'Contribution model')}
-        commandValue={textValue(slice.primary.commandValue, 'Open by default')}
+        commandLabel={textValue(slice.primary.commandLabel)}
+        commandValue={textValue(slice.primary.commandValue)}
         items={items}
         accentClassName="hero-signal-card--emerald"
       />
@@ -553,7 +536,7 @@ export default function Hero({
           <div className="blog-journal-hero-glow" aria-hidden="true" />
           <div className="container blog-journal-hero-grid">
             <div className="blog-journal-copy">
-              <p className="blog-journal-mark">{textValue(slice.primary.mark, 'Sonicverse Journal')}</p>
+              {textValue(slice.primary.mark) ? <p className="blog-journal-mark">{textValue(slice.primary.mark)}</p> : null}
               {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
               {title ? <h1>{title}</h1> : null}
               {body ? <p className="blog-journal-subtitle">{body}</p> : null}
@@ -566,9 +549,7 @@ export default function Hero({
             </div>
 
             <aside className="blog-journal-ledger" aria-label="Archive summary">
-              <p className="blog-journal-ledger-label">
-                {visualEyebrow || 'Current signal'}
-              </p>
+              {visualEyebrow ? <p className="blog-journal-ledger-label">{visualEyebrow}</p> : null}
               <div className="blog-journal-ledger-row">
                 <span>Published notes</span>
                 <strong>{posts.length.toString().padStart(2, '0')}</strong>
@@ -583,14 +564,14 @@ export default function Hero({
               </div>
               {latestPost ? (
                 <div className="blog-journal-ledger-feature">
-                  <span>{visualTitle || 'Latest note'}</span>
+                  {visualTitle ? <span>{visualTitle}</span> : null}
                   <strong>{latestPost.data.title}</strong>
                   <p>{formatBlogDate(latestPost.data.pubDate)}</p>
                 </div>
               ) : (
                 <div className="blog-journal-ledger-feature">
-                  <span>{visualTitle || 'Archive status'}</span>
-                  <strong>{visualBody || 'New notes will appear here as the journal grows.'}</strong>
+                  {visualTitle ? <span>{visualTitle}</span> : null}
+                  {visualBody ? <strong>{visualBody}</strong> : null}
                 </div>
               )}
             </aside>
@@ -614,7 +595,7 @@ export default function Hero({
           <div className="library-manual-atmosphere" aria-hidden="true" />
           <div className="container library-manual-hero-shell">
             <div className="library-manual-copy">
-              <p className="blog-journal-mark">{textValue(slice.primary.mark, 'Sonicverse Manual')}</p>
+              {textValue(slice.primary.mark) ? <p className="blog-journal-mark">{textValue(slice.primary.mark)}</p> : null}
               {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
               {title ? <h1>{title}</h1> : null}
               {body ? <p className="hero-body">{body}</p> : null}
@@ -629,15 +610,9 @@ export default function Hero({
 
             <aside className="library-manual-summary" data-reveal>
               <div className="library-manual-summary-card">
-                <span>{visualEyebrow || 'Reference summary'}</span>
-                <strong>
-                  {visualTitle ||
-                    'Use the library like a field guide for architecture, rollout, and contributor workflows.'}
-                </strong>
-                <p>
-                  {visualBody ||
-                    'The resources stay practical and scannable so readers can move from a guide to the right project or conversation quickly.'}
-                </p>
+                {visualEyebrow ? <span>{visualEyebrow}</span> : null}
+                {visualTitle ? <strong>{visualTitle}</strong> : null}
+                {visualBody ? <p>{visualBody}</p> : null}
               </div>
 
               <dl className="library-manual-stats">
@@ -696,12 +671,9 @@ export default function Hero({
 
           <aside className={`project-detail-rail project-detail-rail--${accent}`}>
             <div className="project-detail-rail-head">
-              <span className="hero-kicker">{visualEyebrow || 'Project dossier'}</span>
-              <strong>{visualTitle || 'Read the operating shape before the sales pitch.'}</strong>
-              <p>
-                {visualBody ||
-                  'Each project page should feel like a technical briefing: clear scope, clear fit, clear next move.'}
-              </p>
+              {visualEyebrow ? <span className="hero-kicker">{visualEyebrow}</span> : null}
+              {visualTitle ? <strong>{visualTitle}</strong> : null}
+              {visualBody ? <p>{visualBody}</p> : null}
             </div>
 
             <dl className="project-detail-spec-list">
@@ -729,7 +701,7 @@ export default function Hero({
                     key={`${item.label}-${item.title}-${index}`}
                     className="project-detail-signal-row"
                   >
-                    <span>{item.label || `Signal ${index + 1}`}</span>
+                    {item.label ? <span>{item.label}</span> : null}
                     {item.title ? <strong>{item.title}</strong> : null}
                     {item.detail ? <p>{item.detail}</p> : null}
                     {item.meta ? <em>{item.meta}</em> : null}

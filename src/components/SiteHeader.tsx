@@ -52,17 +52,15 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const desktopNavRef = useRef<HTMLElement>(null);
 
-  const docsLabel = 'Docs';
-  const docsHref = 'https://docs.sonicverse.eu';
-  const ctaLabel = settings.data.headerCtaLabel?.trim() || 'Book demo';
-  const ctaHref = settings.data.headerCtaHref?.trim() || '/demo';
-  const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || 'Product suite';
-  const menuTitle =
-    settings.data.productsMenuTitle?.trim() ||
-    'Choose the workflow layer that fits your team right now.';
-  const menuDescription =
-    settings.data.productsMenuDescription?.trim() ||
-    'Each Sonicverse product solves a clear operational job and can be adopted on its own or as part of a broader platform rollout.';
+  const loginLabel = settings.data.headerLoginLabel?.trim() || 'Docs';
+  const loginHref = settings.data.headerLoginHref?.trim() || 'https://docs.sonicverse.eu';
+  const ctaLabel = settings.data.headerCtaLabel?.trim() || '';
+  const ctaHref = settings.data.headerCtaHref?.trim() || '';
+  const brandName = settings.data.headerBrandName?.trim() || 'Sonicverse';
+  const brandTagline = settings.data.headerBrandTagline?.trim() || 'Audio operations platform';
+  const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || '';
+  const menuTitle = settings.data.productsMenuTitle?.trim() || '';
+  const menuDescription = settings.data.productsMenuDescription?.trim() || '';
   const primaryNav = settings.data.primaryNav;
 
   const groupedProducts = useMemo(() => {
@@ -138,8 +136,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
           <Link href="/" className="brand-lockup brand-lockup-link" aria-label="Sonicverse home">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="" />
             <div>
-              <strong>Sonicverse</strong>
-              <span>Audio operations platform</span>
+              <strong>{brandName}</strong>
+              <span>{brandTagline}</span>
             </div>
           </Link>
 
@@ -270,12 +268,14 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
           </nav>
 
           <div className="header-actions">
-            <Link className="header-login" href={docsHref}>
-              {docsLabel}
+            <Link className="header-login" href={loginHref}>
+              {loginLabel}
             </Link>
-            <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
-              {ctaLabel}
-            </Link>
+            {ctaLabel && ctaHref ? (
+              <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
+                {ctaLabel}
+              </Link>
+            ) : null}
             <ThemeToggle />
             <button
               className="mobile-nav-toggle"
@@ -294,12 +294,14 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
         <div id="mobile-nav-panel" className={`mobile-nav ${mobileOpen ? 'is-open' : ''}`}>
           <div className="mobile-nav-surface">
             <div className="mobile-nav-actions">
-              <Link className="mobile-nav-login" href={docsHref}>
-                {docsLabel}
+              <Link className="mobile-nav-login" href={loginHref}>
+                {loginLabel}
               </Link>
-              <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
-                {ctaLabel}
-              </Link>
+              {ctaLabel && ctaHref ? (
+                <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
+                  {ctaLabel}
+                </Link>
+              ) : null}
             </div>
 
             <div className="mobile-nav-list">

@@ -1,0 +1,78 @@
+{
+  "id": "proof_band",
+  "type": "SharedSlice",
+  "name": "ProofBand",
+  "description": "Proof band metrics",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Label"
+          }
+        },
+        "value": {
+          "type": "Text",
+          "config": {
+            "label": "Value"
+          }
+        }
+      },
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626"
+    },
+    {
+      "id": "project_specs",
+      "name": "Project Specs",
+      "description": "Project Specs variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Label"
+          }
+        },
+        "value": {
+          "type": "Text",
+          "config": {
+            "label": "Value"
+          }
+        }
+      },
+      "docURL": "https://prismic.io/docs/slice-machine",
+      "version": "sktwi1xtmkfgx8626"
+    }
+  ]
+}

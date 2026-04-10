@@ -6,6 +6,16 @@ interface SiteFooterProps {
 }
 
 export default function SiteFooter({ settings }: SiteFooterProps) {
+  const brandName = settings.data.footerBrandName?.trim() || 'Sonicverse';
+  const brandTagline = settings.data.footerBrandTagline?.trim() || 'Audio operations platform';
+  const legalText = settings.data.footerLegalText?.trim() || 'Open infrastructure for modern audio teams.';
+  const bottomLinks = settings.data.footerBottomLinks.length
+    ? settings.data.footerBottomLinks
+    : [
+      { label: 'Audio Streaming Stack', href: '/projects/audio-streaming-stack' },
+      { label: 'Book a demo', href: '/demo' },
+    ];
+
   return (
     <footer className="site-footer">
       <div className="container site-footer-grid">
@@ -13,8 +23,8 @@ export default function SiteFooter({ settings }: SiteFooterProps) {
           <div className="brand-lockup">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="Sonicverse logo" />
             <div>
-              <strong>Sonicverse</strong>
-              <span>Audio operations platform</span>
+              <strong>{brandName}</strong>
+              <span>{brandTagline}</span>
             </div>
           </div>
           <p>{settings.data.footerTagline}</p>
@@ -58,10 +68,13 @@ export default function SiteFooter({ settings }: SiteFooterProps) {
       </div>
 
       <div className="container site-footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Sonicverse. Open infrastructure for modern audio teams.</p>
+        <p>&copy; {new Date().getFullYear()} {brandName}. {legalText}</p>
         <div>
-          <Link href="/projects/audio-streaming-stack">Audio Streaming Stack</Link>
-          <Link href="/demo">Book a demo</Link>
+          {bottomLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
     </footer>

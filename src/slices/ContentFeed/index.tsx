@@ -3,15 +3,7 @@ import { formatBlogDate, getBlogTagSummaries, getReadingTimeMinutes, sortBlogPos
 import { formatLibraryDate, getLibraryTagCount, sortLibraryEntries } from '@/lib/library';
 import type { SliceRendererProps } from '@/slices/types';
 import type { CmsSlice, SliceContext } from '@/lib/site-data/types';
-
-function textValue(value: unknown, fallback = '') {
-  return typeof value === 'string' ? value : fallback;
-}
-
-function linkValue(value: unknown, fallback = '') {
-  const href = textValue(value, fallback).trim();
-  return href || fallback;
-}
+import { linkValue, textValue } from '@/slices/utils';
 
 export default function ContentFeed({
   slice,
@@ -39,20 +31,14 @@ export default function ContentFeed({
             <div className="blog-spotlight-head">
               <div>
                 <p className="eyebrow">
-                  {textValue(slice.primary.spotlightEyebrow, 'Featured bulletin')}
+                  {textValue(slice.primary.spotlightEyebrow)}
                 </p>
                 <h2>
-                  {textValue(
-                    slice.primary.spotlightTitle,
-                    'The latest note, framed like a release bulletin.'
-                  )}
+                  {textValue(slice.primary.spotlightTitle)}
                 </h2>
               </div>
               <p>
-                {textValue(
-                  slice.primary.spotlightBody,
-                  'A larger editorial lead gives the archive a focal point without borrowing the homepage hero composition.'
-                )}
+                {textValue(slice.primary.spotlightBody)}
               </p>
             </div>
 
@@ -71,7 +57,7 @@ export default function ContentFeed({
                 <div className="blog-spotlight-noise" />
                 <div className="blog-spotlight-signal">
                   <span>{formatBlogDate(featuredPost.data.pubDate)}</span>
-                  <strong>{featuredPost.data.tags[0] ?? 'Sonicverse update'}</strong>
+                  <strong>{featuredPost.data.tags[0] ?? ''}</strong>
                   <p>{getReadingTimeMinutes(featuredPost.body)} minute editorial note</p>
                 </div>
               </div>
@@ -99,7 +85,7 @@ export default function ContentFeed({
                     className="btn btn-primary"
                     href={`/blog/${featuredPost.id}`}
                   >
-                    {textValue(slice.primary.featuredCtaLabel, 'Read article')}
+                    {textValue(slice.primary.featuredCtaLabel)}
                   </Link>
                 </div>
               </div>
@@ -112,20 +98,14 @@ export default function ContentFeed({
             <div className="blog-archive-intro">
               <div>
                 <p className="eyebrow">
-                  {textValue(slice.primary.archiveEyebrow, 'Latest from Sonicverse')}
+                  {textValue(slice.primary.archiveEyebrow)}
                 </p>
                 <h2>
-                  {textValue(
-                    slice.primary.archiveTitle,
-                    'Editorial updates from the Sonicverse ecosystem.'
-                  )}
+                  {textValue(slice.primary.archiveTitle)}
                 </h2>
               </div>
               <p>
-                {textValue(
-                  slice.primary.archiveBody,
-                  'The archive now reads like a journal index: topic rail on one side, reading flow on the other.'
-                )}
+                {textValue(slice.primary.archiveBody)}
               </p>
             </div>
 
@@ -134,13 +114,10 @@ export default function ContentFeed({
                 <aside className="blog-topic-rail" aria-labelledby="blog-topic-rail-title">
                   <div className="blog-topic-rail-head">
                     <p className="eyebrow">
-                      {textValue(slice.primary.railEyebrow, 'Browse topics')}
+                      {textValue(slice.primary.railEyebrow)}
                     </p>
                     <h3 id="blog-topic-rail-title">
-                      {textValue(
-                        slice.primary.railTitle,
-                        'Entry points into the archive.'
-                      )}
+                      {textValue(slice.primary.railTitle)}
                     </h3>
                   </div>
                   <div className="blog-topic-rail-list">
@@ -197,7 +174,7 @@ export default function ContentFeed({
                     <div className="blog-archive-row-action">
                       <span>{getReadingTimeMinutes(post.body)} min read</span>
                       <Link href={`/blog/${post.id}`}>
-                        {textValue(slice.primary.archiveCtaLabel, 'Read article')}
+                        {textValue(slice.primary.archiveCtaLabel)}
                       </Link>
                     </div>
                   </article>
@@ -211,34 +188,32 @@ export default function ContentFeed({
           <div className="blog-journal-cta-row">
             <div>
               <p className="eyebrow">
-                {textValue(slice.primary.footerEyebrow, 'Archive signal')}
+                {textValue(slice.primary.footerEyebrow)}
               </p>
               <h2>
-                {textValue(
-                  slice.primary.footerTitle,
-                  'Follow the notes, then step into the work behind them.'
-                )}
+                {textValue(slice.primary.footerTitle)}
               </h2>
               <p>
-                {textValue(
-                  slice.primary.footerBody,
-                  `Published notes: ${posts.length}. Tracked topics: ${tagSummaries.length}. Reading time across the journal: ${totalReadingMinutes} minutes.`
-                )}
+                {textValue(slice.primary.footerBody)}
               </p>
             </div>
             <div className="button-row">
-              <Link
-                className="btn btn-primary"
-                href={linkValue(slice.primary.primaryHref, '/projects')}
-              >
-                {textValue(slice.primary.primaryLabel, 'Explore projects')}
-              </Link>
-              <Link
-                className="btn btn-secondary"
-                href={linkValue(slice.primary.secondaryHref, '/community')}
-              >
-                {textValue(slice.primary.secondaryLabel, 'Join the community')}
-              </Link>
+              {linkValue(slice.primary.primaryHref) && textValue(slice.primary.primaryLabel) ? (
+                <Link
+                  className="btn btn-primary"
+                  href={linkValue(slice.primary.primaryHref)}
+                >
+                  {textValue(slice.primary.primaryLabel)}
+                </Link>
+              ) : null}
+              {linkValue(slice.primary.secondaryHref) && textValue(slice.primary.secondaryLabel) ? (
+                <Link
+                  className="btn btn-secondary"
+                  href={linkValue(slice.primary.secondaryHref)}
+                >
+                  {textValue(slice.primary.secondaryLabel)}
+                </Link>
+              ) : null}
             </div>
           </div>
         </section>
@@ -261,19 +236,13 @@ export default function ContentFeed({
       <section className="container library-reference-shell" id="library-index" data-reveal>
         <div className="library-reference-head">
           <div>
-            <p className="eyebrow">{textValue(slice.primary.eyebrow, 'Reference index')}</p>
+            <p className="eyebrow">{textValue(slice.primary.eyebrow)}</p>
             <h2>
-              {textValue(
-                slice.primary.title,
-                'One featured deep dive, then a clean index of the rest of the manual.'
-              )}
+              {textValue(slice.primary.title)}
             </h2>
           </div>
           <p>
-            {textValue(
-              slice.primary.body,
-              'The library should read like an operating manual: structured, current, and visibly tied back to the same product system as the rest of the site.'
-            )}
+            {textValue(slice.primary.body)}
           </p>
         </div>
 
@@ -281,7 +250,7 @@ export default function ContentFeed({
           <article className="library-reference-feature">
             <div className="library-reference-feature-top">
               <p className="eyebrow">
-                {textValue(slice.primary.featureEyebrow, 'Featured reference')}
+                {textValue(slice.primary.featureEyebrow)}
               </p>
               {featuredEntry.data.tags.length > 0 ? (
                 <div className="tag-list" aria-label="Featured reference topics">
@@ -305,7 +274,7 @@ export default function ContentFeed({
               <p>{featuredEntry.data.description}</p>
               <div className="button-row">
                 <Link className="btn btn-primary" href={`/library/${featuredEntry.id}`}>
-                  {textValue(slice.primary.featureCtaLabel, 'Read reference')}
+                  {textValue(slice.primary.featureCtaLabel)}
                 </Link>
               </div>
             </div>
@@ -313,18 +282,12 @@ export default function ContentFeed({
 
           <aside className="library-reference-summary">
             <div className="library-reference-summary-card">
-              <span>{textValue(slice.primary.summaryEyebrow, 'Manual health')}</span>
+              <span>{textValue(slice.primary.summaryEyebrow)}</span>
               <strong>
-                {textValue(
-                  slice.primary.summaryTitle,
-                  'Designed as a living field guide, not a forgotten docs annex.'
-                )}
+                {textValue(slice.primary.summaryTitle)}
               </strong>
               <p>
-                {textValue(
-                  slice.primary.summaryBody,
-                  'Every entry should read like working guidance for operators, contributors, and implementation teams.'
-                )}
+                {textValue(slice.primary.summaryBody)}
               </p>
             </div>
 
@@ -344,18 +307,22 @@ export default function ContentFeed({
             </dl>
 
             <div className="button-row">
-              <Link
-                className="btn btn-secondary"
-                href={linkValue(slice.primary.primaryHref, '/projects')}
-              >
-                {textValue(slice.primary.primaryLabel, 'Explore projects')}
-              </Link>
-              <Link
-                className="btn btn-ghost"
-                href={linkValue(slice.primary.secondaryHref, '/contact')}
-              >
-                {textValue(slice.primary.secondaryLabel, 'Talk to the team')}
-              </Link>
+              {linkValue(slice.primary.primaryHref) && textValue(slice.primary.primaryLabel) ? (
+                <Link
+                  className="btn btn-secondary"
+                  href={linkValue(slice.primary.primaryHref)}
+                >
+                  {textValue(slice.primary.primaryLabel)}
+                </Link>
+              ) : null}
+              {linkValue(slice.primary.secondaryHref) && textValue(slice.primary.secondaryLabel) ? (
+                <Link
+                  className="btn btn-ghost"
+                  href={linkValue(slice.primary.secondaryHref)}
+                >
+                  {textValue(slice.primary.secondaryLabel)}
+                </Link>
+              ) : null}
             </div>
           </aside>
         </div>
@@ -388,20 +355,15 @@ export default function ContentFeed({
                   <p>{entry.data.description}</p>
                 </div>
                 <Link className="library-reference-row-action" href={`/library/${entry.id}`}>
-                  {textValue(slice.primary.rowCtaLabel, 'Open reference')}
+                  {textValue(slice.primary.rowCtaLabel)}
                 </Link>
               </article>
             ))
           ) : (
             <article className="library-reference-row library-reference-row--solo">
               <div className="library-reference-row-copy">
-                <h3>{textValue(slice.primary.emptyTitle, 'More references are on the way.')}</h3>
-                <p>
-                  {textValue(
-                    slice.primary.emptyBody,
-                    'The first entry already establishes the manual family, and additional guides can drop into the same structure without more route work.'
-                  )}
-                </p>
+                <h3>{textValue(slice.primary.emptyTitle)}</h3>
+                <p>{textValue(slice.primary.emptyBody)}</p>
               </div>
             </article>
           )}

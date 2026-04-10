@@ -26,9 +26,9 @@ export default function LibraryArticleLayout({
         <div className="container library-article-hero-shell">
           <div className="library-article-copy">
             <Link className="library-article-backlink" href="/library">
-              {shell?.backLabel ?? 'Back to library'}
+              {shell?.backLabel ?? ''}
             </Link>
-            <p className="blog-story-mark">{shell?.mark ?? 'Sonicverse Manual'}</p>
+            {shell?.mark ? <p className="blog-story-mark">{shell.mark}</p> : null}
             <p className="eyebrow">{formatLibraryDate(entry.data.pubDate)}</p>
             <h1>{entry.data.title}</h1>
             <p className="library-article-subtitle">{entry.data.description}</p>
@@ -40,15 +40,9 @@ export default function LibraryArticleLayout({
 
           <aside className="library-article-summary" data-reveal>
             <div className="library-article-summary-card">
-              <span>{shell?.asideEyebrow ?? 'Reference frame'}</span>
-              <strong>
-                {shell?.asideTitle ??
-                  'Built to move from one operational question to the next without losing context.'}
-              </strong>
-              <p>
-                {shell?.asideBody ??
-                  'The library sits closer to the product story now, so guides can route directly into projects, demos, and contributor paths.'}
-              </p>
+              {shell?.asideEyebrow ? <span>{shell.asideEyebrow}</span> : null}
+              {shell?.asideTitle ? <strong>{shell.asideTitle}</strong> : null}
+              {shell?.asideBody ? <p>{shell.asideBody}</p> : null}
             </div>
 
             {entry.data.tags.length > 0 ? (
@@ -63,7 +57,7 @@ export default function LibraryArticleLayout({
 
             <div className="button-row">
               <Link className="btn btn-secondary" href="/library">
-                {shell?.browseAllLabel ?? 'Browse all references'}
+                {shell?.browseAllLabel ?? ''}
               </Link>
               {shell?.secondaryCtaLabel && shell?.secondaryCtaHref ? (
                 <Link className="btn btn-ghost" href={shell.secondaryCtaHref}>
@@ -100,9 +94,9 @@ export default function LibraryArticleLayout({
             <div className="library-article-recent">
               <div className="library-article-recent-head">
                 <p className="eyebrow">
-                  {shell?.primarySectionEyebrow ?? 'Recently updated'}
+                    {shell?.primarySectionEyebrow ?? ''}
                 </p>
-                <h2>{shell?.primarySectionTitle ?? 'Continue through the manual.'}</h2>
+                  <h2>{shell?.primarySectionTitle ?? ''}</h2>
               </div>
               <div className="library-article-recent-list">
                 {recentEntries.map((recentEntry) => (
@@ -119,8 +113,8 @@ export default function LibraryArticleLayout({
 
       <section className="container library-article-footer" data-reveal>
         <div className="library-article-footer-head">
-          <p className="eyebrow">{shell?.secondarySectionEyebrow ?? 'Related references'}</p>
-          <h2>{shell?.secondarySectionTitle ?? 'Keep browsing the manual.'}</h2>
+          <p className="eyebrow">{shell?.secondarySectionEyebrow ?? ''}</p>
+          <h2>{shell?.secondarySectionTitle ?? ''}</h2>
         </div>
 
         {relatedEntries.length > 0 ? (
@@ -139,7 +133,7 @@ export default function LibraryArticleLayout({
           <div className="library-article-empty">
             <p>No adjacent references yet. The manual will keep growing from here.</p>
             <Link className="btn btn-secondary" href="/library">
-              {shell?.browseAllLabel ?? 'Browse all references'}
+              {shell?.browseAllLabel ?? ''}
             </Link>
           </div>
         )}
