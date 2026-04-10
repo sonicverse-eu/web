@@ -4,6 +4,7 @@ import ContactForm from '@/app/contact/ContactForm';
 import { buildThreadId } from '@/lib/contact';
 import { contactCategories } from '@/lib/site-data/contact';
 import type { CmsSlice } from '@/lib/site-data/types';
+import { linkValue, textValue } from '@/slices/utils';
 
 const contactCategoryOrder = ['technical-support', 'product-pilot', 'partnerships', 'community'] as const;
 const demoCategoryOrder = ['product-pilot', 'technical-support', 'partnerships', 'community'] as const;
@@ -15,7 +16,7 @@ function orderedCategories(values: readonly string[]) {
 }
 
 export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
-  const formMode = String(slice.primary.formMode ?? 'contact');
+  const formMode = textValue(slice.primary.formMode, 'contact');
   const categories =
     formMode === 'demo'
       ? orderedCategories(demoCategoryOrder)
@@ -50,15 +51,15 @@ export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
       <div className="container contact-shell">
         <div className="contact-sidebar" data-reveal-group>
           <div className="contact-copy">
-            <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>
-            <h2>{String(slice.primary.title ?? '')}</h2>
-            <p>{String(slice.primary.body ?? '')}</p>
+            <p className="eyebrow">{textValue(slice.primary.eyebrow)}</p>
+            <h2>{textValue(slice.primary.title)}</h2>
+            <p>{textValue(slice.primary.body)}</p>
           </div>
 
           <div className="contact-guidance">
             <div className="contact-copy-card">
-              <span>{String(slice.primary.panelTitle ?? '')}</span>
-              <p>{String(slice.primary.panelBody ?? '')}</p>
+              <span>{textValue(slice.primary.panelTitle)}</span>
+              <p>{textValue(slice.primary.panelBody)}</p>
             </div>
 
             <ul className="contact-meta-list" aria-label="What helps us reply well">
@@ -72,9 +73,9 @@ export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
             <p className="contact-link-kicker">Direct paths</p>
             <div className="contact-link-list">
               {slice.items.map((item, index) => (
-                <Link key={`${slice.id}-${index}`} href={String(item.href ?? '/contact')}>
-                  <span>{String(item.label ?? '')}</span>
-                  <strong>{String(item.value ?? '')}</strong>
+                <Link key={`${slice.id}-${index}`} href={linkValue(item.href, '/contact')}>
+                  <span>{textValue(item.label)}</span>
+                  <strong>{textValue(item.value)}</strong>
                 </Link>
               ))}
             </div>

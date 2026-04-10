@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { SliceRendererProps } from '@/slices/types';
 import type { CmsSlice } from '@/lib/site-data/types';
+import { linkValue, textValue } from '@/slices/utils';
 
 export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
   if (slice.variation === 'project_next') {
@@ -9,18 +10,18 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
         <div className="container">
           <div className="project-next-shell">
             <div className="cta-copy project-next-copy">
-              <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>
-              <h2>{String(slice.primary.title ?? '')}</h2>
-              <p>{String(slice.primary.body ?? '')}</p>
+              <p className="eyebrow">{textValue(slice.primary.eyebrow)}</p>
+              <h2>{textValue(slice.primary.title)}</h2>
+              <p>{textValue(slice.primary.body)}</p>
               <div className="button-row">
-                {slice.primary.primaryHref && slice.primary.primaryLabel ? (
-                  <Link className="btn btn-primary" href={String(slice.primary.primaryHref)}>
-                    {String(slice.primary.primaryLabel)}
+                {linkValue(slice.primary.primaryHref) && textValue(slice.primary.primaryLabel) ? (
+                  <Link className="btn btn-primary" href={linkValue(slice.primary.primaryHref)}>
+                    {textValue(slice.primary.primaryLabel)}
                   </Link>
                 ) : null}
-                {slice.primary.secondaryHref ? (
-                  <Link className="btn btn-secondary" href={String(slice.primary.secondaryHref)}>
-                    {String(slice.primary.secondaryLabel ?? '')}
+                {linkValue(slice.primary.secondaryHref) ? (
+                  <Link className="btn btn-secondary" href={linkValue(slice.primary.secondaryHref)}>
+                    {textValue(slice.primary.secondaryLabel)}
                   </Link>
                 ) : null}
               </div>
@@ -29,11 +30,11 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
             {slice.items.length ? (
               <div className="project-next-links" data-reveal-group>
                 {slice.items.map((item, index) =>
-                  item.href ? (
-                    <Link key={`${slice.id}-${index}`} href={String(item.href)} className="project-next-link">
-                      <span>{String(item.meta ?? '')}</span>
-                      <strong>{String(item.label ?? '')}</strong>
-                      <p>{String(item.detail ?? item.text ?? '')}</p>
+                  linkValue(item.href) ? (
+                    <Link key={`${slice.id}-${index}`} href={linkValue(item.href)} className="project-next-link">
+                      <span>{textValue(item.meta)}</span>
+                      <strong>{textValue(item.label)}</strong>
+                      <p>{textValue(item.detail) || textValue(item.text)}</p>
                     </Link>
                   ) : null
                 )}
@@ -50,15 +51,15 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
       <div className="container">
         <div className="cta-shell">
           <div className="cta-copy">
-            <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>
-            <h2>{String(slice.primary.title ?? '')}</h2>
-            <p>{String(slice.primary.body ?? '')}</p>
+            <p className="eyebrow">{textValue(slice.primary.eyebrow)}</p>
+            <h2>{textValue(slice.primary.title)}</h2>
+            <p>{textValue(slice.primary.body)}</p>
             {slice.items.length ? (
               <div className="cta-links">
                 {slice.items.map((item, index) =>
-                  item.href ? (
-                    <Link key={`${slice.id}-${index}`} href={String(item.href)}>
-                      {String(item.label ?? '')}
+                  linkValue(item.href) ? (
+                    <Link key={`${slice.id}-${index}`} href={linkValue(item.href)}>
+                      {textValue(item.label)}
                     </Link>
                   ) : null
                 )}
@@ -66,14 +67,14 @@ export default function CallToAction({ slice }: SliceRendererProps<CmsSlice>) {
             ) : null}
           </div>
           <div className="button-row">
-            {slice.primary.primaryHref && slice.primary.primaryLabel ? (
-              <Link className="btn btn-primary" href={String(slice.primary.primaryHref)}>
-                {String(slice.primary.primaryLabel)}
+            {linkValue(slice.primary.primaryHref) && textValue(slice.primary.primaryLabel) ? (
+              <Link className="btn btn-primary" href={linkValue(slice.primary.primaryHref)}>
+                {textValue(slice.primary.primaryLabel)}
               </Link>
             ) : null}
-            {slice.primary.secondaryHref ? (
-              <Link className="btn btn-secondary" href={String(slice.primary.secondaryHref)}>
-                {String(slice.primary.secondaryLabel ?? '')}
+            {linkValue(slice.primary.secondaryHref) ? (
+              <Link className="btn btn-secondary" href={linkValue(slice.primary.secondaryHref)}>
+                {textValue(slice.primary.secondaryLabel)}
               </Link>
             ) : null}
           </div>

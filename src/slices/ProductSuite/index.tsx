@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { SliceRendererProps } from '@/slices/types';
 import type { CmsSlice, ProductDocument, SliceContext } from '@/lib/site-data/types';
+import { linkValue, textValue } from '@/slices/utils';
 
 function accentClass(accent: string) {
   return accent ? `product-card--${accent}` : '';
@@ -21,15 +22,15 @@ export default function ProductSuite({
       <section className={`slice slice-projects-editorial slice-projects-editorial--${slice.variation}`} id="project-suite">
         <div className="container section-shell">
           <div className="section-heading section-heading--editorial" data-reveal>
-            <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>
+            <p className="eyebrow">{textValue(slice.primary.eyebrow)}</p>
             <div className="section-heading-row">
               <div>
-                <h2>{String(slice.primary.title ?? '')}</h2>
-                <p>{String(slice.primary.body ?? '')}</p>
+                <h2>{textValue(slice.primary.title)}</h2>
+                <p>{textValue(slice.primary.body)}</p>
               </div>
-              {slice.primary.ctaHref ? (
-                <Link className="text-link" href={String(slice.primary.ctaHref)}>
-                  {String(slice.primary.ctaLabel ?? '')}
+              {linkValue(slice.primary.ctaHref) ? (
+                <Link className="text-link" href={linkValue(slice.primary.ctaHref)}>
+                  {textValue(slice.primary.ctaLabel)}
                 </Link>
               ) : null}
             </div>
@@ -77,15 +78,15 @@ export default function ProductSuite({
     <section className={`slice slice-products slice-products--${slice.variation}`} id="project-suite">
       <div className="container section-shell">
         <div className="section-heading" data-reveal>
-          <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>
+          <p className="eyebrow">{textValue(slice.primary.eyebrow)}</p>
           <div className="section-heading-row">
             <div>
-              <h2>{String(slice.primary.title ?? '')}</h2>
-              <p>{String(slice.primary.body ?? '')}</p>
+              <h2>{textValue(slice.primary.title)}</h2>
+              <p>{textValue(slice.primary.body)}</p>
             </div>
-            {slice.primary.ctaHref ? (
-              <Link className="text-link" href={String(slice.primary.ctaHref)}>
-                {String(slice.primary.ctaLabel ?? '')}
+            {linkValue(slice.primary.ctaHref) ? (
+              <Link className="text-link" href={linkValue(slice.primary.ctaHref)}>
+                {textValue(slice.primary.ctaLabel)}
               </Link>
             ) : null}
           </div>
