@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { SettingsDocument } from '@/lib/prismic/types';
+import type { SettingsDocument } from '@/lib/site-data/types';
 
 interface SiteFooterProps {
   settings: SettingsDocument;

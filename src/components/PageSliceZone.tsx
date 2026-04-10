@@ -1,6 +1,5 @@
-import { SliceZone } from '@prismicio/react';
 import { components } from '@/slices';
-import type { CmsSlice, ProductDocument } from '@/lib/prismic/types';
+import type { CmsSlice, ProductDocument } from '@/lib/site-data/types';
 
 interface PageSliceZoneProps {
   slices: CmsSlice[];
@@ -8,5 +7,17 @@ interface PageSliceZoneProps {
 }
 
 export default function PageSliceZone({ slices, products }: PageSliceZoneProps) {
-  return <SliceZone slices={slices} components={components} context={{ products }} />;
+  return (
+    <>
+      {slices.map((slice) => {
+        const Component = components[slice.slice_type];
+
+        if (!Component) {
+          return null;
+        }
+
+        return <Component key={slice.id} slice={slice} context={{ products }} />;
+      })}
+    </>
+  );
 }

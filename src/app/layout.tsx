@@ -4,7 +4,7 @@ import '../styles/global.css';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import MotionProvider from '@/components/MotionProvider';
-import { getAllProducts, getSettings } from '@/lib/prismic/api';
+import { getAllProducts, getSettings } from '@/lib/site-data/api';
 
 const manrope = Manrope({
   subsets: ['latin'],

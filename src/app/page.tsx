@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import PageSliceZone from '@/components/PageSliceZone';
-import { getAllProducts, getPageByUID } from '@/lib/prismic/api';
-import { buildMetadata } from '@/lib/prismic/metadata';
+import { getAllProducts, getPageByUID } from '@/lib/site-data/api';
+import { buildMetadata } from '@/lib/site-data/metadata';
 
 export async function generateMetadata() {
   const page = await getPageByUID('home');

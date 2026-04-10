@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import type { SliceComponentProps } from '@prismicio/react';
-import type { CmsSlice, SliceContext } from '@/lib/prismic/types';
+import type { SliceRendererProps } from '@/slices/types';
+import type { CmsSlice, SliceContext } from '@/lib/site-data/types';
 
 type HeroItem = {
   label: string;
@@ -76,7 +76,7 @@ function HeroProof({
 export default function Hero({
   slice,
   context,
-}: SliceComponentProps<CmsSlice, SliceContext>) {
+}: SliceRendererProps<CmsSlice, SliceContext>) {
   const eyebrow = textValue(slice.primary.eyebrow);
   const title = textValue(slice.primary.title);
   const body = textValue(slice.primary.body);

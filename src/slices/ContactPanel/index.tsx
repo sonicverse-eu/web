@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import type { SliceComponentProps } from '@prismicio/react';
+import type { SliceRendererProps } from '@/slices/types';
 import ContactForm from '@/app/contact/ContactForm';
 import { buildThreadId } from '@/lib/contact';
-import { contactCategories } from '@/lib/prismic/contact';
-import type { CmsSlice } from '@/lib/prismic/types';
+import { contactCategories } from '@/lib/site-data/contact';
+import type { CmsSlice } from '@/lib/site-data/types';
 
-export default function ContactPanel({ slice }: SliceComponentProps<CmsSlice>) {
+export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
   const formMode = String(slice.primary.formMode ?? 'contact');
   const categories =
     formMode === 'demo'

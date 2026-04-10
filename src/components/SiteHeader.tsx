@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ProductDocument, SettingsDocument } from '@/lib/prismic/types';
+import type { ProductDocument, SettingsDocument } from '@/lib/site-data/types';
 import ThemeToggle from './ThemeToggle';
 
 interface SiteHeaderProps {

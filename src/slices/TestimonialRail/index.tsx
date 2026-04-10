@@ -1,7 +1,7 @@
-import type { SliceComponentProps } from '@prismicio/react';
-import type { CmsSlice } from '@/lib/prismic/types';
+import type { SliceRendererProps } from '@/slices/types';
+import type { CmsSlice } from '@/lib/site-data/types';
 
-export default function TestimonialRail({ slice }: SliceComponentProps<CmsSlice>) {
+export default function TestimonialRail({ slice }: SliceRendererProps<CmsSlice>) {
   return (
     <section className={`slice slice-testimonials slice-testimonials--${slice.variation}`}>
       <div className="container section-shell">

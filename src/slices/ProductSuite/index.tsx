@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import type { SliceComponentProps } from '@prismicio/react';
-import type { CmsSlice, ProductDocument, SliceContext } from '@/lib/prismic/types';
+import type { SliceRendererProps } from '@/slices/types';
+import type { CmsSlice, ProductDocument, SliceContext } from '@/lib/site-data/types';
 
 function accentClass(accent: string) {
   return accent ? `product-card--${accent}` : '';
@@ -9,7 +9,7 @@ function accentClass(accent: string) {
 export default function ProductSuite({
   slice,
   context,
-}: SliceComponentProps<CmsSlice, SliceContext>) {
+}: SliceRendererProps<CmsSlice, SliceContext>) {
   const products = context?.products ?? [];
 
   if (!products.length) {

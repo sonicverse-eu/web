@@ -1,7 +1,7 @@
-import type { SliceComponentProps } from '@prismicio/react';
-import type { CmsSlice } from '@/lib/prismic/types';
+import type { SliceRendererProps } from '@/slices/types';
+import type { CmsSlice } from '@/lib/site-data/types';
 
-export default function ContentColumns({ slice }: SliceComponentProps<CmsSlice>) {
+export default function ContentColumns({ slice }: SliceRendererProps<CmsSlice>) {
   return (
     <section className={`slice slice-columns slice-columns--${slice.variation}`}>
       <div className="container columns-shell">

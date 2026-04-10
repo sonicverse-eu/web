@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import PageSliceZone from '@/components/PageSliceZone';
-import { getAllProducts, getProductByUID } from '@/lib/prismic/api';
-import { buildMetadata } from '@/lib/prismic/metadata';
+import { getAllProducts, getProductByUID } from '@/lib/site-data/api';
+import { buildMetadata } from '@/lib/site-data/metadata';
 
 type ProductPageProps = {
   params: Promise<{ uid: string }>;

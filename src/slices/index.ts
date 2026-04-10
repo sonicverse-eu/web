@@ -1,4 +1,5 @@
-import type { SliceZoneComponents } from '@prismicio/react';
+import type { ComponentType } from 'react';
+import type { CmsSlice, SliceContext } from '@/lib/site-data/types';
 import Hero from './Hero';
 import ProductSuite from './ProductSuite';
 import FeatureGrid from './FeatureGrid';
@@ -8,8 +9,11 @@ import PricingGrid from './PricingGrid';
 import CallToAction from './CallToAction';
 import ContentColumns from './ContentColumns';
 import ContactPanel from './ContactPanel';
+import type { SliceRendererProps } from './types';
 
-export const components = {
+type SliceRenderer = ComponentType<SliceRendererProps<CmsSlice, SliceContext>>;
+
+export const components: Record<CmsSlice['slice_type'], SliceRenderer> = {
   hero: Hero,
   product_suite: ProductSuite,
   feature_grid: FeatureGrid,
@@ -19,4 +23,4 @@ export const components = {
   call_to_action: CallToAction,
   content_columns: ContentColumns,
   contact_panel: ContactPanel,
-} as unknown as SliceZoneComponents;
+};

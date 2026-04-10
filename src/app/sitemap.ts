@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getBlogPosts, getLibraryEntries } from '@/lib/content';
-import { getAllProducts } from '@/lib/prismic/api';
+import { getAllProducts } from '@/lib/site-data/api';
 import { SITE_URL, staticSitemapRoutes } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
