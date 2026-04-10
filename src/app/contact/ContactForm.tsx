@@ -99,9 +99,9 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
       </div>
 
       <ul className="contact-trust" aria-label="Contact form highlights">
-        <li>Pick the closest request type and we will route from there.</li>
-        <li>Reference links help, but they are optional.</li>
-        <li>The same thread ID stays with the full conversation.</li>
+          <li>Pick the closest request type and we will route from there.</li>
+          {/* Removed per request: Reference links help, but they are optional. */}
+          {/* Removed per request: The same thread ID stays with the full conversation. */}
       </ul>
 
       {state.message && (

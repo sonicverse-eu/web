@@ -2,19 +2,37 @@ import Link from 'next/link';
 import type { SettingsDocument } from '@/lib/site-data/types';
 
 interface SiteFooterProps {
-  settings: SettingsDocument;
+  settings: SettingsDocument | null;
 }
 
 export default function SiteFooter({ settings }: SiteFooterProps) {
-  const brandName = settings.data.footerBrandName?.trim() || 'Sonicverse';
-  const brandTagline = settings.data.footerBrandTagline?.trim() || 'Audio operations platform';
-  const legalText = settings.data.footerLegalText?.trim() || 'Open infrastructure for modern audio teams.';
-  const bottomLinks = settings.data.footerBottomLinks.length
-    ? settings.data.footerBottomLinks
-    : [
-      { label: 'Audio Streaming Stack', href: '/projects/audio-streaming-stack' },
-      { label: 'Book a demo', href: '/demo' },
-    ];
+  if (!settings) {
+    return null;
+  }
+
+  const brandName = settings.data.footerBrandName?.trim() ?? '';
+  const brandTagline = settings.data.footerBrandTagline?.trim() ?? '';
+  const legalText = settings.data.footerLegalText?.trim() ?? '';
+  const footerTagline = settings.data.footerTagline?.trim() ?? '';
+  const bottomLinks = settings.data.footerBottomLinks;
+  const footerLinks = settings.data.footerLinks;
+  const footerResources = settings.data.footerResources;
+  const footerContact = settings.data.footerContact;
+
+  const hasFooterContent = Boolean(
+    brandName ||
+      brandTagline ||
+      legalText ||
+      footerTagline ||
+      bottomLinks.length ||
+      footerLinks.length ||
+      footerResources.length ||
+      footerContact.length,
+  );
+
+  if (!hasFooterContent) {
+    return null;
+  }
 
   return (
     <footer className="site-footer">
@@ -22,61 +40,73 @@ export default function SiteFooter({ settings }: SiteFooterProps) {
         <div className="site-footer-brand">
           <div className="brand-lockup">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="Sonicverse logo" />
-            <div>
-              <strong>{brandName}</strong>
-              <span>{brandTagline}</span>
-            </div>
+            {brandName || brandTagline ? (
+              <div>
+                {brandName ? <strong>{brandName}</strong> : null}
+                {brandTagline ? <span>{brandTagline}</span> : null}
+              </div>
+            ) : null}
           </div>
-          <p>{settings.data.footerTagline}</p>
+          {footerTagline ? <p>{footerTagline}</p> : null}
         </div>
 
-        <div>
-          <h3>Company</h3>
-          <ul>
-            {settings.data.footerLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {footerLinks.length ? (
+          <div>
+            <h3>Company</h3>
+            <ul>
+              {footerLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}>{link.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
-        <div>
-          <h3>Resources</h3>
-          <ul>
-            {settings.data.footerResources.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {footerResources.length ? (
+          <div>
+            <h3>Resources</h3>
+            <ul>
+              {footerResources.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}>{link.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
-        <div>
-          <h3>Contact</h3>
-          <ul>
-            {settings.data.footerContact.map((link) => (
-              <li key={link.href}>
-                <a href={link.href}>
-                  <strong>{link.label}</strong>
-                  <span>{link.value}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {footerContact.length ? (
+          <div>
+            <h3>Contact</h3>
+            <ul>
+              {footerContact.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href}>
+                    <strong>{link.label}</strong>
+                    <span>{link.value}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
 
-      <div className="container site-footer-bottom">
-        <p>&copy; {new Date().getFullYear()} {brandName}. {legalText}</p>
-        <div>
-          {bottomLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
-            </Link>
-          ))}
+      {legalText || bottomLinks.length ? (
+        <div className="container site-footer-bottom">
+          {legalText ? <p>&copy; {new Date().getFullYear()} {brandName}. {legalText}</p> : null}
+          {bottomLinks.length ? (
+            <div>
+              {bottomLinks.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          ) : null}
         </div>
-      </div>
+      ) : null}
     </footer>
   );
 }

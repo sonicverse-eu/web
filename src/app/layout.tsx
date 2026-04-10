@@ -22,11 +22,11 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://sonicverse.eu'),
   title: {
-    default: 'Sonicverse | Audio operations platform',
-    template: '%s | Sonicverse',
+    default: 'Sonicverse - OSS for independent media',
+    template: '%s - Sonicverse',
   },
   description:
-    'Sonicverse helps audio teams modernize streaming, metadata, and scheduling workflows on an open, composable stack.',
+    'Sonicverse helps independent media with tools to build, grow, and monetize their audience. We offer a suite of open-source products for radiostations, podcasts, and more.',
   openGraph: {
     type: 'website',
     siteName: 'Sonicverse',

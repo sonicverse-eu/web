@@ -1,5 +1,4 @@
 import * as prismic from '@prismicio/client';
-import { mockPages, mockProducts, mockSettings } from './mock-content';
 import type {
   CmsSlice,
   PageDocument,
@@ -9,17 +8,15 @@ import type {
 } from './types';
 
 const repositoryName = 'sonicverse-eu';
-const pageSingletonTypes = ['home', 'about', 'community', 'contact', 'demo', 'projects', 'blog', 'library'] as const;
+const pageSingletonTypes = ['home', 'about', 'community', 'contact', 'projects', 'blog'] as const;
 
 const routes: prismic.ClientConfig['routes'] = [
   { type: 'home', path: '/' },
   { type: 'about', path: '/about' },
   { type: 'community', path: '/community' },
   { type: 'contact', path: '/contact' },
-  { type: 'demo', path: '/demo' },
   { type: 'projects', path: '/projects' },
   { type: 'blog', path: '/blog' },
-  { type: 'library', path: '/library' },
   { type: 'page', path: '/:uid' },
   { type: 'product', path: '/projects/:uid' },
 ];
@@ -207,13 +204,13 @@ function mapProductDocument(document: prismic.PrismicDocument): ProductDocument 
   };
 }
 
-export async function getSettings(): Promise<SettingsDocument> {
+export async function getSettings(): Promise<SettingsDocument | null> {
   try {
     const client = createClient();
     const settings = await client.getSingle('settings');
     return mapSettingsDocument(settings);
   } catch {
-    return mockSettings;
+    return null;
   }
 }
 
@@ -231,10 +228,10 @@ export async function getPageByUID(uid: string): Promise<PageDocument | null> {
     return mapPageDocument(page, uid);
   } catch (error) {
     if (error instanceof prismic.NotFoundError) {
-      return mockPages.find((page) => page.uid === uid) ?? null;
+      return null;
     }
 
-    return mockPages.find((page) => page.uid === uid) ?? null;
+    return null;
   }
 }
 
@@ -248,12 +245,8 @@ export async function getAllProducts(): Promise<ProductDocument[]> {
     const client = createClient();
     const products = await client.getAllByType('product');
 
-    if (!products.length) {
-      return mockProducts;
-    }
-
     return products.map(mapProductDocument);
   } catch {
-    return mockProducts;
+    return [];
   }
 }

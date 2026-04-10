@@ -28,20 +28,18 @@ export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
           'We usually follow up within two business days.',
         ]
       : [
-          'One clear pressure point is enough to get the conversation moving.',
-          'Reference links help, but they are optional.',
-          'We keep the same thread ID in every follow-up so context stays intact.',
+        // Removed per request
         ];
   const alternatePaths =
     formMode === 'demo'
       ? [
           { label: 'Need more background first?', value: 'Browse the project lineup', href: '/projects' },
-          { label: 'Prefer written context?', value: 'Read the library', href: '/library' },
+          { label: 'Prefer written context?', value: 'Read the blog', href: '/blog' },
           { label: 'General questions instead?', value: 'Use the contact page', href: '/contact' },
         ]
       : [
-          { label: 'Prefer a walkthrough?', value: 'Book a focused demo', href: '/demo' },
-          { label: 'Need implementation context?', value: 'Browse the library', href: '/library' },
+          { label: 'Prefer a walkthrough?', value: 'Book a focused demo', href: '/contact' },
+          { label: 'Need implementation context?', value: 'Browse the blog', href: '/blog' },
           { label: 'Exploring the stack?', value: 'See the project lineup', href: '/projects' },
         ];
 
@@ -69,7 +67,7 @@ export default function ContactPanel({ slice }: SliceRendererProps<CmsSlice>) {
           </div>
 
           <div className="contact-link-cluster">
-            <p className="contact-link-kicker">Direct paths</p>
+            {/* Removed 'Direct paths' kicker per request */}
             <div className="contact-link-list">
               {slice.items.map((item, index) => (
                 <Link key={`${slice.id}-${index}`} href={String(item.href ?? '/contact')}>
