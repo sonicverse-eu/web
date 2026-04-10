@@ -1,0 +1,15 @@
+{
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/_not-found/page": "/_not-found",
+  "/library/[slug]/page": "/library/[slug]",
+  "/about/page": "/about",
+  "/blog/page": "/blog",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/contact/page": "/contact",
+  "/projects/page": "/projects",
+  "/community/page": "/community",
+  "/library/page": "/library",
+  "/projects/[slug]/page": "/projects/[slug]",
+  "/page": "/"
+}

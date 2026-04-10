@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import CTABand from '../components/CTABand.astro';
+import ProductCard from '../components/ProductCard.astro';
 
 const pageEntries = await getCollection('pages');
 const page = pageEntries.find((entry) =>
@@ -15,6 +17,12 @@ const { Content } = await render(page);
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const getProjectSlug = (project: (typeof projects)[number]) =>
   project.id.replace(/\.(md|mdoc)$/, '');
+
+const projectAudiences: Record<string, string> = {
+  'audio-streaming-stack': 'Independent broadcasters & community radio stations',
+  'media-metadata-api': 'Podcast platforms & media archive teams',
+  'broadcast-scheduler': 'Community radio & college broadcast stations',
+};
 ---
 
 <Layout
@@ -23,38 +31,44 @@ const getProjectSlug = (project: (typeof projects)[number]) =>
   image={page.data.seoImage}
   currentPath="/projects"
 >
+  <!-- ── HERO ────────────────────────────────────────────── -->
   <section class="hero container" data-reveal-group>
     <div class="hero-glow" aria-hidden="true"></div>
     {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
     <h1 class="gradient-text">{page.data.heroTitle}</h1>
     <p class="hero-subtitle">{page.data.heroSubtitle}</p>
-    {page.data.ctaHref && page.data.ctaLabel && (
-      <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
-    )}
+    <div class="button-row">
+      {page.data.ctaHref && page.data.ctaLabel && (
+        <a class="button button-primary" href={page.data.ctaHref} target="_blank" rel="noopener noreferrer">
+          {page.data.ctaLabel}
+        </a>
+      )}
+    </div>
   </section>
 
-  <section class="container prose section-gap" data-reveal>
-    <Content frontmatter={page.data} />
-  </section>
-
-  <section class="container section-gap" data-reveal>
-    <div class="section-head">
+  <!-- ── PRODUCT GRID ─────────────────────────────────────── -->
+  <section class="container section-gap">
+    <div class="section-intro">
       {page.data.projectSectionEyebrow && <p class="eyebrow">{page.data.projectSectionEyebrow}</p>}
       {page.data.projectSectionTitle && <h2>{page.data.projectSectionTitle}</h2>}
     </div>
-    <div class="card-grid">
-      {
-        projects.map((project, index) => (
-          <article class="feature-card" data-reveal data-reveal-delay={index * 0.09}>
-            <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
-            <h2>{project.data.title}</h2>
-            <p>{project.data.summary}</p>
-            <a class="button button-ghost" href={`/projects/${getProjectSlug(project)}/`}>
-              {page.data.projectLinkLabel ?? 'View project'}
-            </a>
-          </article>
-        ))
-      }
+    <div class="product-grid" data-reveal-group>
+      {projects.map((project, index) => (
+        <ProductCard
+          slug={getProjectSlug(project)}
+          title={project.data.title}
+          summary={project.data.summary}
+          status={project.data.status}
+          href={`/projects/${getProjectSlug(project)}/`}
+          audience={projectAudiences[getProjectSlug(project)]}
+          index={index}
+        />
+      ))}
     </div>
+  </section>
+
+  <!-- ── MARKDOWN CONTENT ─────────────────────────────────── -->
+  <section class="container prose section-gap" data-reveal style="max-width:52rem;">
+    <Content frontmatter={page.data} />
   </section>
 </Layout>

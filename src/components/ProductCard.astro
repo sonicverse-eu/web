@@ -1,0 +1,48 @@
+---
+import ProjectIcon from './ProjectIcon.astro';
+
+export interface Props {
+  slug: string;
+  title: string;
+  summary: string;
+  status: string;
+  href: string;
+  audience?: string;
+  index?: number;
+}
+
+const { slug, title, summary, status, href, audience, index = 0 } = Astro.props;
+---
+
+<a
+  class="product-card"
+  href={href}
+  data-reveal
+  data-reveal-delay={(index * 0.1).toFixed(2)}
+>
+  <div class="product-card-icon">
+    <ProjectIcon slug={slug} size={22} />
+  </div>
+  <div class="product-card-header">
+    <div class="product-card-title-row">
+      <h3 class="product-card-title">{title}</h3>
+      <span class={`badge badge-${status}`}>{status}</span>
+    </div>
+    <p class="product-card-summary">{summary}</p>
+  </div>
+  {audience && (
+    <p class="product-card-audience">{audience}</p>
+  )}
+  <span class="product-card-cta">
+    Explore project →
+  </span>
+</a>
+
+<style>
+  .product-card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+</style>

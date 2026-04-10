@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import ProjectIcon from '../../components/ProjectIcon.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -19,36 +20,75 @@ const projectSlug = project.id.replace(/\.(md|mdoc)$/, '');
 ---
 
 <Layout
-  title={`${project.data.title} | Sonicverse Projects`}
+  title={`${project.data.title} | Sonicverse`}
   description={project.data.summary}
   currentPath={`/projects/${projectSlug}/`}
 >
+  <!-- ── HERO ────────────────────────────────────────────── -->
   <section class="hero container" data-reveal-group>
-    <p class="eyebrow">Project</p>
-    <h1>{project.data.title}</h1>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+      <p class="eyebrow">Open Source Project</p>
+      <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <div class="project-hero-icon" aria-hidden="true">
+        <ProjectIcon slug={projectSlug} size={26} />
+      </div>
+      <h1 style="font-size:clamp(2rem,1.6rem + 2.5vw,3.4rem);letter-spacing:-0.04em;font-weight:800;background:linear-gradient(135deg,var(--text) 0%,var(--brand-400) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+        {project.data.title}
+      </h1>
+    </div>
     <p class="hero-subtitle">{project.data.summary}</p>
     <div class="button-row">
-      <a class="button button-primary" href={project.data.repoUrl}>Open repository</a>
-      <a class="button button-ghost" href="/projects">Back to all projects</a>
+      <a class="button button-primary" href={project.data.repoUrl} target="_blank" rel="noopener noreferrer">
+        Open on GitHub →
+      </a>
+      <a class="button button-ghost" href="/projects">← All products</a>
     </div>
   </section>
 
+  <!-- ── CONTENT + SIDEBAR ────────────────────────────────── -->
   <section class="container section-gap project-layout" data-reveal>
-    <article class="feature-card project-article">
+    <article class="feature-card project-article" style="padding:2rem;">
       <div class="prose">
         <Content frontmatter={project.data} />
       </div>
     </article>
 
-    <aside class="feature-card project-sidebar">
-      <p class="eyebrow">Project Snapshot</p>
-      <div class="project-sidebar-block">
-        <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
-      </div>
-      <div class="project-sidebar-block">
-        <h2>Repository</h2>
-        <p>Browse the source, open issues, or contribute directly on GitHub.</p>
-        <a href={project.data.repoUrl}>{project.data.repoUrl}</a>
+    <aside class="project-sidebar">
+      <div class="feature-card" style="padding:1.4rem;display:grid;gap:1rem;">
+        <p class="eyebrow">Project snapshot</p>
+
+        <div style="display:grid;gap:0.4rem;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">Status</span>
+          <span class={`badge badge-${project.data.status}`} style="justify-self:start;">{project.data.status}</span>
+        </div>
+
+        <div style="display:grid;gap:0.4rem;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">License</span>
+          <span style="font-size:0.88rem;font-weight:600;">MIT</span>
+        </div>
+
+        <div style="display:grid;gap:0.5rem;padding-top:0.6rem;border-top:1px solid var(--border-subtle);">
+          <span style="font-size:0.88rem;font-weight:600;">Repository</span>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.5;">Browse the source, open issues, or contribute directly on GitHub.</p>
+          <a
+            href={project.data.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button-primary"
+            style="margin-top:0.25rem;justify-content:center;font-size:0.84rem;"
+          >
+            View on GitHub →
+          </a>
+        </div>
+
+        <div style="padding-top:0.6rem;border-top:1px solid var(--border-subtle);">
+          <a href="/community" class="button button-ghost" style="width:100%;justify-content:center;font-size:0.84rem;">
+            Join the community
+          </a>
+        </div>
       </div>
     </aside>
   </section>

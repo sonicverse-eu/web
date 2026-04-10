@@ -1,6 +1,8 @@
 ---
 import brandIcon from '../assets/brand/2.svg';
 import ThemeToggle from './ThemeToggle.astro';
+import { getCollection } from 'astro:content';
+import ProjectIcon from './ProjectIcon.astro';
 
 export interface Props {
   currentPath?: string;
@@ -8,9 +10,16 @@ export interface Props {
 
 const { currentPath = '/' } = Astro.props;
 
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6);
+
+const getProjectSlug = (project: (typeof projects)[number]) =>
+  project.id.replace(/\.(md|mdoc)$/, '');
+
+
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
   { href: '/community', label: 'Community' },
   { href: '/blog', label: 'Blog' },
@@ -56,6 +65,46 @@ const isActive = (href: string, path: string = currentPath) => {
     <nav class="desktop-nav" aria-label="Primary">
       <span class="nav-indicator" aria-hidden="true"></span>
       <ul class="nav-list nav-list--desktop">
+        <li class="nav-has-dropdown">
+          <a
+            class:list={['nav-link--desktop', 'has-dropdown', { active: isActive('/projects') }]}
+            href="/projects"
+            data-nav-link
+            data-desktop-nav-link
+            aria-current={isActive('/projects') ? 'page' : undefined}
+          >
+            Products
+          </a>
+          {projects.length > 0 && (
+            <div class="nav-dropdown" role="menu">
+              <div class="nav-dropdown-header">
+                <span class="nav-dropdown-header-label">Our open source projects</span>
+              </div>
+              <div class="nav-dropdown-body">
+                {projects.map((project) => (
+                  <a
+                    class="nav-dropdown-item"
+                    href={`/projects/${getProjectSlug(project)}/`}
+                    role="menuitem"
+                  >
+                    <span class="nav-dropdown-icon" aria-hidden="true">
+                      <ProjectIcon slug={getProjectSlug(project)} size={16} />
+                    </span>
+                    <span class="nav-dropdown-text">
+                      <span class="nav-dropdown-title">{project.data.title}</span>
+                      <span class="nav-dropdown-desc">{project.data.summary.slice(0, 60)}{project.data.summary.length > 60 ? '…' : ''}</span>
+                    </span>
+                    <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
+                  </a>
+                ))}
+              </div>
+              <div class="nav-dropdown-footer">
+                <span class="nav-dropdown-footer-label">{projects.length} open source project{projects.length !== 1 ? 's' : ''}</span>
+                <a href="/projects">View all →</a>
+              </div>
+            </div>
+          )}
+        </li>
         {
           navLinks.map((link) => (
             <li>
@@ -120,23 +169,63 @@ const isActive = (href: string, path: string = currentPath) => {
       </button>
     </div>
     <nav aria-label="Mobile">
-      <ul class="mobile-nav-list">
-        {
-          navLinks.map((link) => (
-            <li>
+      {projects.length > 0 && (
+        <div class="mobile-nav-section">
+          <p class="mobile-nav-section-label">Products</p>
+          <ul class="mobile-nav-list mobile-nav-list--products">
+            {projects.map((project, i) => (
+              <li style={`transition-delay:${60 + i * 40}ms`}>
+                <a
+                  class={`mobile-nav-product-item${isActive(`/projects/${getProjectSlug(project)}/`) ? ' active' : ''}`}
+                  href={`/projects/${getProjectSlug(project)}/`}
+                  data-nav-link
+                  data-mobile-nav-link
+                  aria-current={isActive(`/projects/${getProjectSlug(project)}/`) ? 'page' : undefined}
+                >
+                  <span class="mobile-nav-product-icon">
+                    <ProjectIcon slug={getProjectSlug(project)} size={15} />
+                  </span>
+                  <span class="mobile-nav-product-info">
+                    <span class="mobile-nav-product-name">{project.data.title}</span>
+                    <span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+            <li style={`transition-delay:${60 + projects.length * 40}ms`}>
               <a
-                class={isActive(link.href) ? 'active' : ''}
-                href={link.href}
+                class={isActive('/projects') ? 'active' : ''}
+                href="/projects"
                 data-nav-link
                 data-mobile-nav-link
-                aria-current={isActive(link.href) ? 'page' : undefined}
+                style="font-size:0.82rem;color:var(--text-muted);"
               >
-                {link.label}
+                View all products →
               </a>
             </li>
-          ))
-        }
-      </ul>
+          </ul>
+        </div>
+      )}
+      <div class="mobile-nav-section">
+        <p class="mobile-nav-section-label">Navigate</p>
+        <ul class="mobile-nav-list">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  class={isActive(link.href) ? 'active' : ''}
+                  href={link.href}
+                  data-nav-link
+                  data-mobile-nav-link
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
       <a
         class="button button-primary docs-nav-button docs-nav-button--mobile"
         href={docsHref}
@@ -160,7 +249,7 @@ const isActive = (href: string, path: string = currentPath) => {
     __sonicverseScrollCleanup?: (() => void) | null;
   };
 
-  const navOrder = ['/', '/projects', '/about', '/community', '/blog', '/contact'];
+  const navOrder = ['/', '/projects', '/about', '/community', '/blog', '/contact', '/contact'];
   const mobileNavMediaQuery = window.matchMedia('(max-width: 700px)');
   const mobileNavTransitionMs = 320;
   const focusableSelector =
