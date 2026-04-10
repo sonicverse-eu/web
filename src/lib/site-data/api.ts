@@ -9,8 +9,17 @@ import type {
 } from './types';
 
 const repositoryName = 'sonicverse-eu';
+const pageSingletonTypes = ['home', 'about', 'community', 'contact', 'demo', 'projects', 'blog', 'library'] as const;
 
 const routes: prismic.ClientConfig['routes'] = [
+  { type: 'home', path: '/' },
+  { type: 'about', path: '/about' },
+  { type: 'community', path: '/community' },
+  { type: 'contact', path: '/contact' },
+  { type: 'demo', path: '/demo' },
+  { type: 'projects', path: '/projects' },
+  { type: 'blog', path: '/blog' },
+  { type: 'library', path: '/library' },
   { type: 'page', path: '/:uid' },
   { type: 'product', path: '/projects/:uid' },
 ];
@@ -49,9 +58,9 @@ function normalizePageUrl(uid: string, url?: string | null) {
   return uid === 'home' ? '/' : `/${uid}`;
 }
 
-function mapPageDocument(document: prismic.PrismicDocument): PageDocument {
+function mapPageDocument(document: prismic.PrismicDocument, requestedUID: string): PageDocument {
   const data = document.data as Record<string, unknown>;
-  const uid = document.uid ?? '';
+  const uid = document.uid ?? requestedUID;
 
   return {
     id: document.id,
@@ -67,6 +76,23 @@ function mapPageDocument(document: prismic.PrismicDocument): PageDocument {
       slices: toSliceZone(data.slices),
     },
   };
+}
+
+async function getPageFromSingleton(client: prismic.Client, uid: string): Promise<PageDocument | null> {
+  if (!pageSingletonTypes.includes(uid as (typeof pageSingletonTypes)[number])) {
+    return null;
+  }
+
+  try {
+    const singleton = await client.getSingle(uid);
+    return mapPageDocument(singleton, uid);
+  } catch (error) {
+    if (error instanceof prismic.NotFoundError) {
+      return null;
+    }
+
+    throw error;
+  }
 }
 
 function mapSettingsNav(value: unknown): PrimaryNavItem[] {
@@ -194,8 +220,15 @@ export async function getSettings(): Promise<SettingsDocument> {
 export async function getPageByUID(uid: string): Promise<PageDocument | null> {
   try {
     const client = createClient();
+
+    const singletonPage = await getPageFromSingleton(client, uid);
+
+    if (singletonPage) {
+      return singletonPage;
+    }
+
     const page = await client.getByUID('page', uid);
-    return mapPageDocument(page);
+    return mapPageDocument(page, uid);
   } catch (error) {
     if (error instanceof prismic.NotFoundError) {
       return mockPages.find((page) => page.uid === uid) ?? null;
