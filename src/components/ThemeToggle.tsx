@@ -42,7 +42,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      className="theme-toggle btn btn-ghost btn-circle"
+      className="theme-toggle"
       aria-label="Toggle color theme"
       onClick={handleClick}
     >

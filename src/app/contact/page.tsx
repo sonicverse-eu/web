@@ -15,5 +15,9 @@ export default async function ContactPage() {
     notFound();
   }
 
-  return <PageSliceZone slices={page.data.slices} products={products} />;
+  return (
+    <div className="wide-page-shell contact-page">
+      <PageSliceZone slices={page.data.slices} products={products} />
+    </div>
+  );
 }

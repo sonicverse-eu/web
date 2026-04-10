@@ -16,7 +16,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="home-page">
+    <div className="wide-page-shell home-page">
       <PageSliceZone slices={page.data.slices} products={products} />
     </div>
   );

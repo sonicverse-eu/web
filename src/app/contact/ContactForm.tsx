@@ -76,35 +76,37 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
     };
 
   return (
-    <form className="feature-card card bg-base-100 shadow-xl contact-form" action={formAction} noValidate>
+    <form className="feature-card contact-form" action={formAction} noValidate>
       <div className="contact-form-head">
-        <div>
-          <p className="contact-kicker">Contact Sonicverse</p>
+        <div className="contact-form-intro">
+          <p className="contact-kicker">Contact intake</p>
           <h2>Send a request</h2>
           <p className="contact-subtitle">
-            Share the goal, timeline, and the best way for the maintainers to follow up.
+            Share just enough context for a useful first reply. We will route it without sending
+            you through a maze.
           </p>
         </div>
         <div
-          className="contact-stage-card card bg-base-200 shadow-sm"
+          className="contact-stage-card"
           role="status"
           aria-live="polite"
           aria-atomic="true"
         >
           <p className="contact-stage-eyebrow">Thread ID</p>
           <p className="contact-stage-copy">{state.threadId}</p>
+          <p className="contact-stage-note">We keep this reference in every email reply.</p>
         </div>
       </div>
 
       <ul className="contact-trust" aria-label="Contact form highlights">
-        <li>The thread ID is included in both email subject lines for follow-up</li>
-        <li>Choose a single request type so the right maintainers can pick it up quickly</li>
-        <li>Reference links are optional, but helpful for bugs, pilots, and roadmap requests</li>
+        <li>Pick the closest request type and we will route from there.</li>
+        <li>Reference links help, but they are optional.</li>
+        <li>The same thread ID stays with the full conversation.</li>
       </ul>
 
       {state.message && (
         <p
-          className={`alert ${state.ok ? 'alert-success' : 'alert-error'} form-status ${state.ok ? 'form-status-success' : 'form-status-error'}`}
+          className={`form-status ${state.ok ? 'form-status-success' : 'form-status-error'}`}
           role={state.ok ? 'status' : 'alert'}
         >
           {state.message}
@@ -182,9 +184,9 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
       </div>
 
       <fieldset className="contact-step-panel active">
-        <legend>What do you need help with?</legend>
+        <legend>What should we route this as?</legend>
         <p className="contact-panel-intro">
-          Pick the closest request type. We route from here, so there is no extra routing dropdown to decipher.
+          Pick the closest lane. One clear choice is enough for us to get the right person involved.
         </p>
 
         <div className="contact-choice-grid">
@@ -201,7 +203,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
                 aria-invalid={state.errors?.category ? 'true' : undefined}
                 aria-describedby={state.errors?.category ? 'category-error category-help' : 'category-help'}
               />
-              <span className="contact-choice-card-copy card bg-base-200 shadow-sm">
+              <span className="contact-choice-card-copy">
                 <strong>{category.label}</strong>
                 {category.description && <span>{category.description}</span>}
               </span>
@@ -234,7 +236,7 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
         />
         <div className="contact-inline-meta">
           <p id="message-help" className="contact-note">
-            Include expected behavior, actual behavior, scope, or decision-makers when relevant.
+            Share the blocker, the outcome you want, or who needs the answer when that helps.
           </p>
           <p className="contact-count">{values.message.length} / 3000</p>
         </div>
@@ -265,29 +267,30 @@ export default function ContactForm({ categories, initialThreadId }: ContactForm
         )}
       </div>
 
-      <div className="contact-review card bg-base-200 shadow-sm" aria-live="polite">
-        <p className="contact-review-kicker">Submission preview</p>
+      <div className="contact-review" aria-live="polite">
+        <p className="contact-review-kicker">What we’ll route</p>
         <div className="contact-review-grid">
           <div>
-            <span>Reply to</span>
+            <span>We’ll reply to</span>
             <strong>{values.name || 'Your contact details will appear here'}</strong>
           </div>
           <div>
-            <span>Request type</span>
+            <span>We’ll route as</span>
             <strong>{selectedCategory?.label || 'Choose a request type'}</strong>
           </div>
           <div>
-            <span>Thread ID</span>
+            <span>Thread reference</span>
             <strong>{state.threadId}</strong>
           </div>
         </div>
         <p className="contact-note">
-          This same thread ID is submitted with the form and appears in both email subject lines for follow-up.
+          The same thread reference stays in the subject line so the conversation keeps context.
         </p>
       </div>
 
       <div className="contact-nav-row">
         <SubmitButton />
+        <p className="contact-submit-note">Typical first reply within two business days.</p>
       </div>
     </form>
   );

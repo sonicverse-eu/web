@@ -6,6 +6,12 @@ const BLOG_DATE_FORMATTER = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
 });
 
+export type BlogTagSummary = {
+  tag: string;
+  count: number;
+  latestPost: BlogEntry;
+};
+
 export function sortBlogPosts(posts: BlogEntry[]): BlogEntry[] {
   return [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
@@ -26,10 +32,12 @@ export function getReadingTimeMinutes(body: string): number {
   return Math.max(1, Math.ceil(wordCount / 220));
 }
 
-export function getBlogTagSummaries(
-  posts: BlogEntry[]
-): { tag: string; count: number; latestPost: BlogEntry }[] {
-  const tagMap = new Map<string, { tag: string; count: number; latestPost: BlogEntry }>();
+export function toBlogTopicId(tag: string): string {
+  return `tag-${tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
+}
+
+export function getBlogTagSummaries(posts: BlogEntry[]): BlogTagSummary[] {
+  const tagMap = new Map<string, BlogTagSummary>();
 
   for (const post of posts) {
     for (const tag of post.data.tags) {

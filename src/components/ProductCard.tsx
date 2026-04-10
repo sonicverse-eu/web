@@ -21,19 +21,19 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <a
-      className="product-card card bg-base-100 shadow-xl"
+      className="product-card-legacy"
       href={href}
       data-reveal
       data-reveal-delay={(index * 0.1).toFixed(2)}
     >
-      <div className="card-body p-0">
+      <div className="product-card-legacy-body">
         <div className="product-card-icon">
           <ProjectIcon slug={slug} size={22} />
         </div>
-        <div className="product-card-header">
-          <div className="product-card-title-row flex items-start justify-between gap-3">
+        <div className="product-card-legacy-header">
+          <div className="product-card-title-row">
             <h3 className="product-card-title">{title}</h3>
-            <span className={`badge badge-${status}`}>{status}</span>
+            <span className="product-card-status">{status}</span>
           </div>
           <p className="product-card-summary">{summary}</p>
         </div>

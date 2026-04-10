@@ -29,28 +29,28 @@ export const mockSettings: SettingsDocument = {
     announcement: 'Open infrastructure for broadcasters, podcast networks, and modern audio platforms.',
     primaryNav: [
       {
-        label: 'Products',
-        href: '/products',
+        label: 'Projects',
+        href: '/projects',
         children: [
           {
-            label: 'Compare all products',
-            href: '/products',
-            description: 'Explore every Sonicverse product by workflow and outcome.',
+            label: 'Compare all projects',
+            href: '/projects',
+            description: 'Read every Sonicverse project by workflow, team fit, and operational outcome.',
           },
           {
             label: 'Audio Streaming Stack',
-            href: '/products/audio-streaming-stack',
-            description: 'Resilient live streaming infrastructure with failover controls.',
+            href: '/projects/audio-streaming-stack',
+            description: 'Resilient live delivery infrastructure with failover and playback control.',
           },
           {
             label: 'Media Metadata API',
-            href: '/products/media-metadata-api',
-            description: 'Programmable metadata workflows across publishing formats.',
+            href: '/projects/media-metadata-api',
+            description: 'Programmable metadata normalization across ingest, archive, and publishing.',
           },
           {
             label: 'Broadcast Scheduler',
-            href: '/products/broadcast-scheduler',
-            description: 'Automate scheduling logic and reduce day-to-day operator load.',
+            href: '/projects/broadcast-scheduler',
+            description: 'Coordinate schedules, overrides, and fallback logic with less operator friction.',
           },
         ],
       },
@@ -143,14 +143,14 @@ export const mockSettings: SettingsDocument = {
     headerLoginHref: 'https://app.sonicverse.eu/login',
     headerCtaLabel: 'Book demo',
     headerCtaHref: '/demo',
-    productsMenuEyebrow: 'Product suite',
-    productsMenuTitle: 'Choose the workflow layer that fits your team right now.',
+    productsMenuEyebrow: 'Projects',
+    productsMenuTitle: 'Choose the project that matches the workflow pressure you need to fix first.',
     productsMenuDescription:
-      'Each Sonicverse product solves a clear operational job and can be adopted on its own or as part of a broader platform rollout.',
+      'Each Sonicverse project solves one operational job cleanly and can stand alone or connect into a broader platform rollout over time.',
     footerTagline:
       'Sonicverse is the modular audio operations platform for teams that want enterprise-grade workflows without proprietary lock-in.',
     footerLinks: [
-      { label: 'Products', href: '/products' },
+      { label: 'Projects', href: '/projects' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'About', href: '/about' },
       { label: 'Book a demo', href: '/demo' },
@@ -172,7 +172,7 @@ export const mockProducts: ProductDocument[] = [
   {
     id: 'audio-streaming-stack',
     uid: 'audio-streaming-stack',
-    url: '/products/audio-streaming-stack',
+    url: '/projects/audio-streaming-stack',
     type: 'product',
     data: {
       name: 'Audio Streaming Stack',
@@ -193,88 +193,127 @@ export const mockProducts: ProductDocument[] = [
         { label: 'Best for', value: 'Live audio' },
       ],
       slices: [
-        slice('hero', 'streaming', {
-          eyebrow: 'Streaming infrastructure',
-          title: 'Launch resilient live audio delivery without building the platform layer yourself.',
+        slice('hero', 'project_detail', {
+          eyebrow: 'Streaming infrastructure project',
+          title: 'A resilient delivery baseline for teams that already know the cost of outage triage.',
           body:
-            'Audio Streaming Stack gives broadcast and platform teams a production-ready baseline for ingest, failover, playback, and day-two operations.',
-          primaryLabel: 'Book a streaming demo',
+            'Audio Streaming Stack turns relay chains, failover rules, and playback outputs into one inspectable delivery surface that can ship quickly without feeling temporary.',
+          primaryLabel: 'Book a streaming review',
           primaryHref: '/demo',
-          secondaryLabel: 'Compare products',
-          secondaryHref: '/products',
-          supportingLabel: 'Best for broadcasters and platform teams',
+          secondaryLabel: 'View all projects',
+          secondaryHref: '/projects',
+          supportingLabel: 'Use when uptime risk is already an operator burden',
           supportingText:
-            'Go live faster, reduce operational fragility, and keep the stack inspectable from day one.',
-          visualEyebrow: 'Live delivery surface',
-          visualTitle: 'Keep source health, fallback behavior, and output paths in one operational view.',
+            'Built for stations and platform teams that need failover, delivery visibility, and a deployment shape they can still reason about six months later.',
+          visualEyebrow: 'Deployment dossier',
+          visualTitle: 'What this project stabilizes first.',
           visualBody:
-            'The product is built for teams that need confidence in live delivery, not another box of unmanaged streaming parts.',
+            'The page foregrounds failure handling, output paths, and rollout posture before it asks anyone to care about implementation detail.',
           tone: 'violet',
         }, [
           {
-            label: 'Source path',
-            title: 'Primary ingest with relay visibility',
-            detail: 'Track the health of live inputs and relay chains without guessing where delivery breaks.',
+            label: 'Signal 01',
+            title: 'Source visibility before listener impact',
+            detail: 'Track ingest and relay health early enough to act before delivery problems become support tickets.',
+            meta: 'Observability',
           },
           {
-            label: 'Fallback',
-            title: 'Silence detection and automatic switchover',
-            detail: 'Protect uptime with operational controls designed for real broadcast incidents.',
+            label: 'Signal 02',
+            title: 'Fallback logic designed for real incidents',
+            detail: 'Silence detection and switchover rules stay explicit instead of hiding inside ad hoc shell scripts.',
+            meta: 'Continuity',
           },
           {
-            label: 'Playback',
-            title: 'Direct streams and adaptive delivery',
-            detail: 'Support modern listening surfaces with Icecast and HLS from one product baseline.',
+            label: 'Signal 03',
+            title: 'One baseline for direct and adaptive playback',
+            detail: 'Support modern listening surfaces without splitting the operating model into separate stacks.',
+            meta: 'Distribution',
           },
         ]),
-        slice('feature_grid', 'productCapabilities', {
-          eyebrow: 'What it replaces',
-          title: 'From fragile broadcast plumbing to a repeatable streaming baseline.',
+        slice('content_columns', 'project_context', {
+          eyebrow: 'Project premise',
+          title: 'Move from improvised streaming plumbing to a delivery system operators can read quickly.',
           body:
-            'Audio Streaming Stack gives operations teams a clean path from single-server experiments to dependable, observable delivery.',
+            'Audio Streaming Stack is designed for teams that need a clean first implementation boundary: dependable live delivery, explicit failure handling, and enough visibility to hand the system between engineers without folklore.',
+          panelTitle: 'Where it fits best',
+          panelBody:
+            'Use it when the streaming layer is the urgent issue today, but the architecture still needs room to connect with scheduling and metadata work later.',
         }, [
           {
-            title: 'Ingest and relay',
-            text: 'Handle source ingest, relay streams, and broadcast distribution without stitching together bespoke services.',
+            title: 'Broadcast continuity',
+            text: 'Keep primary ingest, fallback behavior, and listener-facing outputs within one operational frame.',
           },
           {
-            title: 'Adaptive playback',
-            text: 'Deliver HLS output alongside direct stream endpoints so modern web and mobile players stay in sync.',
+            title: 'Implementation posture',
+            text: 'Adopt it as a self-hosted core with guided rollout help rather than a black-box managed service.',
           },
           {
-            title: 'Resilience controls',
-            text: 'Use automatic fallback and silence detection to reduce operator intervention during failures.',
-          },
-          {
-            title: 'Operational clarity',
-            text: 'Get a platform that is easier to reason about, extend, and hand over to the next engineer.',
+            title: 'Expansion path',
+            text: 'Layer in adjacent Sonicverse projects once the delivery baseline is stable and observable.',
           },
         ]),
-        slice('proof_band', 'workflow', {
-          eyebrow: 'Why teams adopt it',
-          title: 'Designed for the realities of live audio operations.',
-        }, [
-          { label: 'Self-hosting', value: 'Keep infrastructure and delivery logic under your control.' },
-          { label: 'Composable', value: 'Fits with Liquidsoap, station tooling, and custom orchestration.' },
-          { label: 'Transparent', value: 'Every moving part is inspectable, versioned, and adaptable.' },
-        ]),
-        slice('call_to_action', 'productNext', {
-          eyebrow: 'Need a tailored rollout?',
-          title: 'Plan your deployment with the Sonicverse team.',
+        slice('feature_grid', 'project_capabilities', {
+          eyebrow: 'Capability depth',
+          title: 'The core capabilities stay close to the incidents teams already recognize.',
           body:
-            'We can help you scope architecture, migration risk, and the fastest route to a dependable launch.',
-          primaryLabel: 'Book a streaming demo',
+            'Each capability is framed around an operational job, so the page reads like a briefing for engineers and operators instead of a generic feature list.',
+        }, [
+          {
+            title: 'Ingest and relay control',
+            text: 'Model the source path clearly enough that relay failures, silence events, and downstream breakage stop feeling mysterious.',
+          },
+          {
+            title: 'Playback coverage',
+            text: 'Serve direct streams and HLS outputs from the same delivery baseline so product and broadcast needs stay aligned.',
+          },
+          {
+            title: 'Resilience rules',
+            text: 'Treat fallback as a first-class operating concern instead of a late-stage patch on top of a fragile relay chain.',
+          },
+          {
+            title: 'Readable operations',
+            text: 'Give the next engineer a system they can inspect, extend, and reason about without reverse-engineering hidden assumptions.',
+          },
+        ]),
+        slice('proof_band', 'project_specs', {
+          eyebrow: 'Operational notes',
+          title: 'The shortest technical read before the walkthrough.',
+        }, [
+          { label: 'Deployment style', value: 'Self-hosted core with guided rollout and support options.' },
+          { label: 'Failure handling', value: 'Failover-first design with explicit continuity controls.' },
+          { label: 'Playback outputs', value: 'Direct streams and HLS from one operational baseline.' },
+          { label: 'Architecture posture', value: 'Composable with existing broadcast tooling and orchestration.' },
+        ]),
+        slice('call_to_action', 'project_next', {
+          eyebrow: 'Choose the next read',
+          title: 'Plan the rollout or open the adjacent project.',
+          body:
+            'If live delivery is only one part of the broader stack refresh, the related projects below show where teams usually go next.',
+          primaryLabel: 'Book a streaming review',
           primaryHref: '/demo',
-          secondaryLabel: 'Contact engineering',
+          secondaryLabel: 'Talk to engineering',
           secondaryHref: '/contact',
-        }),
+        }, [
+          {
+            label: 'Media Metadata API',
+            href: '/projects/media-metadata-api',
+            detail: 'Add a shared metadata layer when the release pipeline needs the same level of operational clarity.',
+            meta: 'Related project',
+          },
+          {
+            label: 'Broadcast Scheduler',
+            href: '/projects/broadcast-scheduler',
+            detail: 'Connect delivery reliability with scheduling control when the station workflow needs both layers to align.',
+            meta: 'Related project',
+          },
+        ]),
       ],
     },
   },
   {
     id: 'media-metadata-api',
     uid: 'media-metadata-api',
-    url: '/products/media-metadata-api',
+    url: '/projects/media-metadata-api',
     type: 'product',
     data: {
       name: 'Media Metadata API',
@@ -295,105 +334,127 @@ export const mockProducts: ProductDocument[] = [
         { label: 'Core value', value: 'Normalization' },
       ],
       slices: [
-        slice('hero', 'metadata', {
-          eyebrow: 'Developer API',
-          title: 'Normalize metadata workflows before format drift slows every release.',
+        slice('hero', 'project_detail', {
+          eyebrow: 'Metadata systems project',
+          title: 'A shared contract for metadata before format drift becomes release debt.',
           body:
-            'Media Metadata API gives archive, platform, and publishing teams one programmable contract for reading, validating, and transforming media metadata.',
-          primaryLabel: 'Book a metadata walkthrough',
+            'Media Metadata API gives archive, platform, and publishing teams one programmable boundary for reading, validating, and transforming metadata without maintaining a new parser for every system.',
+          primaryLabel: 'Book a metadata review',
           primaryHref: '/demo',
-          secondaryLabel: 'Talk to Sonicverse',
-          secondaryHref: '/contact',
-          supportingLabel: 'Built for teams with real metadata sprawl',
+          secondaryLabel: 'View all projects',
+          secondaryHref: '/projects',
+          supportingLabel: 'Use when metadata disagreements are slowing publishing',
           supportingText:
-            'Replace one-off parsers, reduce field mismatches, and make publishing rules easier to maintain across systems.',
-          visualEyebrow: 'Unified schema layer',
-          visualTitle: 'Map multiple metadata formats into one stable operational contract.',
+            'Built for engineering groups that need consistency across ingest, archives, feeds, and downstream app surfaces without hiding the rules inside four separate services.',
+          visualEyebrow: 'Schema dossier',
+          visualTitle: 'What this project simplifies first.',
           visualBody:
-            'The hero visual leans technical on purpose: this product wins when teams immediately see abstraction, validation, and consistency.',
+            'The page leads with normalization, validation, and rollout shape so teams can see exactly where the shared service boundary sits.',
           tone: 'emerald',
         }, [
           {
-            label: 'Input',
-            title: 'ID3 / Vorbis / MP4 / RSS',
-            detail: 'Read and write multiple format families behind one shared API.',
-            meta: 'Format abstraction',
+            label: 'Signal 01',
+            title: 'One contract across format families',
+            detail: 'Read and write ID3, Vorbis, MP4, and RSS through a stable interface instead of format-specific branches.',
+            meta: 'Abstraction',
           },
           {
-            label: 'Validation',
-            title: 'Normalize fields before they fork across systems',
-            detail: 'Centralize transformation and validation rules instead of duplicating them in each tool.',
-            meta: 'Batch-safe automation',
+            label: 'Signal 02',
+            title: 'Validation rules that live in one place',
+            detail: 'Centralize transformation logic so batch processing and editorial tooling stop drifting apart.',
+            meta: 'Consistency',
           },
           {
-            label: 'Output',
-            title: 'Return release-ready metadata payloads',
-            detail: 'Feed archives, players, apps, and syndication systems with cleaner contracts.',
-            meta: 'Publishing consistency',
+            label: 'Signal 03',
+            title: 'Cleaner outputs for publishing systems',
+            detail: 'Return release-ready payloads that are easier to pass into archives, players, apps, and syndication.',
+            meta: 'Distribution',
           },
         ]),
-        slice('feature_grid', 'productCapabilities', {
-          eyebrow: 'Built for pipeline teams',
-          title: 'A single interface for metadata that usually lives in four different systems.',
+        slice('content_columns', 'project_context', {
+          eyebrow: 'Project premise',
+          title: 'Use a shared metadata layer when the pipeline already has too many private translations.',
           body:
-            'When metadata changes shape at every step of the workflow, releases slow down and quality issues multiply. This API centralizes the hard parts.',
+            'Media Metadata API is for teams that feel the tax of format drift every week: inconsistent fields, duplicated validation, and brittle publishing adapters that all evolve at different speeds.',
+          panelTitle: 'Where it fits best',
+          panelBody:
+            'Adopt it when ingest, archive, and publishing teams all touch metadata, but no one wants another scattered rules engine.',
+        }, [
+          {
+            title: 'Ingest normalization',
+            text: 'Stabilize incoming files before they touch storage, QA, or editorial tooling.',
+          },
+          {
+            title: 'Archive consistency',
+            text: 'Keep long-lived media collections structurally searchable instead of accepting silent schema drift.',
+          },
+          {
+            title: 'Publishing readiness',
+            text: 'Expose one cleaner service boundary for feeds, apps, and distribution adapters to consume.',
+          },
+        ]),
+        slice('feature_grid', 'project_capabilities', {
+          eyebrow: 'Capability depth',
+          title: 'The implementation work is framed around the metadata debt teams already feel.',
+          body:
+            'The page avoids generic API language and instead shows where the shared service removes repeated transformation and validation work.',
         }, [
           {
             title: 'Format abstraction',
-            text: 'Read and write multiple audio metadata formats through one normalized contract.',
+            text: 'Collapse multiple metadata families behind one service boundary without losing the structure each workflow needs.',
           },
           {
             title: 'Batch-safe automation',
-            text: 'Process large media libraries with predictable validation and transformation rules.',
+            text: 'Process large media libraries with validation rules that behave predictably across bulk ingest and ongoing edits.',
           },
           {
             title: 'Podcast-aware fields',
-            text: 'Handle episode type, season data, chapters, and other distribution-specific fields cleanly.',
+            text: 'Handle chapters, season metadata, episode typing, and distribution quirks without inventing another bespoke adapter.',
           },
           {
-            title: 'Cleaner integrations',
-            text: 'Reduce edge-case logic in publishing systems, archives, and third-party platform adapters.',
+            title: 'Cleaner downstream integrations',
+            text: 'Reduce the edge-case logic living inside archives, publishing systems, and third-party connectors.',
           },
         ]),
-        slice('content_columns', 'operatingModel', {
-          eyebrow: 'Where it fits',
-          title: 'Use it as a shared metadata layer across ingest, curation, and distribution.',
-          body:
-            'Instead of every product team maintaining its own metadata rules, you can expose one stable service and evolve it centrally.',
-          panelTitle: 'Ideal teams',
-          panelBody:
-            'Best suited to engineering teams with multiple metadata touchpoints or legacy format fragmentation.',
+        slice('proof_band', 'project_specs', {
+          eyebrow: 'Operational notes',
+          title: 'The shortest technical read before the walkthrough.',
         }, [
-          {
-            title: 'Ingest',
-            text: 'Normalize incoming files before they touch storage or editorial tooling.',
-          },
-          {
-            title: 'Archive',
-            text: 'Keep long-term media libraries searchable and structurally consistent.',
-          },
-          {
-            title: 'Publishing',
-            text: 'Push release-ready payloads into feeds, players, apps, and syndication systems.',
-          },
+          { label: 'Format scope', value: 'ID3, Vorbis, MP4, RSS, and related publishing payloads.' },
+          { label: 'Best fit', value: 'Archive and platform teams with multiple metadata touchpoints.' },
+          { label: 'Adoption shape', value: 'API-first rollout with validation and transformation rules centralized.' },
+          { label: 'Primary gain', value: 'Predictable metadata flows instead of duplicated parser logic.' },
         ]),
-        slice('call_to_action', 'productNext', {
-          eyebrow: 'Want to remove metadata debt?',
-          title: 'Let’s map your current pipeline and show where a shared API helps most.',
+        slice('call_to_action', 'project_next', {
+          eyebrow: 'Choose the next read',
+          title: 'Map the shared service or open the adjacent project.',
           body:
-            'We’ll identify the biggest duplication points and outline a staged rollout that does not interrupt publishing.',
-          primaryLabel: 'Book a metadata walkthrough',
+            'Teams that standardize metadata often next look at streaming delivery or scheduling control, depending on where the operational pressure sits.',
+          primaryLabel: 'Book a metadata review',
           primaryHref: '/demo',
           secondaryLabel: 'Talk to Sonicverse',
           secondaryHref: '/contact',
-        }),
+        }, [
+          {
+            label: 'Audio Streaming Stack',
+            href: '/projects/audio-streaming-stack',
+            detail: 'Open the delivery project when metadata quality needs to line up with a more dependable live streaming layer.',
+            meta: 'Related project',
+          },
+          {
+            label: 'Broadcast Scheduler',
+            href: '/projects/broadcast-scheduler',
+            detail: 'Open the scheduling project when publishing metadata also needs to stay aligned with programming and fallback decisions.',
+            meta: 'Related project',
+          },
+        ]),
       ],
     },
   },
   {
     id: 'broadcast-scheduler',
     uid: 'broadcast-scheduler',
-    url: '/products/broadcast-scheduler',
+    url: '/projects/broadcast-scheduler',
     type: 'product',
     data: {
       name: 'Broadcast Scheduler',
@@ -414,84 +475,120 @@ export const mockProducts: ProductDocument[] = [
         { label: 'Team value', value: 'Shared control' },
       ],
       slices: [
-        slice('hero', 'operations', {
-          eyebrow: 'Planning and operations',
-          title: 'Give planners and operators one control layer for schedules, overrides, and fallback programming.',
+        slice('hero', 'project_detail', {
+          eyebrow: 'Planning and operations project',
+          title: 'A scheduling control layer for teams tired of overrides living in three different places.',
           body:
-            'Broadcast Scheduler helps radio and audio teams coordinate live and automated programming without relying on brittle spreadsheets or hidden schedule logic.',
-          primaryLabel: 'Book an operations demo',
+            'Broadcast Scheduler gives station planners and operators one readable surface for recurring blocks, live overrides, export logic, and fallback programming without hiding the rules inside spreadsheets.',
+          primaryLabel: 'Book an operations review',
           primaryHref: '/demo',
-          secondaryLabel: 'Ask a product question',
-          secondaryHref: '/contact',
-          supportingLabel: 'For station teams that need shared control',
+          secondaryLabel: 'View all projects',
+          secondaryHref: '/projects',
+          supportingLabel: 'Use when planning and continuity are constantly crossing wires',
           supportingText:
-            'Reduce coordination drag, standardize exports, and make schedule changes easier to reason about under pressure.',
-          visualEyebrow: 'Operational timeline',
-          visualTitle: 'See live blocks, fallback rules, and downstream handoffs in one planning surface.',
+            'Built for radio and audio teams that need schedule changes, live exceptions, and downstream handoffs to stay legible under real operating pressure.',
+          visualEyebrow: 'Control dossier',
+          visualTitle: 'What this project clarifies first.',
           visualBody:
-            'This layout makes the promise tangible: fewer handoffs, clearer overrides, and a schedule teams can actually trust.',
+            'The page centers shared control, override visibility, and rollout pragmatism before it ever drifts into generic scheduling language.',
           tone: 'amber',
         }, [
           {
-            label: '06:00',
-            title: 'Recurring morning block',
-            detail: 'Keep predictable schedule structure without rebuilding the day manually.',
-            meta: 'Planned automation',
+            label: 'Signal 01',
+            title: 'Recurring structure without spreadsheet debt',
+            detail: 'Keep daily and weekly programming blocks stable without rebuilding the schedule manually every time the grid changes.',
+            meta: 'Planning',
           },
           {
-            label: '09:00',
-            title: 'Live show override',
-            detail: 'Make real-world programming changes visible to operators before they become continuity issues.',
+            label: 'Signal 02',
+            title: 'Overrides that operators can actually see',
+            detail: 'Make live exceptions explicit before they turn into continuity surprises downstream.',
             meta: 'Live control',
           },
           {
-            label: 'Fallback',
-            title: 'Continuity rules ready',
-            detail: 'Trigger playlist or rule-based safety nets when live sources move or fail.',
-            meta: 'Operational confidence',
+            label: 'Signal 03',
+            title: 'Fallback logic attached to the plan',
+            detail: 'Connect continuity rules to the same surface that holds the schedule instead of managing them as a separate emergency layer.',
+            meta: 'Continuity',
           },
         ]),
-        slice('feature_grid', 'productCapabilities', {
-          eyebrow: 'Operational control',
-          title: 'A clearer way to plan schedules, overrides, and fallback logic.',
+        slice('content_columns', 'project_context', {
+          eyebrow: 'Project premise',
+          title: 'Treat schedule logic like an operating system, not a collection of local workarounds.',
           body:
-            'Broadcast Scheduler reduces handoffs between planning and operations by putting schedule logic, integrations, and exceptions in one place.',
+            'Broadcast Scheduler is aimed at teams where planning, playout, and continuity all matter, but no one wants the station runbook to depend on side conversations and fragile manual exports.',
+          panelTitle: 'Where it fits best',
+          panelBody:
+            'Adopt it when the schedule itself is the workflow bottleneck and the team needs shared control without replacing every downstream system at once.',
+        }, [
+          {
+            title: 'Shared planning surface',
+            text: 'Bring recurring blocks, live windows, and exceptions into one place so handoffs stop depending on tribal knowledge.',
+          },
+          {
+            title: 'Continuity posture',
+            text: 'Tie fallback and safety-net behavior to the schedule instead of hoping operators remember the last-minute workaround.',
+          },
+          {
+            title: 'Integration path',
+            text: 'Feed existing playout systems and adapters while improving the planning model upstream.',
+          },
+        ]),
+        slice('feature_grid', 'project_capabilities', {
+          eyebrow: 'Capability depth',
+          title: 'The implementation is framed around the operational moments station teams actually feel.',
+          body:
+            'Each capability is described as a control problem: planning the day, handling exceptions, maintaining continuity, and exporting a schedule other systems can trust.',
         }, [
           {
             title: 'Schedule builder',
-            text: 'Manage recurring blocks, live shows, and override windows without rebuilding the day by hand.',
+            text: 'Model recurring blocks, live shows, and override windows without rebuilding the broadcast day by hand.',
           },
           {
             title: 'Fallback logic',
-            text: 'Keep continuity intact with playlist and rule-based fallback options when live sources fail.',
+            text: 'Keep continuity intact with playlist and rule-based fallback behavior that lives next to the schedule itself.',
           },
           {
             title: 'Adapter layer',
-            text: 'Connect scheduler output to the playout systems you already run rather than replacing everything at once.',
+            text: 'Connect scheduler output to the playout tools you already run rather than forcing a wholesale replacement.',
           },
           {
-            title: 'Operational confidence',
-            text: 'Give station teams a shared planning surface that is easier to audit and maintain.',
+            title: 'Operational traceability',
+            text: 'Give planners and operators a shared control surface that is easier to audit, explain, and maintain.',
           },
         ]),
-        slice('proof_band', 'workflow', {
-          eyebrow: 'Designed for station realities',
-          title: 'Built around planning clarity, not just playlist generation.',
+        slice('proof_band', 'project_specs', {
+          eyebrow: 'Operational notes',
+          title: 'The shortest technical read before the walkthrough.',
         }, [
-          { label: 'Live override', value: 'Handle schedule changes when real-world programming moves.' },
-          { label: 'Standardized exports', value: 'Feed downstream systems in formats that fit existing operations.' },
-          { label: 'Open architecture', value: 'Integrate deeply without buying into a closed playout stack.' },
+          { label: 'Operating mode', value: 'Supports live, automated, and fallback programming in one model.' },
+          { label: 'Integration style', value: 'Designed to feed existing playout and broadcast tooling.' },
+          { label: 'Primary gain', value: 'Shared control instead of brittle scheduling handoffs.' },
+          { label: 'Best fit', value: 'Stations and audio ops teams coordinating live exceptions regularly.' },
         ]),
-        slice('call_to_action', 'productNext', {
-          eyebrow: 'See it in context',
-          title: 'Walk through your current station workflow and map the right control points.',
+        slice('call_to_action', 'project_next', {
+          eyebrow: 'Choose the next read',
+          title: 'Map the planning layer or open the adjacent project.',
           body:
-            'We can show how Sonicverse products fit together for scheduling, streaming, and metadata-heavy operations.',
-          primaryLabel: 'Book an operations demo',
+            'Teams that stabilize scheduling often next connect it to delivery reliability or metadata quality, depending on where the station workflow is still leaking time.',
+          primaryLabel: 'Book an operations review',
           primaryHref: '/demo',
-          secondaryLabel: 'Ask a product question',
+          secondaryLabel: 'Ask a project question',
           secondaryHref: '/contact',
-        }),
+        }, [
+          {
+            label: 'Audio Streaming Stack',
+            href: '/projects/audio-streaming-stack',
+            detail: 'Open the delivery project when continuity planning also needs the streaming layer to fail over cleanly.',
+            meta: 'Related project',
+          },
+          {
+            label: 'Media Metadata API',
+            href: '/projects/media-metadata-api',
+            detail: 'Open the metadata project when schedule control needs to stay aligned with publishing and archive structure.',
+            meta: 'Related project',
+          },
+        ]),
       ],
     },
   },
@@ -515,11 +612,11 @@ export const mockPages: PageDocument[] = [
           eyebrow: 'Multi-product audio operations platform',
           title: 'Run streaming, metadata, and broadcast workflows from one operating layer.',
           body:
-            'Sonicverse gives broadcasters, podcast networks, and media platforms three connected products for live delivery, metadata automation, and scheduling control, without locking teams into a black-box stack.',
+            'Sonicverse gives broadcasters, podcast networks, and media platforms three connected projects for live delivery, metadata automation, and scheduling control, without locking teams into a black-box stack.',
           primaryLabel: 'Book a demo',
           primaryHref: '/demo',
-          secondaryLabel: 'Explore products',
-          secondaryHref: '/products',
+          secondaryLabel: 'Explore projects',
+          secondaryHref: '/projects',
           supportingLabel: 'Built for technical buyers',
           supportingText:
             'Open-source core, API-first building blocks, and modular rollout paths for teams that need operational credibility fast.',
@@ -536,9 +633,9 @@ export const mockPages: PageDocument[] = [
             meta: 'Self-hosted, extensible, production-minded',
           },
           {
-            label: 'Multi-product clarity',
-            title: 'Choose the right product in one pass',
-            detail: 'Visitors can understand what each product does, who it is for, and how the products fit together before they talk to sales.',
+            label: 'Project clarity',
+            title: 'Choose the right project in one pass',
+            detail: 'Visitors can understand what each project does, who it is for, and how the projects connect before they talk to sales.',
             meta: 'Delivery, metadata, scheduling',
           },
           {
@@ -552,17 +649,17 @@ export const mockPages: PageDocument[] = [
           eyebrow: 'Why teams trust the platform',
           title: 'Everything on the homepage is designed to reduce evaluation friction for technical and commercial stakeholders.',
         }, [
-          { label: 'Open-source product core', value: 'Inspect the stack, self-host it, and adopt it on your own timeline.' },
-          { label: 'Three connected products', value: 'Delivery, metadata, and scheduling live in one coherent platform story.' },
+          { label: 'Open-source project core', value: 'Inspect the stack, self-host it, and adopt it on your own timeline.' },
+          { label: 'Three connected projects', value: 'Delivery, metadata, and scheduling live in one coherent platform story.' },
           { label: 'Designed for modern audio teams', value: 'Built for broadcasters, podcast networks, and platform engineering groups.' },
         ]),
         slice('product_suite', 'overview', {
-          eyebrow: 'Product ecosystem',
+          eyebrow: 'Project ecosystem',
           title: 'Choose the workflow layer that solves today’s bottleneck without losing the bigger platform picture.',
           body:
-            'Every product has a clear buyer, a concrete operational outcome, and a direct route into a demo or product exploration.',
-          ctaLabel: 'Compare products',
-          ctaHref: '/products',
+            'Every project has a clear buyer, a concrete operational outcome, and a direct route into a demo or deeper review.',
+          ctaLabel: 'Compare projects',
+          ctaHref: '/projects',
         }),
         slice('content_columns', 'operatingModel', {
           eyebrow: 'Problem to solution',
@@ -571,11 +668,11 @@ export const mockPages: PageDocument[] = [
             'Streaming reliability, metadata quality, and programming control often live in separate tools with separate owners. Sonicverse turns those disconnected decisions into one operational model.',
           panelTitle: 'What changes with Sonicverse',
           panelBody:
-            'Instead of buying another isolated tool, teams get products that solve a job today while fitting into a broader platform over time.',
+            'Instead of buying another isolated tool, teams get projects that solve a job today while fitting into a broader platform over time.',
         }, [
           {
-            title: 'Less product confusion',
-            text: 'Every product is framed around a specific workflow, team, and operational win so buyers can self-identify quickly.',
+            title: 'Less project confusion',
+            text: 'Every project is framed around a specific workflow, team, and operational win so buyers can self-identify quickly.',
           },
           {
             title: 'Stronger technical credibility',
@@ -583,12 +680,12 @@ export const mockPages: PageDocument[] = [
           },
           {
             title: 'Cleaner conversion paths',
-            text: 'Visitors can book a demo, compare products, or start with a single product page depending on where they are in the buying journey.',
+            text: 'Visitors can book a demo, compare projects, or start with a single project page depending on where they are in the buying journey.',
           },
         ]),
         slice('feature_grid', 'platform', {
           eyebrow: 'Why the platform converts',
-          title: 'The homepage now sells the platform the way the products deserve to be evaluated.',
+          title: 'The homepage now sells the platform the way the projects deserve to be evaluated.',
           body:
             'Each section is built to answer a real buying question, from product fit to deployment confidence to the next logical action.',
         }, [
@@ -597,8 +694,8 @@ export const mockPages: PageDocument[] = [
             text: 'The hero states what Sonicverse does, who it serves, and why a platform approach matters before users scroll.',
           },
           {
-            title: 'Product-first storytelling',
-            text: 'The ecosystem section makes the product map legible immediately instead of forcing visitors to infer how separate products connect.',
+            title: 'Project-first storytelling',
+            text: 'The ecosystem section makes the project map legible immediately instead of forcing visitors to infer how separate projects connect.',
           },
           {
             title: 'Trust before hard sell',
@@ -634,12 +731,12 @@ export const mockPages: PageDocument[] = [
         ]),
         slice('content_columns', 'selectionGuide', {
           eyebrow: 'Find your path',
-          title: 'Start with the product that matches your team’s immediate pressure point.',
+          title: 'Start with the project that matches your team’s immediate pressure point.',
           body:
             'Sonicverse works as a platform, but adoption does not need to happen all at once. The homepage helps each buyer recognize the right first step.',
           panelTitle: 'Common entry points',
           panelBody:
-            'Use the product map to route broadcasters, podcast networks, and platform engineering teams to the right product page or demo flow.',
+            'Use the project map to route broadcasters, podcast networks, and platform engineering teams to the right project page or demo flow.',
         }, [
           {
             title: 'Broadcasters and station operators',
@@ -656,13 +753,13 @@ export const mockPages: PageDocument[] = [
         ]),
         slice('call_to_action', 'platform', {
           eyebrow: 'Choose the right next step',
-          title: 'Book a focused walkthrough, compare the products, or start with the workflow layer that fits right now.',
+          title: 'Book a focused walkthrough, compare the projects, or start with the workflow layer that fits right now.',
           body:
             'The homepage keeps the platform story clear while still giving every visitor an obvious path forward, from self-serve exploration to a sales conversation.',
           primaryLabel: 'Book a demo',
           primaryHref: '/demo',
-          secondaryLabel: 'Explore products',
-          secondaryHref: '/products',
+          secondaryLabel: 'Explore projects',
+          secondaryHref: '/projects',
         }, [
           { label: 'Talk to the team', href: '/contact' },
           { label: 'Join the community', href: '/community' },
@@ -672,32 +769,32 @@ export const mockPages: PageDocument[] = [
     },
   },
   {
-    id: 'products',
-    uid: 'products',
-    url: '/products',
+    id: 'projects',
+    uid: 'projects',
+    url: '/projects',
     type: 'page',
     data: {
-      title: 'Products',
-      metaTitle: 'Products | Sonicverse',
+      title: 'Projects',
+      metaTitle: 'Projects | Sonicverse',
       metaDescription:
-        'Explore the Sonicverse product suite and find the right workflow layer for streaming, metadata, or broadcast operations.',
+        'Read the Sonicverse project lineup and find the right workflow layer for streaming, metadata, or broadcast operations.',
       slices: [
-        slice('hero', 'page', {
-          eyebrow: 'Products',
-          title: 'Understand the product ecosystem fast, then go deeper on the workflow layer that matters most.',
+        slice('hero', 'projects_overview', {
+          eyebrow: 'Projects',
+          title: 'Read the Sonicverse lineup like a technical brief, then open the project that fits first.',
           body:
-            'Sonicverse is a multi-product platform, not a pile of unrelated tools. Each product has a distinct job, buyer, and expansion path so teams can choose with confidence.',
-          primaryLabel: 'Compare products',
-          primaryHref: '#product-suite',
+            'The projects overview is designed for fast comparison: clear buyer, clear outcome, and a visible first implementation boundary before anyone commits to a demo.',
+          primaryLabel: 'Compare projects',
+          primaryHref: '#project-suite',
           secondaryLabel: 'Book a demo',
           secondaryHref: '/demo',
-          supportingLabel: 'Three products, three clear starting points',
+          supportingLabel: 'Three projects. Three distinct starting points.',
           supportingText:
-            'Start with the operational layer creating the most drag today, then expand into a broader platform over time.',
-          visualEyebrow: 'How the suite fits together',
-          visualTitle: 'Products connect into one platform, but each one stands on its own.',
+            'Start with the workflow layer creating the most drag now, then expand into a broader platform over time.',
+          visualEyebrow: 'Project map',
+          visualTitle: 'Pick the first implementation boundary, then go deeper.',
           visualBody:
-            'The overview hero is intentionally centered and structured to reduce confusion between platform scope and product scope.',
+            'The overview stays wide and scannable so teams can compare audience, outcome, and technical signal in one pass.',
           tone: 'brand',
         }, [
           {
@@ -705,56 +802,59 @@ export const mockPages: PageDocument[] = [
             title: 'Audio Streaming Stack',
             detail: 'Best when uptime, failover, and listener delivery are the immediate risk.',
             meta: 'For broadcasters and live audio teams',
+            href: '/projects/audio-streaming-stack',
           },
           {
             label: 'Developer API',
             title: 'Media Metadata API',
             detail: 'Best when metadata complexity is slowing archives, feeds, or publishing workflows.',
             meta: 'For platform and archive teams',
+            href: '/projects/media-metadata-api',
           },
           {
             label: 'Planning and operations',
             title: 'Broadcast Scheduler',
             detail: 'Best when schedules, overrides, and fallback programming are hard to coordinate.',
             meta: 'For stations and operations teams',
+            href: '/projects/broadcast-scheduler',
           },
         ]),
-        slice('product_suite', 'comparison', {
-          eyebrow: 'Product overview',
-          title: 'Compare the product suite by use case, buyer, and operational outcome.',
+        slice('product_suite', 'editorial_compare', {
+          eyebrow: 'Lineup',
+          title: 'Compare the project lineup by use case, buyer, and operational outcome.',
           body:
-            'The overview page is built to reduce ambiguity quickly so teams can self-qualify before requesting a walkthrough.',
+            'Each row is meant to answer the same three questions quickly: who is it for, what operational pressure does it reduce, and what signal tells you it is the right first move?',
           ctaLabel: 'Need help choosing? Contact us',
           ctaHref: '/contact',
         }),
-        slice('content_columns', 'selectionGuide', {
-          eyebrow: 'How to choose',
-          title: 'Most teams start with the workflow layer that is creating the most operational drag.',
+        slice('content_columns', 'project_paths', {
+          eyebrow: 'Choosing a starting point',
+          title: 'Most teams do not need the whole platform first. They need the right project first.',
           body:
-            'You can adopt one Sonicverse product independently or combine them into a more complete operational stack over time.',
-          panelTitle: 'Typical buying paths',
+            'The overview is built to route teams by the operational bottleneck they already feel, not by abstract platform ambition.',
+          panelTitle: 'Typical starting paths',
           panelBody:
-            'Start with delivery if uptime is the risk, with metadata if publishing consistency is the bottleneck, or with scheduling if operational coordination is the problem.',
+            'Start with delivery if uptime is the risk, with metadata if publishing consistency is the bottleneck, or with scheduling if coordination and continuity are the pain.',
         }, [
           {
-            title: 'Start with delivery',
-            text: 'Choose Audio Streaming Stack when live distribution, failover, and playback reliability are the highest priorities.',
+            title: 'If uptime is the issue',
+            text: 'Start with Audio Streaming Stack when live distribution, failover, and playback reliability are the highest priorities.',
           },
           {
-            title: 'Start with metadata',
-            text: 'Choose Media Metadata API when multiple systems disagree on fields, formats, or publishing rules.',
+            title: 'If metadata drift is the issue',
+            text: 'Start with Media Metadata API when multiple systems disagree on fields, formats, or publishing rules.',
           },
           {
-            title: 'Start with operations',
-            text: 'Choose Broadcast Scheduler when schedules, overrides, and fallback programming are hard to coordinate.',
+            title: 'If coordination is the issue',
+            text: 'Start with Broadcast Scheduler when schedules, overrides, and fallback programming are hard to coordinate.',
           },
         ]),
-        slice('call_to_action', 'platform', {
-          eyebrow: 'Want the product map in context?',
-          title: 'We can walk through your current stack and show where Sonicverse fits first.',
+        slice('call_to_action', 'projects_cta', {
+          eyebrow: 'Need the map in context?',
+          title: 'We can walk through your current stack and point to the right first project.',
           body:
-            'That conversation works whether you are replacing one workflow or planning a broader infrastructure refresh.',
-          primaryLabel: 'Book a platform demo',
+            'That conversation works whether you are replacing one workflow now or planning a broader infrastructure refresh over time.',
+          primaryLabel: 'Book a project walkthrough',
           primaryHref: '/demo',
           secondaryLabel: 'Contact sales',
           secondaryHref: '/contact',
@@ -793,13 +893,13 @@ export const mockPages: PageDocument[] = [
             tier: 'Open Core',
             price: '€0',
             cadence: 'Forever',
-            description: 'Use the products, self-host, and adapt the stack on your own schedule.',
+            description: 'Use the projects, self-host, and adapt the stack on your own schedule.',
             feature_1: 'Full source access',
             feature_2: 'Community-led adoption',
             feature_3: 'Self-serve documentation',
             feature_4: 'Best for technical teams that want maximum control',
-            cta_label: 'Explore products',
-            cta_href: '/products',
+            cta_label: 'Explore projects',
+            cta_href: '/projects',
           },
           {
             tier: 'Pilot',
@@ -821,7 +921,7 @@ export const mockPages: PageDocument[] = [
             feature_1: 'Roadmap collaboration',
             feature_2: 'Priority support',
             feature_3: 'Systems integration guidance',
-            feature_4: 'Best for multi-product adoption and operational change',
+            feature_4: 'Best for multi-project adoption and operational change',
             cta_label: 'Talk to Sonicverse',
             cta_href: '/contact',
           },
@@ -853,8 +953,8 @@ export const mockPages: PageDocument[] = [
           title: 'An open-source company story with the discipline of a product platform.',
           body:
             'Sonicverse exists to give modern audio teams infrastructure they can trust, understand, and adapt without getting locked into brittle closed systems.',
-          primaryLabel: 'Explore products',
-          primaryHref: '/products',
+          primaryLabel: 'Explore projects',
+          primaryHref: '/projects',
           secondaryLabel: 'Join the community',
           secondaryHref: '/community',
         }),
@@ -867,7 +967,7 @@ export const mockPages: PageDocument[] = [
           panelBody:
             'We value composability, long-term maintainability, strong operating models, and a clear path for non-technical editors to keep the site up to date.',
         }, [
-          { title: 'Composable by default', text: 'Each product can stand alone while still fitting into a broader platform story.' },
+          { title: 'Composable by default', text: 'Each project can stand alone while still fitting into a broader platform story.' },
           { title: 'Editorially practical', text: 'Slices stay modular and purposeful instead of becoming giant page-builder blobs.' },
           { title: 'Technically legible', text: 'Messaging stays grounded in actual workflows, integrations, and operational outcomes.' },
         ]),
@@ -878,7 +978,7 @@ export const mockPages: PageDocument[] = [
             'That balance matters when the same website needs to speak to engineers, operators, product buyers, and contributors.',
         }, [
           { title: 'Sharper hierarchy', text: 'Every page starts with who it is for, what it solves, and the best next action.' },
-          { title: 'Better product routing', text: 'Navigation and page composition make the multi-product structure obvious from the first screen.' },
+          { title: 'Better project routing', text: 'Navigation and page composition make the multi-project structure obvious from the first screen.' },
           { title: 'Stronger visual trust', text: 'The new design uses cleaner surfaces, denser signal, and more confident product framing.' },
           { title: 'One cohesive system', text: 'Typography, spacing, cards, CTAs, and section rhythm all work from the same design rules.' },
         ]),
@@ -896,24 +996,49 @@ export const mockPages: PageDocument[] = [
       metaDescription:
         'Reach the Sonicverse team for pilots, partnerships, implementation questions, and product support.',
       slices: [
-        slice('hero', 'page', {
+        slice('hero', 'contact', {
           eyebrow: 'Contact',
           title: 'Start the right conversation without getting bounced around.',
           body:
-            'Tell us what you are evaluating, what you are building, and which workflow is under pressure. We will route it to the right team quickly.',
-          primaryLabel: 'Book a demo',
-          primaryHref: '/demo',
-          secondaryLabel: 'Explore products',
-          secondaryHref: '/products',
-        }),
+            'Tell us what is under pressure, what you are evaluating, or where the workflow is getting stuck. We will keep the first reply specific and route it quickly.',
+          primaryLabel: 'Start a request',
+          primaryHref: '#contact-panel',
+          secondaryLabel: 'Browse the library',
+          secondaryHref: '/library',
+          supportingLabel: 'Reply window',
+          supportingText:
+            'Most first replies land within two business days, with the same thread reference kept across follow-up.',
+          visualEyebrow: 'Reply guide',
+          visualTitle: 'A faster first reply starts with a little context.',
+          visualBody:
+            'You do not need a polished brief. A few concrete details help us point you to the right person, docs, or next step.',
+          tone: 'brand',
+        }, [
+          {
+            label: 'Best first step',
+            title: 'Name the pressure point',
+            detail:
+              'Tell us whether the blocker is support, product fit, implementation context, or partnerships.',
+          },
+          {
+            label: 'Helpful, not required',
+            title: 'Add a link if one exists',
+            detail: 'Issue threads, docs, repositories, or rollout notes are enough.',
+          },
+          {
+            label: 'Need a direct path?',
+            title: 'Email and community links sit below',
+            detail: 'Use the form when you want routing help. Use the direct channels when you already know the lane.',
+          },
+        ]),
         slice('contact_panel', 'contact', {
           eyebrow: 'Talk to Sonicverse',
-          title: 'Share context once. We’ll keep the follow-up tight and specific.',
+          title: 'Share context once. We’ll keep the follow-up tight and useful.',
           body:
-            'The contact flow is designed for partnerships, support, architecture questions, and product-fit conversations.',
+            'The contact flow is designed for support, partnerships, architecture questions, and product-fit conversations. If you already know the lane, the direct paths are right here.',
           panelTitle: 'Direct channels',
           panelBody:
-            'If you already know the path you need, you can also reach us directly by email or through the community.',
+            'Use email for specific questions, the community for open collaboration, and GitHub when the conversation belongs next to code.',
           formMode: 'contact',
         }, [
           { label: 'Email', value: 'oss@sonicverse.eu', href: 'mailto:oss@sonicverse.eu' },
@@ -932,26 +1057,26 @@ export const mockPages: PageDocument[] = [
       title: 'Demo',
       metaTitle: 'Book a Demo | Sonicverse',
       metaDescription:
-        'Book a focused Sonicverse walkthrough and map the right product or rollout path for your team.',
+        'Book a focused Sonicverse walkthrough and map the right project or rollout path for your team.',
       slices: [
         slice('hero', 'page', {
           eyebrow: 'Book a demo',
-          title: 'Get a focused walkthrough of the product suite and the workflow that matters most.',
+          title: 'Get a focused walkthrough of the project lineup and the workflow that matters most.',
           body:
-            'The demo path is optimized for buyers and technical teams that want product fit, implementation context, and a clear next-step recommendation.',
+            'The demo path is optimized for buyers and technical teams that want project fit, implementation context, and a clear next-step recommendation.',
           primaryLabel: 'Send a demo request',
           primaryHref: '#contact-panel',
-          secondaryLabel: 'See products first',
-          secondaryHref: '/products',
+          secondaryLabel: 'See projects first',
+          secondaryHref: '/projects',
         }),
         slice('contact_panel', 'demo', {
           eyebrow: 'Demo intake',
           title: 'Tell us which workflow you want to see and where your current stack is getting stuck.',
           body:
-            'We’ll use that context to keep the session product-specific and useful for both technical and commercial stakeholders.',
+            'We’ll use that context to keep the session project-specific and useful for both technical and commercial stakeholders.',
           panelTitle: 'Typical demo topics',
           panelBody:
-            'Platform overviews, product-fit assessments, migration planning, and architecture reviews.',
+            'Platform overviews, project-fit assessments, migration planning, and architecture reviews.',
           formMode: 'demo',
         }, [
           { label: 'Best for', value: 'Pilots and product-fit evaluation', href: '/pricing' },

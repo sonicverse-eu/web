@@ -7,7 +7,7 @@ interface CtaInlineCardProps {
 
 export function CtaInlineCard({ title, summary, href, label = 'Open' }: CtaInlineCardProps) {
   return (
-    <aside className="cta-inline-card card bg-base-100 shadow-lg" data-reveal>
+    <aside className="cta-inline-card" data-reveal>
       <h3>{title}</h3>
       <p>{summary}</p>
       <a className="btn btn-ghost" href={href}>

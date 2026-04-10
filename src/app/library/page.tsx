@@ -13,14 +13,14 @@ export default function LibraryPage() {
   );
 
   return (
-    <>
-      <section className="hero container" data-reveal-group>
+    <div className="wide-page-shell library-overview-page">
+      <section className="hero container library-overview-hero" data-reveal-group>
         {page.data.eyebrow && <p className="eyebrow">{page.data.eyebrow}</p>}
         <h1>{page.data.heroTitle}</h1>
         <p className="hero-subtitle">{page.data.heroSubtitle}</p>
       </section>
 
-      <section className="container section-gap" data-reveal>
+      <section className="container section-gap library-overview-index" data-reveal>
         <div className="blog-list">
           {entries.map((entry, index) => (
             <article key={entry.id} className="blog-post-item" data-reveal data-reveal-delay={index * 0.07}>
@@ -29,7 +29,7 @@ export default function LibraryPage() {
                 {entry.data.tags.length > 0 && (
                   <div className="tag-list">
                     {entry.data.tags.map((tag) => (
-                      <span key={tag} className="badge badge-outline">{tag}</span>
+                      <span key={tag} className="tag-pill">{tag}</span>
                     ))}
                   </div>
                 )}
@@ -49,6 +49,6 @@ export default function LibraryPage() {
           ))}
         </div>
       </section>
-    </>
+    </div>
   );
 }

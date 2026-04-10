@@ -108,4 +108,5 @@ export type CmsPage = PageDocument | ProductDocument;
 
 export type SliceContext = {
   products: ProductDocument[];
+  currentProduct?: ProductDocument | null;
 };

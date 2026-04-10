@@ -80,8 +80,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${manrope.variable} ${ibmPlexMono.variable}`}>
       <head>
-        <meta name="theme-color" content="#fafaff" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#07060f" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#eef4ff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#07111f" media="(prefers-color-scheme: dark)" />
         {/* Theme init: runs before paint to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

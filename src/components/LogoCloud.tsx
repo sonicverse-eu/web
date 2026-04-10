@@ -13,7 +13,7 @@ export default function LogoCloud({ label, partners }: LogoCloudProps) {
   if (!partners.length) return null;
 
   return (
-    <div className="logo-cloud card bg-base-100 shadow-lg" data-reveal>
+    <div className="logo-cloud" data-reveal>
       {label && <p className="logo-cloud-label">{label}</p>}
       {partners.map((partner) =>
         partner.href ? (

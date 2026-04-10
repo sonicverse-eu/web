@@ -42,7 +42,7 @@ export default async function LibraryArticlePage({ params }: LibraryArticlePageP
       <p className="hero-subtitle">{entry.data.description}</p>
       <div className="tag-list">
         {entry.data.tags.map((tag) => (
-          <span key={tag} className="badge badge-outline">{tag}</span>
+          <span key={tag} className="tag-pill">{tag}</span>
         ))}
       </div>
       <div className="prose">{renderMarkdoc(entry.body)}</div>

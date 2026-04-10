@@ -135,11 +135,6 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   return (
     <header className={`site-header ${isScrolled ? 'is-scrolled' : ''} ${isHome ? 'is-home' : ''}`}>
       <div className="container">
-        <div className="announcement-bar">
-          <span>{settings.data.announcement}</span>
-          <Link href={ctaHref}>Plan a walkthrough</Link>
-        </div>
-
         <div className="site-header-shell">
           <Link href="/" className="brand-lockup brand-lockup-link" aria-label="Sonicverse home">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="" />
@@ -155,7 +150,7 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
               const menuKey = getNavKey(item);
               const menuId = getMenuId(item);
               const isOpen = openMenuKey === menuKey;
-              const isProductsMenu = item.href === '/products' || item.label.toLowerCase() === 'products';
+              const isProjectsMenu = item.href === '/projects' || item.label.toLowerCase() === 'projects';
 
               if (!hasChildren) {
                 return (
@@ -198,18 +193,18 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
                     </svg>
                   </button>
 
-                  {isProductsMenu ? (
+                  {isProjectsMenu ? (
                     <div id={menuId} className={`nav-dropdown nav-dropdown--products ${isOpen ? 'is-open' : ''}`}>
-                      <div className="products-menu-panel" role="dialog" aria-label="Products overview">
+                      <div className="products-menu-panel" role="dialog" aria-label="Projects overview">
                         <div className="products-menu-intro">
                           <span className="eyebrow">{menuEyebrow}</span>
                           <h3>{menuTitle}</h3>
                           <p>{menuDescription}</p>
                           <div className="products-menu-actions">
-                            <Link href="/products" className="products-menu-overview">
-                              Compare all products
+                            <Link href="/projects" className="products-menu-overview">
+                              Compare all projects
                             </Link>
-                            <span>Scannable by use case, buyer, and operational outcome.</span>
+                            <span>Scannable by workflow pressure, team fit, and operational outcome.</span>
                           </div>
                         </div>
 

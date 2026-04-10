@@ -15,5 +15,9 @@ export default async function PricingPage() {
     notFound();
   }
 
-  return <PageSliceZone slices={page.data.slices} products={products} />;
+  return (
+    <div className="wide-page-shell">
+      <PageSliceZone slices={page.data.slices} products={products} />
+    </div>
+  );
 }

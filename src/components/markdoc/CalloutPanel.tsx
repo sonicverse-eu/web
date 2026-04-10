@@ -11,8 +11,8 @@ export function CalloutPanel({ title, eyebrow = 'Callout', tone = 'default', chi
   const toneClass = `callout-${tone}`;
 
   return (
-    <section className={`callout-panel card bg-base-100 shadow-lg ${toneClass}`} data-reveal>
-      <div className="callout-shell card-body">
+    <section className={`callout-panel ${toneClass}`} data-reveal>
+      <div className="callout-shell">
         {(eyebrow || title) && (
           <header className="callout-header">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
