@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) => /(^|\/)pricing(\.md|\.mdoc)?$/.test(entry.id));
+
+if (!page) {
+	throw new Error('Missing pricing page content at src/content/pages/pricing.mdoc');
+}
+
+const pricingTiers = [
+	{
+		name: 'Community',
+		price: 'Free',
+		description: 'Self-serve adoption for teams that want the open-source platform with no commercial commitment.',
+		points: ['MIT-licensed code', 'Docs and public roadmap access', 'Community-led issue and discussion flow']
+	},
+	{
+		name: 'Launch Support',
+		price: 'From €2.4k/mo',
+		description: 'Guided rollout for teams that need implementation confidence, stakeholder alignment, and faster launch decisions.',
+		points: ['Architecture and rollout workshops', 'Priority implementation guidance', 'Pilot planning and handoff support'],
+		featured: true
+	},
+	{
+		name: 'Platform Partnership',
+		price: 'Custom',
+		description: 'A deeper collaboration path for organisations shaping roadmap direction, observability needs, or long-term product fit.',
+		points: ['Roadmap collaboration', 'Quarterly planning and implementation review', 'Support model shaped to your operating reality']
+	}
+];
+---
+
+<Layout
+	title={page.data.seoTitle ?? page.data.title}
+	description={page.data.seoDescription ?? page.data.description}
+	image={page.data.seoImage}
+	currentPath="/pricing"
+>
+	<PageHero
+		eyebrow={page.data.eyebrow}
+		title={page.data.heroTitle}
+		subtitle={page.data.heroSubtitle}
+		primary={{ label: page.data.ctaLabel!, href: page.data.ctaHref! }}
+		secondary={{ label: page.data.secondaryCtaLabel!, href: page.data.secondaryCtaHref! }}
+	/>
+
+	<section class="container section-gap pricing-grid">
+		{pricingTiers.map((tier) => (
+			<article class:list={['pricing-card', tier.featured && 'pricing-card--featured']} data-reveal>
+				<p class="pricing-card__name">{tier.name}</p>
+				<h2>{tier.price}</h2>
+				<p>{tier.description}</p>
+				<ul class="check-list">
+					{tier.points.map((point) => <li>{point}</li>)}
+				</ul>
+				<a class:list={['button', tier.featured ? 'button-primary' : 'button-secondary']} href="/contact">
+					{tier.name === 'Community' ? 'Get started' : 'Talk to Sonicverse'}
+				</a>
+			</article>
+		))}
+	</section>
+
+	<section class="container section-gap narrative-grid">
+		<div class="narrative-panel" data-reveal>
+			<p class="eyebrow">Why this pricing works</p>
+			<h2>Open source stays visible. Commercial support stays optional.</h2>
+			<p>That preserves Sonicverse’s trust story while giving serious teams a clear path to buy confidence, speed, and implementation help.</p>
+		</div>
+		<div class="narrative-panel" data-reveal>
+			<p class="eyebrow">Who buys support</p>
+			<h2>Teams with deadlines, internal stakeholders, or rollout complexity.</h2>
+			<p>Support is positioned as risk reduction and strategic collaboration, not as a tax on access to the software.</p>
+		</div>
+	</section>
+</Layout>

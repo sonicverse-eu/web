@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductCard from '../components/ProductCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const pageEntries = await getCollection('pages');
+const page = pageEntries.find((entry) => /(^|\/)products(\.md|\.mdoc)?$/.test(entry.id));
+
+if (!page) {
+	throw new Error('Missing products page content at src/content/pages/products.mdoc');
+}
+
+const products = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout
+	title={page.data.seoTitle ?? page.data.title}
+	description={page.data.seoDescription ?? page.data.description}
+	image={page.data.seoImage}
+	currentPath="/products"
+>
+	<PageHero
+		eyebrow={page.data.eyebrow}
+		title={page.data.heroTitle}
+		subtitle={page.data.heroSubtitle}
+		primary={{ label: page.data.ctaLabel!, href: page.data.ctaHref! }}
+	>
+		<div class="page-hero__aside" data-reveal>
+			<div class="compare-preview-card">
+				<p class="compare-preview-card__label">Routing logic</p>
+				<ul>
+					<li>Need infrastructure? Start with Broadcast Core.</li>
+					<li>Need operational workflow? Start with Control Room.</li>
+					<li>Need observability? Join Signal Monitor.</li>
+				</ul>
+			</div>
+		</div>
+	</PageHero>
+
+	<section class="container section-gap">
+		<SectionHeading
+			eyebrow={page.data.projectSectionEyebrow}
+			title={page.data.projectSectionTitle}
+		/>
+		<div class="product-grid">
+			{products.map((product) => <ProductCard product={product} />)}
+		</div>
+	</section>
+
+	<section class="container section-gap">
+		<SectionHeading eyebrow="Quick compare" title="What changes across the product line" />
+		<div class="compare-table" data-reveal>
+			<div class="compare-table__row compare-table__row--head">
+				<span>Decision factor</span>
+				{products.map((product) => <strong>{product.data.title}</strong>)}
+			</div>
+			<div class="compare-table__row">
+				<span>Primary outcome</span>
+				{products.map((product) => <p>{product.data.outcomes[0]}</p>)}
+			</div>
+			<div class="compare-table__row">
+				<span>Best for</span>
+				{products.map((product) => <p>{product.data.audience}</p>)}
+			</div>
+			<div class="compare-table__row">
+				<span>Stage</span>
+				{products.map((product) => <p>{product.data.status}</p>)}
+			</div>
+			<div class="compare-table__row">
+				<span>Next step</span>
+				{products.map((product) => <a href={`/products/${product.id.replace(/\.(md|mdoc)$/, '')}/`}>View product</a>)}
+			</div>
+		</div>
+	</section>
+
+	<section class="container section-gap narrative-grid">
+		<div class="narrative-panel" data-reveal>
+			<p class="eyebrow">Unified brand</p>
+			<h2>Every product feels related because the platform principles stay constant.</h2>
+			<p>Open source, transparent governance, and implementation-ready design show up across the full Sonicverse line.</p>
+		</div>
+		<div class="narrative-panel" data-reveal>
+			<p class="eyebrow">Reduced ambiguity</p>
+			<h2>Each page answers what it does, who it is for, and what to do next.</h2>
+			<p>That keeps product differentiation strong without fragmenting the overall company story.</p>
+		</div>
+	</section>
+
+	<section class="container section-gap">
+		<div class="cta-panel" data-reveal>
+			<p class="eyebrow">Need help choosing?</p>
+			<h2>We can map your use case to the right product path in one call.</h2>
+			<p>Share your current stack, team shape, and operating pressure. We will recommend the strongest starting point.</p>
+			<div class="button-row">
+				<a class="button button-primary" href="/contact">Request a walkthrough</a>
+				<a class="button button-secondary" href="/pricing">View pricing</a>
+			</div>
+		</div>
+	</section>
+</Layout>

@@ -116,19 +116,41 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdoc}', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
+    tagline: z.string(),
     summary: z.string(),
-    repoUrl: z.string().url(),
-    status: z.enum([
-      'active',
-      'alpha',
-      'beta',
-      'stable',
-      'planned',
-      'paused',
-      'research',
-      'archived'
-    ]),
-    order: z.number()
+    audience: z.string(),
+    category: z.string(),
+    order: z.number(),
+    status: z.enum(['shipping', 'pilot', 'roadmap']),
+    primaryCtaLabel: z.string(),
+    primaryCtaHref: z.string(),
+    secondaryCtaLabel: z.string().optional(),
+    secondaryCtaHref: z.string().optional(),
+    repoUrl: z.string().url().optional(),
+    outcomes: z.array(z.string()).min(3),
+    capabilities: z
+      .array(
+        z.object({
+          title: z.string(),
+          description: z.string()
+        })
+      )
+      .min(3),
+    fit: z.array(z.string()).min(3),
+    proofPoints: z.array(z.string()).min(2),
+    metrics: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string()
+        })
+      )
+      .min(2),
+    testimonial: z.object({
+      quote: z.string(),
+      author: z.string(),
+      role: z.string()
+    })
   })
 });
 

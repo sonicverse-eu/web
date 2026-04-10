@@ -1,33 +1,49 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductCard from '../components/ProductCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import BentoGrid from '../components/BentoGrid.astro';
-import MetricsBand from '../components/MetricsBand.astro';
-import LogoCloud from '../components/LogoCloud.astro';
-import CTABand from '../components/CTABand.astro';
 
 const pageEntries = await getCollection('pages');
-const home = pageEntries.find((entry) =>
-	/(^|\/)home(\.md|\.mdoc)?$/.test(entry.id)
-);
+const home = pageEntries.find((entry) => /(^|\/)home(\.md|\.mdoc)?$/.test(entry.id));
 
 if (!home) {
-  throw new Error('Missing home page content at src/content/pages/home.mdoc');
+	throw new Error('Missing home page content at src/content/pages/home.mdoc');
 }
 
-const { Content } = await render(home);
-const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
-const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
-const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order).slice(0, 2);
-const getProjectSlug = (project: (typeof projects)[number]) =>
-	project.id.replace(/\.(md|mdoc)$/, '');
+const products = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const faqs = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
 
-const bentoFeatures = features.map((f) => ({
-	title: f.data.title,
-	summary: f.data.summary,
-	eyebrow: f.data.eyebrow
-}));
+const platformSignals = [
+	{
+		label: 'Platform model',
+		value: 'Adopt one product or run the full Sonicverse stack.'
+	},
+	{
+		label: 'Open-source trust',
+		value: 'Transparent code, visible trade-offs, and roadmap collaboration built in.'
+	},
+	{
+		label: 'Buying path',
+		value: 'Self-serve with OSS, or add support, pilots, and launch guidance when needed.'
+	}
+];
+
+const decisionCards = [
+	{
+		title: 'Start with delivery',
+		copy: 'Teams modernising streaming, playout, or live infrastructure should begin with Broadcast Core.'
+	},
+	{
+		title: 'Start with workflow',
+		copy: 'Teams juggling producers, reviewers, and launch readiness should begin with Control Room.'
+	},
+	{
+		title: 'Start with trust',
+		copy: 'Teams expanding uptime, alerting, and partner visibility should join the Signal Monitor roadmap.'
+	}
+];
 ---
 
 <Layout
@@ -36,61 +52,106 @@ const bentoFeatures = features.map((f) => ({
 	image={home.data.seoImage}
 	currentPath="/"
 >
-	<section class="hero container" data-reveal-group>
-		<div class="hero-glow" aria-hidden="true"></div>
-		{home.data.eyebrow && <p class="eyebrow">{home.data.eyebrow}</p>}
-		<h1 class="gradient-text">{home.data.heroTitle}</h1>
-		<p class="hero-subtitle">{home.data.heroSubtitle}</p>
-		<div class="button-row">
-			{home.data.ctaHref && home.data.ctaLabel && (
-				<a class="button button-primary" href={home.data.ctaHref}>{home.data.ctaLabel}</a>
-			)}
-			{home.data.secondaryCtaHref && home.data.secondaryCtaLabel && (
-				<a class="button button-ghost" href={home.data.secondaryCtaHref}>{home.data.secondaryCtaLabel}</a>
-			)}
+	<PageHero
+		eyebrow={home.data.eyebrow}
+		title={home.data.heroTitle}
+		subtitle={home.data.heroSubtitle}
+		primary={{ label: home.data.ctaLabel!, href: home.data.ctaHref! }}
+		secondary={{ label: home.data.secondaryCtaLabel!, href: home.data.secondaryCtaHref! }}
+	>
+		<div class="page-hero__aside" data-reveal>
+			<div class="hero-stack-card">
+				<p class="hero-stack-card__eyebrow">Platform map</p>
+				<h2>One company story. Three clear product paths.</h2>
+				<div class="hero-stack-list">
+					{
+						products.map((product) => {
+							const slug = product.id.replace(/\.(md|mdoc)$/, '');
+							return (
+								<a class="hero-stack-link" href={`/products/${slug}/`}>
+									<div>
+										<strong>{product.data.title}</strong>
+										<span>{product.data.category}</span>
+									</div>
+									<p>{product.data.tagline}</p>
+								</a>
+							);
+						})
+					}
+				</div>
+			</div>
 		</div>
+	</PageHero>
+
+	<section class="container signal-bar section-gap" data-reveal-group>
+		{platformSignals.map((signal) => (
+			<article class="signal-bar__item" data-reveal>
+				<span>{signal.label}</span>
+				<p>{signal.value}</p>
+			</article>
+		))}
 	</section>
-
-	{home.data.partners && home.data.partners.length > 0 && (
-		<section class="container section-gap">
-			<LogoCloud label={home.data.partnersLabel} partners={home.data.partners} />
-		</section>
-	)}
-
-	<section class="container section-gap prose" data-reveal>
-		<Content frontmatter={home.data} />
-	</section>
-
-	<section class="container section-gap">
-		<SectionHeading
-			eyebrow={home.data.featureSectionEyebrow}
-			title={home.data.featureSectionTitle}
-		/>
-		<BentoGrid features={bentoFeatures} />
-	</section>
-
-	{home.data.metrics && home.data.metrics.length > 0 && (
-		<section class="container section-gap">
-			<MetricsBand metrics={home.data.metrics} />
-		</section>
-	)}
 
 	<section class="container section-gap">
 		<SectionHeading
 			eyebrow={home.data.projectSectionEyebrow}
 			title={home.data.projectSectionTitle}
+			subtitle="Every product has a distinct role, target user, and next step so visitors can route themselves quickly."
 		/>
-		<div class="card-grid" data-reveal-group>
-			{
-				projects.map((project, index) => (
-					<article class="feature-card" data-reveal data-reveal-delay={(index * 0.09).toFixed(2)}>
-						<span class={`badge badge-${project.data.status}`}>{project.data.status}</span>
-						<h3>{project.data.title}</h3>
-						<p>{project.data.summary}</p>
-						<a class="button button-ghost" href={`/projects/${getProjectSlug(project)}/`}>{home.data.projectLinkLabel ?? 'View project'} →</a>
-					</article>
-				))
-			}
+		<div class="product-grid">
+			{products.map((product) => <ProductCard product={product} />)}
+		</div>
+	</section>
+
+	<section class="container section-gap narrative-grid">
+		<div class="narrative-panel" data-reveal>
+			<p class="eyebrow">Why teams switch</p>
+			<h2>Closed media tools blur product boundaries and hide operational risk.</h2>
+			<p>
+				Sonicverse replaces vague platform promises with an open product ecosystem. You can see what each product does,
+				who it is for, what stage it is in, and how it connects to the rest of the stack.
+			</p>
+		</div>
+		<div class="narrative-panel narrative-panel--accent" data-reveal>
+			<p class="eyebrow">What changes</p>
+			<h2>Teams buy clarity, not just software.</h2>
+			<p>
+				Visitors can compare products, understand the open-source adoption path, and move directly into a demo,
+				pricing, or implementation conversation without guessing where to go next.
+			</p>
+		</div>
+	</section>
+
+	<section class="container section-gap">
+		<SectionHeading
+			eyebrow="Choose your path"
+			title="The homepage now routes visitors by their bottleneck."
+		/>
+		<div class="decision-grid">
+			{decisionCards.map((card) => (
+				<article class="decision-card" data-reveal>
+					<h3>{card.title}</h3>
+					<p>{card.copy}</p>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<section class="container section-gap trust-layout">
+		<div class="quote-card" data-reveal>
+			<p class="quote-card__eyebrow">Proof</p>
+			<blockquote>
+				Sonicverse gives us a vendor-grade platform story with the transparency and control our engineering team insisted on.
+			</blockquote>
+			<p class="quote-card__meta">Ruben Smit, Platform Director at Riverline Audio</p>
+		</div>
+		<div class="metrics-panel" data-reveal>
+			{home.data.metrics?.map((metric) => (
+				<div class="metrics-panel__item">
+					<strong>{metric.value}</strong>
+					<span>{metric.label}</span>
+				</div>
+			))}
 		</div>
 	</section>
 
@@ -99,10 +160,10 @@ const bentoFeatures = features.map((f) => ({
 			eyebrow={home.data.faqSectionEyebrow}
 			title={home.data.faqSectionTitle}
 		/>
-		<div class="faq-list" data-reveal-group>
+		<div class="faq-grid">
 			{
-				faqs.map((item, index) => (
-					<article class="faq-item" data-reveal data-reveal-delay={(index * 0.09).toFixed(2)}>
+				faqs.map((item) => (
+					<article class="faq-card" data-reveal>
 						<h3>{item.data.question}</h3>
 						<p>{item.data.answer}</p>
 					</article>
@@ -111,15 +172,17 @@ const bentoFeatures = features.map((f) => ({
 		</div>
 	</section>
 
-	{home.data.ctaBand && (
-		<section class="container section-gap">
-			<CTABand
-				eyebrow={home.data.ctaBand.eyebrow}
-				title={home.data.ctaBand.title}
-				subtitle={home.data.ctaBand.subtitle}
-				primary={home.data.ctaBand.primary}
-				secondary={home.data.ctaBand.secondary}
-			/>
-		</section>
-	)}
+	<section class="container section-gap">
+		<div class="cta-panel" data-reveal>
+			<p class="eyebrow">{home.data.ctaBand?.eyebrow}</p>
+			<h2>{home.data.ctaBand?.title}</h2>
+			<p>{home.data.ctaBand?.subtitle}</p>
+			<div class="button-row">
+				<a class="button button-primary" href={home.data.ctaBand?.primary.href}>{home.data.ctaBand?.primary.label}</a>
+				{home.data.ctaBand?.secondary && (
+					<a class="button button-secondary" href={home.data.ctaBand.secondary.href}>{home.data.ctaBand.secondary.label}</a>
+				)}
+			</div>
+		</div>
+	</section>
 </Layout>

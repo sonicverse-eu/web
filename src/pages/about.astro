@@ -1,36 +1,60 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
 
 const pageEntries = await getCollection('pages');
-const page = pageEntries.find((entry) =>
-  /(^|\/)about(\.md|\.mdoc)?$/.test(entry.id)
-);
+const page = pageEntries.find((entry) => /(^|\/)about(\.md|\.mdoc)?$/.test(entry.id));
 
 if (!page) {
-  throw new Error('Missing about page content at src/content/pages/about.mdoc');
+	throw new Error('Missing about page content at src/content/pages/about.mdoc');
 }
 
-const { Content } = await render(page);
+const principles = [
+	'Product strategy should be legible, even when the software is open source.',
+	'Teams deserve tools they can inspect, influence, and adapt to real operating conditions.',
+	'Good implementation support builds trust without hiding the code behind a black box.',
+	'Documentation, review quality, and contributor health are product features, not side work.'
+];
 ---
 
 <Layout
-  title={page.data.seoTitle ?? page.data.title}
-  description={page.data.seoDescription ?? page.data.description}
-  image={page.data.seoImage}
-  currentPath="/about"
+	title={page.data.seoTitle ?? page.data.title}
+	description={page.data.seoDescription ?? page.data.description}
+	image={page.data.seoImage}
+	currentPath="/about"
 >
-  <section class="hero container" data-reveal-group>
-    <div class="hero-glow" aria-hidden="true"></div>
-    {page.data.eyebrow && <p class="eyebrow">{page.data.eyebrow}</p>}
-    <h1 class="gradient-text">{page.data.heroTitle}</h1>
-    <p class="hero-subtitle">{page.data.heroSubtitle}</p>
-    {page.data.ctaHref && page.data.ctaLabel && (
-      <a class="button button-primary" href={page.data.ctaHref}>{page.data.ctaLabel}</a>
-    )}
-  </section>
+	<PageHero
+		eyebrow={page.data.eyebrow}
+		title={page.data.heroTitle}
+		subtitle={page.data.heroSubtitle}
+		primary={{ label: page.data.ctaLabel!, href: page.data.ctaHref! }}
+	/>
 
-  <section class="container prose section-gap" data-reveal>
-    <Content frontmatter={page.data} />
-  </section>
+	<section class="container section-gap narrative-grid">
+		<div class="narrative-panel narrative-panel--accent" data-reveal>
+			<p class="eyebrow">Why we exist</p>
+			<h2>Sonicverse was created for teams that want more than a mission statement.</h2>
+			<p>
+				We build open-source platform products that can stand up to real buying scrutiny: clear fit, credible reliability, visible governance, and a path from experimentation to rollout.
+			</p>
+		</div>
+		<div class="narrative-panel" data-reveal>
+			<p class="eyebrow">What stays true</p>
+			<h2>The open-source model is part of the offer.</h2>
+			<p>
+				Visitors should leave the site understanding that Sonicverse is both a principled OSS organisation and a serious product company for independent audio teams.
+			</p>
+		</div>
+	</section>
+
+	<section class="container section-gap">
+		<div class="principles-grid">
+			{principles.map((item) => (
+				<article class="decision-card" data-reveal>
+					<p>{item}</p>
+				</article>
+			))}
+		</div>
+	</section>
 </Layout>

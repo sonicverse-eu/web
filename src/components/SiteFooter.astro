@@ -29,7 +29,7 @@ const { footerData } = Astro.props;
   <div class="container footer-grid">
     <div>
       <div class="footer-brand">
-        <img class="footer-brand-icon" src={brandIcon.src} alt="Sonicverse logo" />
+        <img class="footer-brand-icon" src={brandIcon.src} alt="Sonicverse logo" loading="lazy" decoding="async" />
         <h2>Sonicverse</h2>
       </div>
       {footerData?.description && <p>{footerData.description}</p>}

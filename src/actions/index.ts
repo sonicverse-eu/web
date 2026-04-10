@@ -6,8 +6,6 @@ import { createElement } from 'react';
 import { SubmitterContactEmail, TeamContactEmail } from './contact-email-templates';
 import { getValidThreadId } from '../utils/contact';
 
-const resend = new Resend(RESEND_API_KEY);
-
 function formatCategory(value: string) {
   return value
     .split('-')
@@ -51,6 +49,15 @@ export const server = {
       if (website) {
         return { ok: true, threadId };
       }
+
+      if (!RESEND_API_KEY || !FROM_EMAIL || !TO_EMAIL) {
+        throw new ActionError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Contact email is not configured yet. Please email oss@sonicverse.eu directly.'
+        });
+      }
+
+      const resend = new Resend(RESEND_API_KEY);
 
       const teamSubject = `[${threadId}] New contact request from ${name}`;
       const teamText = [
