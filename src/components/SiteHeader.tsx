@@ -51,7 +51,6 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const [mobileExpandedKey, setMobileExpandedKey] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const desktopNavRef = useRef<HTMLElement>(null);
-  const isHome = pathname === '/';
 
   const loginLabel = settings.data.headerLoginLabel?.trim() || 'Login';
   const loginHref = settings.data.headerLoginHref?.trim() || 'https://app.sonicverse.eu/login';
@@ -133,7 +132,7 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   };
 
   return (
-    <header className={`site-header ${isScrolled ? 'is-scrolled' : ''} ${isHome ? 'is-home' : ''}`}>
+    <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
       <div className="container">
         <div className="site-header-shell">
           <Link href="/" className="brand-lockup brand-lockup-link" aria-label="Sonicverse home">
