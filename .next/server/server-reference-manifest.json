@@ -17,13 +17,33 @@
         "app/pricing/page": {
           "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.15_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Frikvisser%2FDocuments%2Fsonicverse%2Fweb%2Fsrc%2Fapp%2Fcontact%2Factions.ts%22%2C%5B%7B%22id%22%3A%2260babb509e28d8221e63e54c038d51b585d0b9982a%22%2C%22exportedName%22%3A%22sendContactRequest%22%2C%22filename%22%3A%22app%2Fcontact%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
+        },
+        "app/contact/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.15_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Frikvisser%2FDocuments%2Fsonicverse%2Fweb%2Fsrc%2Fapp%2Fcontact%2Factions.ts%22%2C%5B%7B%22id%22%3A%2260babb509e28d8221e63e54c038d51b585d0b9982a%22%2C%22exportedName%22%3A%22sendContactRequest%22%2C%22filename%22%3A%22app%2Fcontact%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/demo/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.15_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Frikvisser%2FDocuments%2Fsonicverse%2Fweb%2Fsrc%2Fapp%2Fcontact%2Factions.ts%22%2C%5B%7B%22id%22%3A%2260babb509e28d8221e63e54c038d51b585d0b9982a%22%2C%22exportedName%22%3A%22sendContactRequest%22%2C%22filename%22%3A%22app%2Fcontact%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/community/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.15_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Frikvisser%2FDocuments%2Fsonicverse%2Fweb%2Fsrc%2Fapp%2Fcontact%2Factions.ts%22%2C%5B%7B%22id%22%3A%2260babb509e28d8221e63e54c038d51b585d0b9982a%22%2C%22exportedName%22%3A%22sendContactRequest%22%2C%22filename%22%3A%22app%2Fcontact%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        },
+        "app/projects/[slug]/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.15_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Frikvisser%2FDocuments%2Fsonicverse%2Fweb%2Fsrc%2Fapp%2Fcontact%2Factions.ts%22%2C%5B%7B%22id%22%3A%2260babb509e28d8221e63e54c038d51b585d0b9982a%22%2C%22exportedName%22%3A%22sendContactRequest%22%2C%22filename%22%3A%22app%2Fcontact%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
         }
       },
       "layer": {
         "app/page": "action-browser",
         "app/about/page": "action-browser",
         "app/projects/page": "action-browser",
-        "app/pricing/page": "action-browser"
+        "app/pricing/page": "action-browser",
+        "app/contact/page": "action-browser",
+        "app/demo/page": "action-browser",
+        "app/community/page": "action-browser",
+        "app/projects/[slug]/page": "action-browser"
       },
       "filename": "app/contact/actions.ts",
       "exportedName": "sendContactRequest"

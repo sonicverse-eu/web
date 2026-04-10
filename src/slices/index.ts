@@ -9,6 +9,7 @@ import PricingGrid from './PricingGrid';
 import CallToAction from './CallToAction';
 import ContentColumns from './ContentColumns';
 import ContactPanel from './ContactPanel';
+import ContentFeed from './ContentFeed';
 import type { SliceRendererProps } from './types';
 
 type SliceRenderer = ComponentType<SliceRendererProps<CmsSlice, SliceContext>>;
@@ -23,4 +24,5 @@ export const components: Record<CmsSlice['slice_type'], SliceRenderer> = {
   call_to_action: CallToAction,
   content_columns: ContentColumns,
   contact_panel: ContactPanel,
+  content_feed: ContentFeed,
 };

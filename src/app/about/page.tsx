@@ -16,7 +16,7 @@ export default async function AboutPage() {
   }
 
   return (
-    <div className="wide-page-shell">
+    <div className="wide-page-shell about-page">
       <PageSliceZone slices={page.data.slices} products={products} />
     </div>
   );

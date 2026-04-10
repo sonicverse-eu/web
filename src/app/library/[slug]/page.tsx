@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { getLibraryEntries, getLibraryEntry } from '@/lib/content';
+import LibraryArticleLayout from '@/components/library/LibraryArticleLayout';
+import { getRelatedLibraryEntries, sortLibraryEntries } from '@/lib/library';
 import { renderMarkdoc } from '@/lib/markdoc';
 import { buildArticleMetadata } from '@/lib/page-metadata';
-import { requirePage } from '@/lib/page-data';
-
-const libraryPage = requirePage('library');
+import { getPageByUID } from '@/lib/site-data/api';
 
 type LibraryArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -33,19 +33,24 @@ export default async function LibraryArticlePage({ params }: LibraryArticlePageP
     notFound();
   }
 
+  const page = await getPageByUID('library');
+
+  if (!page) {
+    notFound();
+  }
+
+  const allEntries = sortLibraryEntries(getLibraryEntries());
+  const relatedEntries = getRelatedLibraryEntries(allEntries, entry, 3);
+  const recentEntries = allEntries.filter((candidate) => candidate.id !== entry.id).slice(0, 3);
+
   return (
-    <article className="container article-shell section-gap" data-reveal>
-      <a className="btn btn-ghost" href="/library">
-        {libraryPage.data.blogBackLabel ?? 'Back to library'}
-      </a>
-      <h1>{entry.data.title}</h1>
-      <p className="hero-subtitle">{entry.data.description}</p>
-      <div className="tag-list">
-        {entry.data.tags.map((tag) => (
-          <span key={tag} className="tag-pill">{tag}</span>
-        ))}
-      </div>
-      <div className="prose">{renderMarkdoc(entry.body)}</div>
-    </article>
+    <LibraryArticleLayout
+      shell={page.data.articleShell}
+      entry={entry}
+      relatedEntries={relatedEntries}
+      recentEntries={recentEntries}
+    >
+      {renderMarkdoc(entry.body)}
+    </LibraryArticleLayout>
   );
 }

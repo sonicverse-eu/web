@@ -16,7 +16,7 @@ export default async function PricingPage() {
   }
 
   return (
-    <div className="wide-page-shell">
+    <div className="wide-page-shell pricing-page">
       <PageSliceZone slices={page.data.slices} products={products} />
     </div>
   );

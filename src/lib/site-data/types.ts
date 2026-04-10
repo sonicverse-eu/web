@@ -1,3 +1,5 @@
+import type { BlogEntry, LibraryEntry } from '@/lib/content';
+
 export type ButtonLink = {
   label: string;
   href: string;
@@ -30,6 +32,21 @@ export type ProductSummary = {
   pricingHint: string;
 };
 
+export type ArticleShellConfig = {
+  backLabel?: string;
+  mark?: string;
+  primarySectionEyebrow?: string;
+  primarySectionTitle?: string;
+  secondarySectionEyebrow?: string;
+  secondarySectionTitle?: string;
+  asideEyebrow?: string;
+  asideTitle?: string;
+  asideBody?: string;
+  browseAllLabel?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+};
+
 export type CmsSlice = {
   id: string;
   slice_type:
@@ -41,7 +58,8 @@ export type CmsSlice = {
     | 'pricing_grid'
     | 'call_to_action'
     | 'content_columns'
-    | 'contact_panel';
+    | 'contact_panel'
+    | 'content_feed';
   variation: string;
   version?: string;
   primary: Record<string, unknown>;
@@ -58,6 +76,7 @@ export type PageDocument = {
     metaTitle: string;
     metaDescription: string;
     intro?: string;
+    articleShell?: ArticleShellConfig;
     slices: CmsSlice[];
   };
 };
@@ -109,4 +128,6 @@ export type CmsPage = PageDocument | ProductDocument;
 export type SliceContext = {
   products: ProductDocument[];
   currentProduct?: ProductDocument | null;
+  blogPosts?: BlogEntry[];
+  libraryEntries?: LibraryEntry[];
 };

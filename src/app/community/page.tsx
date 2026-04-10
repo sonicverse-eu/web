@@ -16,7 +16,7 @@ export default async function CommunityPage() {
   }
 
   return (
-    <div className="wide-page-shell">
+    <div className="wide-page-shell community-page">
       <PageSliceZone slices={page.data.slices} products={products} />
     </div>
   );

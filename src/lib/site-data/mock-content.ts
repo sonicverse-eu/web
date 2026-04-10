@@ -873,7 +873,7 @@ export const mockPages: PageDocument[] = [
       metaDescription:
         'Understand how Sonicverse supports open-source adoption, pilot planning, and deeper implementation partnerships.',
       slices: [
-        slice('hero', 'page', {
+        slice('hero', 'pricing_story', {
           eyebrow: 'Pricing',
           title: 'Open-source by default. Commercial support when your rollout needs it.',
           body:
@@ -882,7 +882,36 @@ export const mockPages: PageDocument[] = [
           primaryHref: '/demo',
           secondaryLabel: 'Contact us',
           secondaryHref: '/contact',
-        }),
+          supportingLabel: 'Commercial shape',
+          supportingText:
+            'The route should make it obvious what stays open, when expert help matters, and what kind of engagement follows from each choice.',
+          visualEyebrow: 'Engagement map',
+          visualTitle: 'Three routes, one consistent operating model.',
+          visualBody:
+            'The pricing story stays closer to rollout posture than feature gating: self-serve adoption, a structured pilot, or a deeper partnership.',
+          commandLabel: 'Business model',
+          commandValue: 'Open core first',
+          tone: 'amber',
+        }, [
+          {
+            label: 'Route 01',
+            title: 'Start self-serve',
+            detail: 'Use the open projects directly when the team already has implementation capacity and wants full control.',
+            meta: 'Open core',
+          },
+          {
+            label: 'Route 02',
+            title: 'Run a pilot',
+            detail: 'Add architecture guidance and rollout checkpoints when technical fit is still being validated in a live environment.',
+            meta: 'Guided evaluation',
+          },
+          {
+            label: 'Route 03',
+            title: 'Partner long term',
+            detail: 'Move into roadmap collaboration and deeper systems work when adoption spans several workflows or teams.',
+            meta: 'Platform partnership',
+          },
+        ]),
         slice('pricing_grid', 'default', {
           eyebrow: 'Plans',
           title: 'Choose the level of support that matches your rollout.',
@@ -928,12 +957,22 @@ export const mockPages: PageDocument[] = [
         ]),
         slice('proof_band', 'metrics', {
           eyebrow: 'What pricing communicates',
-          title: 'A simple model that keeps adoption easy and enterprise conversations clear.',
+          title: 'A pricing model that keeps adoption easy and enterprise conversations legible.',
         }, [
           { label: 'Open-source first', value: 'No gated product core or artificial evaluation barrier.' },
           { label: 'Commercial help when needed', value: 'Support is tied to rollout complexity, not feature access.' },
           { label: 'Clear conversion paths', value: 'Pricing routes visitors into either self-serve adoption or a structured demo.' },
         ]),
+        slice('call_to_action', 'pricing_cta', {
+          eyebrow: 'Need a faster recommendation?',
+          title: 'We can map the right path from your current workflow pressure, team shape, and rollout pace.',
+          body:
+            'That conversation can stay practical from the first reply: what is open, what needs support, and what the next milestone should look like.',
+          primaryLabel: 'Book a pricing walkthrough',
+          primaryHref: '/demo',
+          secondaryLabel: 'Talk to Sonicverse',
+          secondaryHref: '/contact',
+        }),
       ],
     },
   },
@@ -948,24 +987,53 @@ export const mockPages: PageDocument[] = [
       metaDescription:
         'Learn how Sonicverse combines open-source values with product-grade infrastructure thinking for audio teams.',
       slices: [
-        slice('hero', 'page', {
+        slice('hero', 'manifesto', {
           eyebrow: 'About Sonicverse',
           title: 'An open-source company story with the discipline of a product platform.',
           body:
             'Sonicverse exists to give modern audio teams infrastructure they can trust, understand, and adapt without getting locked into brittle closed systems.',
           primaryLabel: 'Explore projects',
           primaryHref: '/projects',
-          secondaryLabel: 'Join the community',
-          secondaryHref: '/community',
-        }),
+          secondaryLabel: 'Read the journal',
+          secondaryHref: '/blog',
+          supportingLabel: 'What stays constant',
+          supportingText:
+            'Open infrastructure, product-grade clarity, and workflows teams can still reason about after handoff.',
+          visualEyebrow: 'Operating stance',
+          visualTitle: 'A company narrative that still sounds like implementation reality.',
+          visualBody:
+            'The about page should explain the mission with enough operational signal that contributors, partners, and buyers all recognize the same system.',
+          commandLabel: 'Company mode',
+          commandValue: 'Built in public',
+          tone: 'emerald',
+        }, [
+          {
+            label: 'Principle 01',
+            title: 'Open standards over closed leverage',
+            detail: 'We build for teams that want portability, long-term maintainability, and systems they can keep understanding as they grow.',
+            meta: 'Interoperability',
+          },
+          {
+            label: 'Principle 02',
+            title: 'Product-grade framing for infrastructure work',
+            detail: 'The UX, docs, and customer journey should be as deliberate as the runtime and APIs.',
+            meta: 'Clarity',
+          },
+          {
+            label: 'Principle 03',
+            title: 'A contribution path that scales with adoption',
+            detail: 'Community credibility and commercial maturity should reinforce each other instead of pulling in opposite directions.',
+            meta: 'Continuity',
+          },
+        ]),
         slice('content_columns', 'mission', {
           eyebrow: 'What we believe',
-          title: 'Open systems work better when the product experience is as strong as the architecture.',
+          title: 'Open systems work best when the product story is as rigorous as the architecture.',
           body:
-            'The redesign balances product clarity, editorial maintainability, and technical credibility so the company feels coherent across every customer journey.',
+            'The company story now has to carry contributors, operators, and buyers through the same site without forcing them into different versions of Sonicverse.',
           panelTitle: 'Principles',
           panelBody:
-            'We value composability, long-term maintainability, strong operating models, and a clear path for non-technical editors to keep the site up to date.',
+            'Composability, technical legibility, and editorial maintainability are all product decisions here, not just engineering preferences.',
         }, [
           { title: 'Composable by default', text: 'Each project can stand alone while still fitting into a broader platform story.' },
           { title: 'Editorially practical', text: 'Slices stay modular and purposeful instead of becoming giant page-builder blobs.' },
@@ -982,6 +1050,16 @@ export const mockPages: PageDocument[] = [
           { title: 'Stronger visual trust', text: 'The new design uses cleaner surfaces, denser signal, and more confident product framing.' },
           { title: 'One cohesive system', text: 'Typography, spacing, cards, CTAs, and section rhythm all work from the same design rules.' },
         ]),
+        slice('call_to_action', 'about_cta', {
+          eyebrow: 'Read the system in action',
+          title: 'The clearest way to understand the company is to open the project, journal, and contribution paths built from the same rules.',
+          body:
+            'That continuity is the point: one brand system, several distinct page families, and a clearer path through the platform story.',
+          primaryLabel: 'Explore projects',
+          primaryHref: '/projects',
+          secondaryLabel: 'Join the community',
+          secondaryHref: '/community',
+        }),
       ],
     },
   },
@@ -1059,7 +1137,7 @@ export const mockPages: PageDocument[] = [
       metaDescription:
         'Book a focused Sonicverse walkthrough and map the right project or rollout path for your team.',
       slices: [
-        slice('hero', 'page', {
+        slice('hero', 'demo_path', {
           eyebrow: 'Book a demo',
           title: 'Get a focused walkthrough of the project lineup and the workflow that matters most.',
           body:
@@ -1068,7 +1146,44 @@ export const mockPages: PageDocument[] = [
           primaryHref: '#contact-panel',
           secondaryLabel: 'See projects first',
           secondaryHref: '/projects',
-        }),
+          supportingLabel: 'Best when',
+          supportingText:
+            'You want a product-fit conversation that stays tied to the workflow under pressure, not a broad platform tour with no recommendation at the end.',
+          visualEyebrow: 'Session map',
+          visualTitle: 'A productive walkthrough should feel more like triage than theater.',
+          visualBody:
+            'We use the request context to shape the session: project fit, current blockers, and the clearest next step after the call.',
+          commandLabel: 'Session type',
+          commandValue: 'Focused walkthrough',
+          tone: 'violet',
+        }, [
+          {
+            label: 'Step 01',
+            title: 'Name the workflow',
+            detail: 'Pick the delivery, metadata, scheduling, or contributor flow you want to understand first.',
+            meta: 'Scoping',
+          },
+          {
+            label: 'Step 02',
+            title: 'Show the friction',
+            detail: 'Bring the current blockers, system constraints, or rollout pressure points so we can route the conversation quickly.',
+            meta: 'Context',
+          },
+          {
+            label: 'Step 03',
+            title: 'Leave with a recommendation',
+            detail: 'The ideal demo ends with a clearer first project, a rollout shape, and the best next action.',
+            meta: 'Decision',
+          },
+        ]),
+        slice('proof_band', 'demo_brief', {
+          eyebrow: 'What the session covers',
+          title: 'A practical walkthrough, shaped around the operating question you already have.',
+        }, [
+          { label: 'Project fit', value: 'Which project solves the pressure point most directly right now.' },
+          { label: 'Implementation context', value: 'The constraints, integrations, and rollout shape that matter most.' },
+          { label: 'Next move', value: 'Whether the right follow-up is self-serve adoption, a pilot, or a broader conversation.' },
+        ]),
         slice('contact_panel', 'demo', {
           eyebrow: 'Demo intake',
           title: 'Tell us which workflow you want to see and where your current stack is getting stuck.',
@@ -1097,7 +1212,7 @@ export const mockPages: PageDocument[] = [
       metaDescription:
         'Contribute to Sonicverse, join the open-source ecosystem, and help shape the future of audio infrastructure.',
       slices: [
-        slice('hero', 'page', {
+        slice('hero', 'community_network', {
           eyebrow: 'Community',
           title: 'An open-source platform deserves a contribution experience that feels modern too.',
           body:
@@ -1106,7 +1221,36 @@ export const mockPages: PageDocument[] = [
           primaryHref: 'https://github.com/sonicverse-eu',
           secondaryLabel: 'Contact the team',
           secondaryHref: '/contact',
-        }),
+          supportingLabel: 'Contribution posture',
+          supportingText:
+            'The goal is a path that feels welcoming, legible, and clearly connected to the real platform work underneath it.',
+          visualEyebrow: 'Ecosystem lanes',
+          visualTitle: 'Contribution paths should feel like part of the platform, not an afterthought around it.',
+          visualBody:
+            'The page now frames open-source participation with the same confidence as the product routes: clear entry points, visible signal, and better next actions.',
+          commandLabel: 'Contribution model',
+          commandValue: 'Open by default',
+          tone: 'emerald',
+        }, [
+          {
+            label: 'Lane 01',
+            title: 'Platform work',
+            detail: 'Runtime, APIs, adapters, and deployment workflows for teams working close to the core system.',
+            meta: 'Engineering',
+          },
+          {
+            label: 'Lane 02',
+            title: 'Docs and examples',
+            detail: 'Guides, demos, onboarding material, and implementation notes that make adoption easier to sustain.',
+            meta: 'Documentation',
+          },
+          {
+            label: 'Lane 03',
+            title: 'Community support',
+            detail: 'Review help, events, moderation, and contributor care that keeps the ecosystem healthy as it grows.',
+            meta: 'Stewardship',
+          },
+        ]),
         slice('feature_grid', 'platform', {
           eyebrow: 'Ways to contribute',
           title: 'There is room for engineering, documentation, integrations, and ecosystem support.',
@@ -1118,6 +1262,140 @@ export const mockPages: PageDocument[] = [
           { title: 'Ecosystem adapters', text: 'Connect Sonicverse into the tools broadcasters and platform teams already use.' },
           { title: 'Community support', text: 'Make onboarding smoother for new contributors, partners, and pilot teams.' },
         ]),
+        slice('call_to_action', 'community_cta', {
+          eyebrow: 'Choose your entry point',
+          title: 'Open the code, read the field notes, or start a direct conversation about where you can plug in.',
+          body:
+            'The community route should work for experienced maintainers, first-time contributors, implementation partners, and teams still deciding how close they want to get.',
+          primaryLabel: 'Open GitHub',
+          primaryHref: 'https://github.com/sonicverse-eu',
+          secondaryLabel: 'Read the journal',
+          secondaryHref: '/blog',
+        }),
+      ],
+    },
+  },
+  {
+    id: 'blog',
+    uid: 'blog',
+    url: '/blog',
+    type: 'page',
+    data: {
+      title: 'Journal',
+      metaTitle: 'Blog | Sonicverse',
+      metaDescription:
+        'Read Sonicverse product notes, roadmap updates, and community progress in one editorial archive.',
+      articleShell: {
+        backLabel: 'Back to journal',
+        mark: 'Sonicverse Journal',
+        primarySectionEyebrow: 'Continue reading',
+        primarySectionTitle: 'Next in the archive.',
+        secondarySectionEyebrow: 'Related posts',
+        secondarySectionTitle: 'More on this topic.',
+        browseAllLabel: 'Browse all posts',
+      },
+      slices: [
+        slice('hero', 'blog_journal', {
+          mark: 'Sonicverse Journal',
+          eyebrow: 'Updates',
+          title: 'Product notes, roadmap, and community progress.',
+          body:
+            'The journal keeps launches, implementation notes, and contributor progress in one place so readers can follow what Sonicverse is building in public.',
+          primaryLabel: 'Browse archive',
+          primaryHref: '#blog-archive',
+          secondaryLabel: 'Explore projects',
+          secondaryHref: '/projects',
+          visualEyebrow: 'Current signal',
+          visualTitle: 'Latest note',
+          tone: 'brand',
+        }),
+        slice('content_feed', 'journal_archive', {
+          spotlightEyebrow: 'Featured bulletin',
+          spotlightTitle: 'The latest note, framed like a release bulletin.',
+          spotlightBody:
+            'The lead story should feel editorial, but still point back to real product motion and contributor progress.',
+          featuredCtaLabel: 'Read article',
+          archiveEyebrow: 'Archive',
+          archiveTitle: 'Read the journal like a running field report from the platform.',
+          archiveBody:
+            'The archive is organized for fast scanning: topic rail on one side, entries and reading time on the other.',
+          archiveCtaLabel: 'Open note',
+          railEyebrow: 'Tracked topics',
+          railTitle: 'Jump into the archive by theme.',
+          footerEyebrow: 'Archive signal',
+          footerTitle: 'Follow the notes, then step into the work behind them.',
+          footerBody:
+            'Every note should help readers move from narrative into a project, guide, or contributor path without losing the editorial feel of the journal.',
+          primaryLabel: 'Explore projects',
+          primaryHref: '/projects',
+          secondaryLabel: 'Join the community',
+          secondaryHref: '/community',
+        }),
+      ],
+    },
+  },
+  {
+    id: 'library',
+    uid: 'library',
+    url: '/library',
+    type: 'page',
+    data: {
+      title: 'Library',
+      metaTitle: 'Library | Sonicverse',
+      metaDescription:
+        'Browse Sonicverse architecture notes, implementation references, and long-form guides in one structured manual.',
+      articleShell: {
+        backLabel: 'Back to library',
+        mark: 'Sonicverse Manual',
+        primarySectionEyebrow: 'Recently updated',
+        primarySectionTitle: 'Continue through the manual.',
+        secondarySectionEyebrow: 'Related references',
+        secondarySectionTitle: 'Keep browsing the manual.',
+        asideEyebrow: 'Reference frame',
+        asideTitle: 'Designed for rollout and contributor context.',
+        asideBody:
+          'Library entries should feel close to the product story: practical enough for operators, clear enough for contributors, and polished enough to trust.',
+        browseAllLabel: 'Browse all references',
+        secondaryCtaLabel: 'Explore projects',
+        secondaryCtaHref: '/projects',
+      },
+      slices: [
+        slice('hero', 'library_manual', {
+          mark: 'Sonicverse Manual',
+          eyebrow: 'Knowledge base',
+          title: 'Long-form guides built in public.',
+          body:
+            'Field notes, architecture explainers, and implementation references that sit beside the product story instead of drifting into a separate docs island.',
+          primaryLabel: 'Browse references',
+          primaryHref: '#library-index',
+          secondaryLabel: 'Explore projects',
+          secondaryHref: '/projects',
+          supportingLabel: 'Why this exists',
+          supportingText:
+            'The library should help teams understand the stack, not just document it after the fact.',
+          visualEyebrow: 'Manual status',
+          visualTitle: 'One route into architecture, rollout, and contributor guidance.',
+          visualBody:
+            'Reference pages keep the same polish as the product surfaces, but they trade campaign energy for clarity, structure, and reuse.',
+          tone: 'emerald',
+        }),
+        slice('content_feed', 'reference_index', {
+          eyebrow: 'Reference index',
+          title: 'Start with the most useful guide, then fan out into the rest of the manual.',
+          body:
+            'The library should surface what is newest, what is reusable, and where to go next without forcing the reader into a generic blog grid.',
+          featureEyebrow: 'Lead reference',
+          featureCtaLabel: 'Read reference',
+          summaryEyebrow: 'Manual health',
+          summaryTitle: 'Structured like a field guide for the platform.',
+          summaryBody:
+            'Browse architecture notes, contributor guidance, and implementation references from one route that still feels connected to the broader site.',
+          primaryLabel: 'Explore projects',
+          primaryHref: '/projects',
+          secondaryLabel: 'Talk to the team',
+          secondaryHref: '/contact',
+          rowCtaLabel: 'Open reference',
+        }),
       ],
     },
   },
