@@ -1,10 +1,4 @@
 @import 'tailwindcss';
-.contact-form {
-    margin-top: 8rem;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
 :root {
   color-scheme: light;
   --header-overlay-offset: clamp(4.9rem, 8vw, 6.2rem);
@@ -1399,6 +1393,7 @@ main {
   position: absolute;
   inset: -8% -12% -12%;
   pointer-events: none;
+  z-index: 0;
 }
 
 .hero-home-grid {
@@ -1416,14 +1411,12 @@ main {
 .hero-home-beam {
   position: absolute;
   left: -20%;
-  width: var(--container);
-  margin: 0 auto;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
+  width: 140%;
+  height: 2px;
+  border-radius: 999px;
   background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--brand) 72%, white 28%) 24%, color-mix(in srgb, var(--emerald) 68%, white 32%) 60%, transparent 100%);
-  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--brand) 34%, transparent));
-  opacity: 0;
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--brand) 44%, transparent));
+  opacity: 0.26;
   transform-origin: center;
   animation: hero-beam-drift 11s var(--ease-out) infinite;
 }
