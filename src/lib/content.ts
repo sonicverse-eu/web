@@ -169,7 +169,13 @@ function readCollection<S extends z.ZodTypeAny>(
     .sort();
 
   return files.map((file) => {
-    const id = file.replace(/\.(md|mdx)$/, '');
+    const baseName = file.replace(/\.(md|mdx)$/, '');
+    const id =
+      baseName
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/(^-|-$)/g, '') || 'post';
     const raw = fs.readFileSync(path.join(dir, file), 'utf-8');
     const { data, content } = matter(raw);
 
