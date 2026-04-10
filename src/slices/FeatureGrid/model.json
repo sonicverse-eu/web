@@ -1,0 +1,86 @@
+{
+  "id": "feature_grid",
+  "type": "SharedSlice",
+  "name": "FeatureGrid",
+  "description": "Feature grid section",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Feature Title"
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Feature Body"
+          }
+        }
+      }
+    },
+    {
+      "id": "project_capabilities",
+      "name": "Project Capabilities",
+      "description": "Project Capabilities variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Capability Title"
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Capability Body"
+          }
+        }
+      }
+    }
+  ]
+}

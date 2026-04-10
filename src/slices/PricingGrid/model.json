@@ -1,0 +1,95 @@
+{
+  "id": "pricing_grid",
+  "type": "SharedSlice",
+  "name": "PricingGrid",
+  "description": "Pricing table cards",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        }
+      },
+      "items": {
+        "tier": {
+          "type": "Text",
+          "config": {
+            "label": "Tier"
+          }
+        },
+        "price": {
+          "type": "Text",
+          "config": {
+            "label": "Price"
+          }
+        },
+        "cadence": {
+          "type": "Text",
+          "config": {
+            "label": "Cadence"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description"
+          }
+        },
+        "feature_1": {
+          "type": "Text",
+          "config": {
+            "label": "Feature 1"
+          }
+        },
+        "feature_2": {
+          "type": "Text",
+          "config": {
+            "label": "Feature 2"
+          }
+        },
+        "feature_3": {
+          "type": "Text",
+          "config": {
+            "label": "Feature 3"
+          }
+        },
+        "feature_4": {
+          "type": "Text",
+          "config": {
+            "label": "Feature 4"
+          }
+        },
+        "cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "CTA Label"
+          }
+        },
+        "cta_href": {
+          "type": "Link",
+          "config": {
+            "label": "CTA Link"
+          }
+        }
+      }
+    }
+  ]
+}

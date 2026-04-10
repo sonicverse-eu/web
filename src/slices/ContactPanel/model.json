@@ -1,0 +1,76 @@
+{
+  "id": "contact_panel",
+  "type": "SharedSlice",
+  "name": "ContactPanel",
+  "description": "Contact form panel section",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "panelTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Title"
+          }
+        },
+        "panelBody": {
+          "type": "Text",
+          "config": {
+            "label": "Panel Body"
+          }
+        },
+        "formMode": {
+          "type": "Select",
+          "config": {
+            "label": "Form Mode",
+            "options": [
+              "contact",
+              "demo"
+            ],
+            "default_value": "contact"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Link Label"
+          }
+        },
+        "value": {
+          "type": "Text",
+          "config": {
+            "label": "Link Value"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Link URL"
+          }
+        }
+      }
+    }
+  ]
+}

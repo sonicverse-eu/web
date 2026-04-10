@@ -1,0 +1,1559 @@
+{
+  "id": "hero",
+  "type": "SharedSlice",
+  "name": "Hero",
+  "description": "Hero section variants",
+  "variations": [
+    {
+      "id": "home",
+      "name": "Home",
+      "description": "Home variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "projects_overview",
+      "name": "Projects Overview",
+      "description": "Projects Overview variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "description": "Contact variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "manifesto",
+      "name": "Manifesto",
+      "description": "Manifesto variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "pricing_story",
+      "name": "Pricing Story",
+      "description": "Pricing Story variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "demo_path",
+      "name": "Demo Path",
+      "description": "Demo Path variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "community_network",
+      "name": "Community Network",
+      "description": "Community Network variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "blog_journal",
+      "name": "Blog Journal",
+      "description": "Blog Journal variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "library_manual",
+      "name": "Library Manual",
+      "description": "Library Manual variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "project_detail",
+      "name": "Project Detail",
+      "description": "Project Detail variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    },
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "supportingLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Label"
+          }
+        },
+        "supportingText": {
+          "type": "Text",
+          "config": {
+            "label": "Supporting Text"
+          }
+        },
+        "visualEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Eyebrow"
+          }
+        },
+        "visualTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Title"
+          }
+        },
+        "visualBody": {
+          "type": "Text",
+          "config": {
+            "label": "Visual Body"
+          }
+        },
+        "tone": {
+          "type": "Select",
+          "config": {
+            "label": "Tone",
+            "options": [
+              "brand",
+              "neutral",
+              "vivid"
+            ],
+            "default_value": "brand"
+          }
+        },
+        "commandLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Command Label"
+          }
+        },
+        "commandValue": {
+          "type": "Text",
+          "config": {
+            "label": "Command Value"
+          }
+        },
+        "mark": {
+          "type": "Text",
+          "config": {
+            "label": "Mark"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Item Label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Item Title"
+          }
+        },
+        "detail": {
+          "type": "Text",
+          "config": {
+            "label": "Item Detail"
+          }
+        },
+        "meta": {
+          "type": "Text",
+          "config": {
+            "label": "Item Meta"
+          }
+        },
+        "href": {
+          "type": "Link",
+          "config": {
+            "label": "Item Link"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "id": "content_feed",
+  "type": "SharedSlice",
+  "name": "ContentFeed",
+  "description": "Blog or library feed sections",
+  "variations": [
+    {
+      "id": "journal_archive",
+      "name": "Journal Archive",
+      "description": "Journal Archive variation",
+      "primary": {
+        "spotlightEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Spotlight Eyebrow"
+          }
+        },
+        "spotlightTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Spotlight Title"
+          }
+        },
+        "spotlightBody": {
+          "type": "Text",
+          "config": {
+            "label": "Spotlight Body"
+          }
+        },
+        "featuredCtaLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Featured CTA Label"
+          }
+        },
+        "archiveEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Archive Eyebrow"
+          }
+        },
+        "archiveTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Archive Title"
+          }
+        },
+        "archiveBody": {
+          "type": "Text",
+          "config": {
+            "label": "Archive Body"
+          }
+        },
+        "railEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Rail Eyebrow"
+          }
+        },
+        "railTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Rail Title"
+          }
+        },
+        "archiveCtaLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Archive CTA Label"
+          }
+        },
+        "footerEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Footer Eyebrow"
+          }
+        },
+        "footerTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Footer Title"
+          }
+        },
+        "footerBody": {
+          "type": "Text",
+          "config": {
+            "label": "Footer Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "reference_index",
+      "name": "Reference Index",
+      "description": "Reference Index variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "featureEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Feature Eyebrow"
+          }
+        },
+        "featureCtaLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Feature CTA Label"
+          }
+        },
+        "summaryEyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Summary Eyebrow"
+          }
+        },
+        "summaryTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Summary Title"
+          }
+        },
+        "summaryBody": {
+          "type": "Text",
+          "config": {
+            "label": "Summary Body"
+          }
+        },
+        "primaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Primary Label"
+          }
+        },
+        "primaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Link"
+          }
+        },
+        "secondaryLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary Label"
+          }
+        },
+        "secondaryHref": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary Link"
+          }
+        },
+        "rowCtaLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Row CTA Label"
+          }
+        },
+        "emptyTitle": {
+          "type": "Text",
+          "config": {
+            "label": "Empty Title"
+          }
+        },
+        "emptyBody": {
+          "type": "Text",
+          "config": {
+            "label": "Empty Body"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

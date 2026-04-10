@@ -1,0 +1,84 @@
+{
+  "id": "product_suite",
+  "type": "SharedSlice",
+  "name": "ProductSuite",
+  "description": "Product suite section",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "ctaLabel": {
+          "type": "Text",
+          "config": {
+            "label": "CTA Label"
+          }
+        },
+        "ctaHref": {
+          "type": "Link",
+          "config": {
+            "label": "CTA Link"
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "editorial_compare",
+      "name": "Editorial Compare",
+      "description": "Editorial Compare variation",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title"
+          }
+        },
+        "body": {
+          "type": "Text",
+          "config": {
+            "label": "Body"
+          }
+        },
+        "ctaLabel": {
+          "type": "Text",
+          "config": {
+            "label": "CTA Label"
+          }
+        },
+        "ctaHref": {
+          "type": "Link",
+          "config": {
+            "label": "CTA Link"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
