@@ -1,0 +1,122 @@
+{
+  "id": "product",
+  "label": "Product",
+  "repeatable": true,
+  "json": {
+    "Product": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID",
+          "placeholder": "audio-streaming-stack"
+        }
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Name",
+          "placeholder": "Audio Streaming Stack"
+        }
+      },
+      "tagline": {
+        "type": "Text",
+        "config": {
+          "label": "Tagline"
+        }
+      },
+      "summary": {
+        "type": "Text",
+        "config": {
+          "label": "Summary"
+        }
+      },
+      "category": {
+        "type": "Text",
+        "config": {
+          "label": "Category",
+          "placeholder": "Streaming Infrastructure"
+        }
+      },
+      "audience": {
+        "type": "Text",
+        "config": {
+          "label": "Audience"
+        }
+      },
+      "outcome": {
+        "type": "Text",
+        "config": {
+          "label": "Outcome"
+        }
+      },
+      "accent": {
+        "type": "Select",
+        "config": {
+          "label": "Accent",
+          "placeholder": "violet",
+          "options": ["violet", "emerald", "amber", "azure", "slate"]
+        }
+      },
+      "pricing_hint": {
+        "type": "Text",
+        "config": {
+          "label": "Pricing Hint"
+        }
+      },
+      "hero_stats": {
+        "type": "Group",
+        "config": {
+          "label": "Hero Stats",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label"
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "Value"
+              }
+            }
+          }
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice zone",
+        "config": {
+          "choices": {
+            "hero": { "type": "SharedSlice" },
+            "product_suite": { "type": "SharedSlice" },
+            "feature_grid": { "type": "SharedSlice" },
+            "proof_band": { "type": "SharedSlice" },
+            "testimonial_rail": { "type": "SharedSlice" },
+            "pricing_grid": { "type": "SharedSlice" },
+            "call_to_action": { "type": "SharedSlice" },
+            "content_columns": { "type": "SharedSlice" },
+            "contact_panel": { "type": "SharedSlice" },
+            "content_feed": { "type": "SharedSlice" }
+          }
+        }
+      }
+    },
+    "SEO Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "My title for Search Engine"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "The description that will appear in search engine"
+        }
+      }
+    }
+  }
+}
