@@ -2332,6 +2332,10 @@ main {
   align-self: start;
 }
 
+.contact-main {
+  min-width: 0;
+}
+
 .contact-copy {
   display: grid;
   gap: 1rem;
@@ -2662,6 +2666,7 @@ main {
 .contact-nav-row {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
   padding-top: 0.2rem;
@@ -5239,6 +5244,17 @@ main {
 
   .contact-sidebar {
     position: static;
+  }
+
+  .contact-field-grid-split,
+  .contact-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-submit-note {
+    max-width: none;
+    margin-left: 0;
+    text-align: left;
   }
 
   .contact-trust,
