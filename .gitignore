@@ -1,5 +1,9 @@
 # build output
 dist/
+out/
+
+# next build output
+.next/
 
 # generated types
 .astro/
@@ -16,9 +20,25 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # macOS-specific files
 .DS_Store
+
+# local tooling output
+.vercel/
+coverage/
+playwright-report/
+test-results/
+output/playwright/
+
+# legacy local files that can override App Router setup
+next.config.js
+src/pages/_app.js
+src/pages/_document.js
 
 # jetbrains setting folder
 .idea/
