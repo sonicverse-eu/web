@@ -42,25 +42,34 @@ const themeScript = `(function(){
   var STORAGE_KEY = 'sv-theme';
   var LIGHT_THEME = 'light';
   var DARK_THEME = 'dark';
+  var LIGHT_BG = '#eef4ff';
+  var DARK_BG = '#07111f';
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   var resolve = function(stored) {
     return stored === LIGHT_THEME || stored === DARK_THEME ? stored : (mq.matches ? DARK_THEME : LIGHT_THEME);
+  };
+  var paint = function(theme) {
+    var bg = theme === DARK_THEME ? DARK_BG : LIGHT_BG;
+    document.documentElement.style.backgroundColor = bg;
+    document.documentElement.style.colorScheme = theme;
+    return theme;
   };
   var sync = function() {
     try {
       var theme = resolve(localStorage.getItem(STORAGE_KEY));
       document.documentElement.setAttribute('data-theme', theme);
-      return theme;
+      return paint(theme);
     } catch(e) {
-      document.documentElement.setAttribute('data-theme', LIGHT_THEME);
-      return LIGHT_THEME;
+      var fallbackTheme = resolve(null);
+      document.documentElement.setAttribute('data-theme', fallbackTheme);
+      return paint(fallbackTheme);
     }
   };
   window.__sonicverseSyncTheme = sync;
   window.__sonicverseApplyTheme = function(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     try { localStorage.setItem(STORAGE_KEY, theme); } catch(e) {}
-    return theme;
+    return paint(theme);
   };
   if (!window.__sonicverseThemeLifecycleBound) {
     window.addEventListener('storage', function(e) {
@@ -74,6 +83,42 @@ const themeScript = `(function(){
   sync();
 })();`;
 
+const preflightThemeStyle = `
+  html, body {
+    background-color: #eef4ff;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html, body {
+      background-color: #07111f;
+    }
+
+    html {
+      color-scheme: dark;
+    }
+  }
+
+  html[data-theme='light'], html[data-theme='light'] body {
+    background-color: #eef4ff;
+  }
+
+  html[data-theme='dark'], html[data-theme='dark'] body {
+    background-color: #07111f;
+  }
+
+  html[data-theme='light'] {
+    color-scheme: light;
+  }
+
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+`;
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [products, settings] = await Promise.all([getAllProducts(), getSettings()]);
 
@@ -82,6 +127,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta name="theme-color" content="#eef4ff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#07111f" media="(prefers-color-scheme: dark)" />
+        <style dangerouslySetInnerHTML={{ __html: preflightThemeStyle }} />
         {/* Theme init: runs before paint to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
