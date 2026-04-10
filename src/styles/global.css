@@ -1,8 +1,10 @@
 @import 'tailwindcss';
-@plugin "daisyui" {
-  themes: false;
+.contact-form {
+    margin-top: 8rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 :root {
   color-scheme: light;
   --header-overlay-offset: clamp(4.9rem, 8vw, 6.2rem);
@@ -48,7 +50,6 @@
     'Roboto Mono',
     monospace;
 }
-
 [data-theme='dark'] {
   color-scheme: dark;
   --bg: #07111f;
@@ -1415,9 +1416,11 @@ main {
 .hero-home-beam {
   position: absolute;
   left: -20%;
-  width: 140%;
-  height: 2px;
-  border-radius: 999px;
+  width: var(--container);
+  margin: 0 auto;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
   background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--brand) 72%, white 28%) 24%, color-mix(in srgb, var(--emerald) 68%, white 32%) 60%, transparent 100%);
   filter: drop-shadow(0 0 14px color-mix(in srgb, var(--brand) 34%, transparent));
   opacity: 0;
@@ -2886,10 +2889,6 @@ main {
 .faq-list,
 .faq-item,
 .contact-grid,
-.feature-card {
-  width: var(--container);
-  margin: 0 auto;
-}
 
 .hero {
   display: grid;
