@@ -1,0 +1,19 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/about/page": "/about",
+  "/demo/page": "/demo",
+  "/contact/page": "/contact",
+  "/page": "/",
+  "/projects/[slug]/page": "/projects/[slug]",
+  "/pricing/page": "/pricing",
+  "/projects/page": "/projects",
+  "/community/page": "/community",
+  "/products/page": "/products",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/library/page": "/library",
+  "/library/[slug]/page": "/library/[slug]",
+  "/blog/page": "/blog",
+  "/products/[uid]/page": "/products/[uid]"
+}

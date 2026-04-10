@@ -87,6 +87,7 @@
         "fieldset": "Product Slices",
         "config": {
           "choices": {
+            "hero": { "type": "SharedSlice" },
             "feature_grid": { "type": "SharedSlice" },
             "proof_band": { "type": "SharedSlice" },
             "call_to_action": { "type": "SharedSlice" },

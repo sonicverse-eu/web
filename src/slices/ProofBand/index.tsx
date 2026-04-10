@@ -3,7 +3,7 @@ import type { CmsSlice } from '@/lib/prismic/types';
 
 export default function ProofBand({ slice }: SliceComponentProps<CmsSlice>) {
   return (
-    <section className="slice slice-proof">
+    <section className={`slice slice-proof slice-proof--${slice.variation}`}>
       <div className="container">
         <div className="proof-shell" data-reveal>
           <div className="proof-heading">

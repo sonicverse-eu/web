@@ -3,7 +3,7 @@ import type { CmsSlice } from '@/lib/prismic/types';
 
 export default function FeatureGrid({ slice }: SliceComponentProps<CmsSlice>) {
   return (
-    <section className="slice slice-features">
+    <section className={`slice slice-features slice-features--${slice.variation}`}>
       <div className="container section-shell">
         <div className="section-heading" data-reveal>
           <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>

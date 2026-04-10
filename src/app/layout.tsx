@@ -1,9 +1,23 @@
 import type { Metadata } from 'next';
+import { IBM_Plex_Mono, Manrope } from 'next/font/google';
 import '../styles/global.css';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import MotionProvider from '@/components/MotionProvider';
 import { getAllProducts, getSettings } from '@/lib/prismic/api';
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-mono',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sonicverse.eu'),
@@ -64,7 +78,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const [products, settings] = await Promise.all([getAllProducts(), getSettings()]);
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${manrope.variable} ${ibmPlexMono.variable}`}>
       <head>
         <meta name="theme-color" content="#fafaff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#07060f" media="(prefers-color-scheme: dark)" />
@@ -72,7 +86,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
       </head>
       <body>
         <a className="skip-link" href="#main-content">

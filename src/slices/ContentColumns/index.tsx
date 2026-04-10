@@ -3,7 +3,7 @@ import type { CmsSlice } from '@/lib/prismic/types';
 
 export default function ContentColumns({ slice }: SliceComponentProps<CmsSlice>) {
   return (
-    <section className="slice slice-columns">
+    <section className={`slice slice-columns slice-columns--${slice.variation}`}>
       <div className="container columns-shell">
         <div className="columns-copy" data-reveal>
           <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>

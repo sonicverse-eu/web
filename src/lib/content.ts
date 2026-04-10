@@ -165,11 +165,11 @@ function readCollection<S extends z.ZodTypeAny>(
 
   const files = fs
     .readdirSync(dir)
-    .filter((f) => /\.(md|mdoc)$/.test(f))
+    .filter((f) => /\.(md|mdx)$/.test(f))
     .sort();
 
   return files.map((file) => {
-    const id = file.replace(/\.(md|mdoc)$/, '');
+    const id = file.replace(/\.(md|mdx)$/, '');
     const raw = fs.readFileSync(path.join(dir, file), 'utf-8');
     const { data, content } = matter(raw);
 

@@ -12,8 +12,12 @@ export default function ProductSuite({
 }: SliceComponentProps<CmsSlice, SliceContext>) {
   const products = context?.products ?? [];
 
+  if (!products.length) {
+    return null;
+  }
+
   return (
-    <section className="slice slice-products">
+    <section className={`slice slice-products slice-products--${slice.variation}`} id="product-suite">
       <div className="container section-shell">
         <div className="section-heading" data-reveal>
           <p className="eyebrow">{String(slice.primary.eyebrow ?? '')}</p>
@@ -35,24 +39,24 @@ export default function ProductSuite({
             <article key={product.uid} className={`product-card ${accentClass(product.data.accent)}`}>
               <div className="product-card-top">
                 <span className="product-pill">{product.data.category}</span>
-                <span className="product-pricing-hint">{product.data.pricingHint}</span>
+                <span className="product-pricing-hint">{product.data.heroStats[0]?.label || 'Deployment'}</span>
               </div>
               <div className="product-card-body">
                 <h3>{product.data.name}</h3>
                 <p className="product-card-summary">{product.data.summary}</p>
                 <div className="product-card-meta">
                   <div>
-                    <span>For</span>
+                    <span>Best for</span>
                     <strong>{product.data.audience}</strong>
                   </div>
                   <div>
-                    <span>Outcome</span>
+                    <span>Main value</span>
                     <strong>{product.data.outcome}</strong>
                   </div>
                 </div>
               </div>
               <div className="product-card-bottom">
-                <span>{product.data.tagline}</span>
+                <span>{product.data.heroStats[0]?.value || product.data.pricingHint}</span>
                 <Link href={product.url}>Explore product</Link>
               </div>
             </article>

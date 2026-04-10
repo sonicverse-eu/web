@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import PageSliceZone from '@/components/PageSliceZone';
-import ProductHero from '@/components/ProductHero';
 import { getAllProducts, getProductByUID } from '@/lib/prismic/api';
 import { buildMetadata } from '@/lib/prismic/metadata';
 
@@ -28,10 +27,5 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  return (
-    <>
-      <ProductHero product={product} />
-      <PageSliceZone slices={product.data.slices} products={products} />
-    </>
-  );
+  return <PageSliceZone slices={product.data.slices} products={products} />;
 }

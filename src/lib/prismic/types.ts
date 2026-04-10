@@ -78,6 +78,13 @@ export type SettingsDocument = {
   data: {
     announcement: string;
     primaryNav: { label: string; href: string }[];
+    headerLoginLabel?: string;
+    headerLoginHref?: string;
+    headerCtaLabel?: string;
+    headerCtaHref?: string;
+    productsMenuEyebrow?: string;
+    productsMenuTitle?: string;
+    productsMenuDescription?: string;
     footerTagline: string;
     footerLinks: { label: string; href: string }[];
     footerResources: { label: string; href: string }[];
