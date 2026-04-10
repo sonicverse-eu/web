@@ -183,7 +183,7 @@ p {
 main {
   display: grid;
   gap: 5rem;
-  padding: var(--header-overlay-offset) 0 5rem;
+  padding: 0 0 5rem;
   overflow-x: clip;
 }
 
@@ -910,6 +910,12 @@ main {
   padding-top: 1rem;
 }
 
+.wide-page-shell > .slice:first-child,
+.wide-page-shell > .hero:first-child,
+.wide-page-shell > .section-gap:first-child {
+  padding-top: 0;
+}
+
 .hero-shell,
 .product-hero-shell {
   display: grid;
@@ -928,7 +934,7 @@ main {
 }
 
 .slice-hero {
-  padding-top: 2.5rem;
+  padding-top: 0;
 }
 
 .hero-copy,
@@ -2765,7 +2771,6 @@ main {
 .site-footer .container {
   width: var(--container-wide);
 }
-
 .site-footer-grid,
 .site-footer-bottom {
   display: grid;
