@@ -2,8 +2,6 @@ export const SITE_URL = 'https://sonicverse.eu';
 
 export const projectAudiences: Record<string, string> = {
   'audio-streaming-stack': 'Independent broadcasters & community radio',
-  'media-metadata-api': 'Podcast platforms & media archive teams',
-  'broadcast-scheduler': 'Community radio & college stations',
 };
 
 export const contactCategoryDefaults = [
@@ -48,7 +46,6 @@ export const staticSitemapRoutes = [
   '/contact',
   '/demo',
   '/projects',
-  '/pricing',
   '/blog',
   '/library',
 ];

@@ -42,37 +42,6 @@ export const mockSettings: SettingsDocument = {
             href: '/projects/audio-streaming-stack',
             description: 'Resilient live delivery infrastructure with failover and playback control.',
           },
-          {
-            label: 'Media Metadata API',
-            href: '/projects/media-metadata-api',
-            description: 'Programmable metadata normalization across ingest, archive, and publishing.',
-          },
-          {
-            label: 'Broadcast Scheduler',
-            href: '/projects/broadcast-scheduler',
-            description: 'Coordinate schedules, overrides, and fallback logic with less operator friction.',
-          },
-        ],
-      },
-      {
-        label: 'Pricing',
-        href: '/pricing',
-        children: [
-          {
-            label: 'Pricing overview',
-            href: '/pricing',
-            description: 'Review platform tiers and support models by team stage.',
-          },
-          {
-            label: 'Book a demo',
-            href: '/demo',
-            description: 'Walk through your stack, constraints, and rollout timeline.',
-          },
-          {
-            label: 'Talk to sales',
-            href: '/contact',
-            description: 'Get help scoping enterprise requirements and adoption plans.',
-          },
         ],
       },
       {
@@ -151,7 +120,6 @@ export const mockSettings: SettingsDocument = {
       'Sonicverse is the modular audio operations platform for teams that want enterprise-grade workflows without proprietary lock-in.',
     footerLinks: [
       { label: 'Projects', href: '/projects' },
-      { label: 'Pricing', href: '/pricing' },
       { label: 'About', href: '/about' },
       { label: 'Book a demo', href: '/demo' },
     ],
@@ -286,27 +254,14 @@ export const mockProducts: ProductDocument[] = [
         ]),
         slice('call_to_action', 'project_next', {
           eyebrow: 'Choose the next read',
-          title: 'Plan the rollout or open the adjacent project.',
+          title: 'Plan the rollout with the Sonicverse team.',
           body:
-            'If live delivery is only one part of the broader stack refresh, the related projects below show where teams usually go next.',
+            'If live delivery is the immediate priority, we can map a phased rollout and next milestones based on your current stack.',
           primaryLabel: 'Book a streaming review',
           primaryHref: '/demo',
           secondaryLabel: 'Talk to engineering',
           secondaryHref: '/contact',
-        }, [
-          {
-            label: 'Media Metadata API',
-            href: '/projects/media-metadata-api',
-            detail: 'Add a shared metadata layer when the release pipeline needs the same level of operational clarity.',
-            meta: 'Related project',
-          },
-          {
-            label: 'Broadcast Scheduler',
-            href: '/projects/broadcast-scheduler',
-            detail: 'Connect delivery reliability with scheduling control when the station workflow needs both layers to align.',
-            meta: 'Related project',
-          },
-        ]),
+        }),
       ],
     },
   },
@@ -781,16 +736,16 @@ export const mockPages: PageDocument[] = [
       slices: [
         slice('hero', 'projects_overview', {
           eyebrow: 'Projects',
-          title: 'Read the Sonicverse lineup like a technical brief, then open the project that fits first.',
+          title: 'Read the flagship Sonicverse project like a technical brief, then plan your rollout.',
           body:
-            'The projects overview is designed for fast comparison: clear buyer, clear outcome, and a visible first implementation boundary before anyone commits to a demo.',
-          primaryLabel: 'Compare projects',
+            'This overview keeps buyer fit, operational outcomes, and implementation boundaries visible before anyone commits to a demo.',
+          primaryLabel: 'Explore Audio Streaming Stack',
           primaryHref: '#project-suite',
           secondaryLabel: 'Book a demo',
           secondaryHref: '/demo',
-          supportingLabel: 'Three projects. Three distinct starting points.',
+          supportingLabel: 'One project. A clear first implementation path.',
           supportingText:
-            'Start with the workflow layer creating the most drag now, then expand into a broader platform over time.',
+            'Start with live delivery reliability, then extend from a stable baseline.',
           visualEyebrow: 'Project map',
           visualTitle: 'Pick the first implementation boundary, then go deeper.',
           visualBody:
@@ -803,20 +758,6 @@ export const mockPages: PageDocument[] = [
             detail: 'Best when uptime, failover, and listener delivery are the immediate risk.',
             meta: 'For broadcasters and live audio teams',
             href: '/projects/audio-streaming-stack',
-          },
-          {
-            label: 'Developer API',
-            title: 'Media Metadata API',
-            detail: 'Best when metadata complexity is slowing archives, feeds, or publishing workflows.',
-            meta: 'For platform and archive teams',
-            href: '/projects/media-metadata-api',
-          },
-          {
-            label: 'Planning and operations',
-            title: 'Broadcast Scheduler',
-            detail: 'Best when schedules, overrides, and fallback programming are hard to coordinate.',
-            meta: 'For stations and operations teams',
-            href: '/projects/broadcast-scheduler',
           },
         ]),
         slice('product_suite', 'editorial_compare', {
@@ -834,19 +775,11 @@ export const mockPages: PageDocument[] = [
             'The overview is built to route teams by the operational bottleneck they already feel, not by abstract platform ambition.',
           panelTitle: 'Typical starting paths',
           panelBody:
-            'Start with delivery if uptime is the risk, with metadata if publishing consistency is the bottleneck, or with scheduling if coordination and continuity are the pain.',
+            'Start with delivery when uptime, failover behavior, and listener experience are under pressure.',
         }, [
           {
             title: 'If uptime is the issue',
             text: 'Start with Audio Streaming Stack when live distribution, failover, and playback reliability are the highest priorities.',
-          },
-          {
-            title: 'If metadata drift is the issue',
-            text: 'Start with Media Metadata API when multiple systems disagree on fields, formats, or publishing rules.',
-          },
-          {
-            title: 'If coordination is the issue',
-            text: 'Start with Broadcast Scheduler when schedules, overrides, and fallback programming are hard to coordinate.',
           },
         ]),
         slice('call_to_action', 'projects_cta', {
@@ -1194,7 +1127,7 @@ export const mockPages: PageDocument[] = [
             'Platform overviews, project-fit assessments, migration planning, and architecture reviews.',
           formMode: 'demo',
         }, [
-          { label: 'Best for', value: 'Pilots and product-fit evaluation', href: '/pricing' },
+          { label: 'Best for', value: 'Pilots and product-fit evaluation', href: '/demo' },
           { label: 'Response window', value: 'Usually within 2 business days', href: '/contact' },
           { label: 'Need docs first?', value: 'Explore the library', href: '/library' },
         ]),

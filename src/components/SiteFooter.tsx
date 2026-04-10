@@ -60,7 +60,7 @@ export default function SiteFooter({ settings }: SiteFooterProps) {
       <div className="container site-footer-bottom">
         <p>&copy; {new Date().getFullYear()} Sonicverse. Open infrastructure for modern audio teams.</p>
         <div>
-          <Link href="/pricing">Pricing</Link>
+          <Link href="/projects/audio-streaming-stack">Audio Streaming Stack</Link>
           <Link href="/demo">Book a demo</Link>
         </div>
       </div>
