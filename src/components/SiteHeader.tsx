@@ -52,8 +52,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const desktopNavRef = useRef<HTMLElement>(null);
 
-  const loginLabel = settings.data.headerLoginLabel?.trim() || 'Login';
-  const loginHref = settings.data.headerLoginHref?.trim() || 'https://app.sonicverse.eu/login';
+  const docsLabel = 'Docs';
+  const docsHref = 'https://docs.sonicverse.eu';
   const ctaLabel = settings.data.headerCtaLabel?.trim() || 'Book demo';
   const ctaHref = settings.data.headerCtaHref?.trim() || '/demo';
   const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || 'Product suite';
@@ -270,8 +270,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
           </nav>
 
           <div className="header-actions">
-            <Link className="header-login" href={loginHref}>
-              {loginLabel}
+            <Link className="header-login" href={docsHref}>
+              {docsLabel}
             </Link>
             <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
               {ctaLabel}
@@ -294,8 +294,8 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
         <div id="mobile-nav-panel" className={`mobile-nav ${mobileOpen ? 'is-open' : ''}`}>
           <div className="mobile-nav-surface">
             <div className="mobile-nav-actions">
-              <Link className="mobile-nav-login" href={loginHref}>
-                {loginLabel}
+              <Link className="mobile-nav-login" href={docsHref}>
+                {docsLabel}
               </Link>
               <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
                 {ctaLabel}
