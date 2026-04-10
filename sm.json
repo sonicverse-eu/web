@@ -1,13 +1,4 @@
 {
-  "apiEndpoint": "https://sonicverse-eu.cdn.prismic.io/api/v2",
-  "libraries": [
-    "./src/slices"
-  ],
-  "localSliceSimulatorURL": "http://localhost:3000/slice-simulator",
-  "adapter": {
-    "resolve": "@slicemachine/adapter-next",
-    "options": {
-      "typescript": true
-    }
-  }
+	"//": "sm.json is deprecated, if you were importing values from this file please now import them from slicemachine.config.json, else you can safely delete this file",
+	"apiEndpoint": "https://sonicverse-eu.cdn.prismic.io/api/v2"
 }

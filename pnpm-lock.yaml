@@ -60,6 +60,9 @@ importers:
       playwright:
         specifier: ^1.59.1
         version: 1.59.1
+      slice-machine-ui:
+        specifier: ^2.21.2
+        version: 2.21.2(encoding@0.1.13)(zod@3.25.76)
       slicemachine:
         specifier: ^0.0.1
         version: 0.0.1(encoding@0.1.13)
@@ -4410,6 +4413,11 @@ packages:
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+
+  slice-machine-ui@2.21.2:
+    resolution: {integrity: sha512-l4Tw2h7EYGORFdrc21rLoDoM02CJNCY+RfY5meZJDyyRUNvUfInGiDytVR3Vvwhkt5IKSKKP/BGC5bvUorAJKQ==}
+    engines: {node: '>=20.19.0'}
+    hasBin: true
 
   slicemachine@0.0.1:
     resolution: {integrity: sha512-m252p72IDlJHFDFnKbN8qxEfD5/XkJpU1ukqZoO/cU0KXosmZaac24k0sPdgNdSwIRVm1X7zS7gy2QXOydDhKg==}
@@ -10268,6 +10276,19 @@ snapshots:
   slash@2.0.0: {}
 
   slash@3.0.0: {}
+
+  slice-machine-ui@2.21.2(encoding@0.1.13)(zod@3.25.76):
+    dependencies:
+      '@slicemachine/manager': 0.27.2(encoding@0.1.13)(zod@3.25.76)
+      start-slicemachine: 0.12.74(encoding@0.1.13)(zod@3.25.76)
+    transitivePeerDependencies:
+      - '@prismicio/types'
+      - '@types/express'
+      - debug
+      - encoding
+      - msw
+      - supports-color
+      - zod
 
   slicemachine@0.0.1(encoding@0.1.13):
     dependencies:
