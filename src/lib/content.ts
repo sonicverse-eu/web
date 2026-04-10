@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { z } from 'zod';
 
-// ── Schemas (mirror of src/content.config.ts) ────────────────────────────────
+// ── Content schemas for the Next.js content loader ───────────────────────────
 
 const pagesSchema = z.object({
   title: z.string(),

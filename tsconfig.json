@@ -37,9 +37,6 @@
   "exclude": [
     "node_modules",
     "dist",
-    ".next",
-    "src/actions/**",
-    "src/content.config.ts",
-    "src/pages/**/*.ts"
+    ".next"
   ]
 }
