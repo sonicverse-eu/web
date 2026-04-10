@@ -4,6 +4,18 @@ export type ButtonLink = {
   style?: 'primary' | 'secondary' | 'ghost';
 };
 
+export type PrimaryNavChild = {
+  label: string;
+  href: string;
+  description?: string;
+};
+
+export type PrimaryNavItem = {
+  label: string;
+  href: string;
+  children?: PrimaryNavChild[];
+};
+
 export type ProductSummary = {
   uid: string;
   name: string;
@@ -77,7 +89,7 @@ export type SettingsDocument = {
   type: 'settings';
   data: {
     announcement: string;
-    primaryNav: { label: string; href: string }[];
+    primaryNav: PrimaryNavItem[];
     headerLoginLabel?: string;
     headerLoginHref?: string;
     headerCtaLabel?: string;

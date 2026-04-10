@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { SliceRendererProps } from '@/slices/types';
-import type { CmsSlice, SliceContext } from '@/lib/site-data/types';
+import type { CmsSlice } from '@/lib/site-data/types';
 
 type HeroItem = {
   label: string;
@@ -75,8 +75,7 @@ function HeroProof({
 
 export default function Hero({
   slice,
-  context,
-}: SliceRendererProps<CmsSlice, SliceContext>) {
+}: SliceRendererProps<CmsSlice>) {
   const eyebrow = textValue(slice.primary.eyebrow);
   const title = textValue(slice.primary.title);
   const body = textValue(slice.primary.body);
@@ -91,7 +90,40 @@ export default function Hero({
   const visualBody = textValue(slice.primary.visualBody);
   const tone = textValue(slice.primary.tone, 'brand');
   const items = mapItems(slice.items);
-  const products = context?.products ?? [];
+
+  if (slice.variation === 'home') {
+    return (
+      <section
+        className={`slice slice-hero slice-hero--${slice.variation} slice-hero--tone-${tone}`}
+        data-reveal-group
+      >
+        <div className="hero-home-full">
+          <div className="hero-home-beams" aria-hidden="true">
+            <span className="hero-home-grid" />
+            <span className="hero-home-beam hero-home-beam--1" />
+            <span className="hero-home-beam hero-home-beam--2" />
+            <span className="hero-home-beam hero-home-beam--3" />
+            <span className="hero-home-beam hero-home-beam--4" />
+            <span className="hero-home-beam hero-home-beam--5" />
+            <span className="hero-home-beam hero-home-beam--6" />
+          </div>
+          <div className="container">
+            <div className="hero-copy hero-copy--home" data-reveal-group>
+              {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+              {title ? <h1>{title}</h1> : null}
+              {body ? <p className="hero-body">{body}</p> : null}
+              <HeroActions
+                primaryHref={primaryHref}
+                primaryLabel={primaryLabel}
+                secondaryHref={secondaryHref}
+                secondaryLabel={secondaryLabel}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -111,39 +143,6 @@ export default function Hero({
           />
           <HeroProof supportingLabel={supportingLabel} supportingText={supportingText} />
         </div>
-
-        {slice.variation === 'home' ? (
-          <div className="hero-visual hero-visual--platform" aria-hidden="true">
-            <div className="hero-panel hero-panel--platform">
-              <div className="hero-panel-header hero-panel-header--platform">
-                <div>
-                  <span className="hero-kicker">{visualEyebrow || 'Platform view'}</span>
-                  <strong>{visualTitle || 'One operating layer for modern audio teams'}</strong>
-                </div>
-                <p>{visualBody || 'Move from disconnected tools to a coordinated platform.'}</p>
-              </div>
-
-              <div className="hero-platform-grid">
-                {products.slice(0, 3).map((product) => (
-                  <article key={product.uid} className={`hero-signal-card hero-signal-card--${product.data.accent}`}>
-                    <div className="hero-signal-card-top">
-                      <span>{product.data.category}</span>
-                      <em>{product.data.heroStats[0]?.value || product.data.pricingHint}</em>
-                    </div>
-                    <strong>{product.data.name}</strong>
-                    <p>{product.data.summary}</p>
-                    <small>{product.data.outcome}</small>
-                  </article>
-                ))}
-              </div>
-
-              <div className="hero-command-line">
-                <span>{supportingLabel || 'Shared operating model'}</span>
-                <strong>{supportingText || 'Streaming, metadata, and scheduling on one platform path'}</strong>
-              </div>
-            </div>
-          </div>
-        ) : null}
 
         {slice.variation === 'page' ? (
           <div className="hero-visual hero-visual--ecosystem" aria-hidden="true">
@@ -260,21 +259,6 @@ export default function Hero({
           </div>
         ) : null}
       </div>
-
-      {slice.variation === 'home' && items.length ? (
-        <div className="container">
-          <div className="hero-proof-list" data-reveal-group>
-            {items.map((item, index) => (
-              <article key={`${item.label}-${item.title}-${index}`} className="hero-proof-card">
-                {item.label ? <span>{item.label}</span> : null}
-                {item.title ? <strong>{item.title}</strong> : null}
-                {item.detail ? <p>{item.detail}</p> : null}
-                {item.meta ? <small>{item.meta}</small> : null}
-              </article>
-            ))}
-          </div>
-        </div>
-      ) : null}
     </section>
   );
 }

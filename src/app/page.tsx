@@ -15,5 +15,9 @@ export default async function HomePage() {
     notFound();
   }
 
-  return <PageSliceZone slices={page.data.slices} products={products} />;
+  return (
+    <div className="home-page">
+      <PageSliceZone slices={page.data.slices} products={products} />
+    </div>
+  );
 }

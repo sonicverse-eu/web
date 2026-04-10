@@ -28,11 +28,116 @@ export const mockSettings: SettingsDocument = {
   data: {
     announcement: 'Open infrastructure for broadcasters, podcast networks, and modern audio platforms.',
     primaryNav: [
-      { label: 'Products', href: '/products' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'About', href: '/about' },
-      { label: 'Resources', href: '/library' },
-      { label: 'Company', href: '/about' },
+      {
+        label: 'Products',
+        href: '/products',
+        children: [
+          {
+            label: 'Compare all products',
+            href: '/products',
+            description: 'Explore every Sonicverse product by workflow and outcome.',
+          },
+          {
+            label: 'Audio Streaming Stack',
+            href: '/products/audio-streaming-stack',
+            description: 'Resilient live streaming infrastructure with failover controls.',
+          },
+          {
+            label: 'Media Metadata API',
+            href: '/products/media-metadata-api',
+            description: 'Programmable metadata workflows across publishing formats.',
+          },
+          {
+            label: 'Broadcast Scheduler',
+            href: '/products/broadcast-scheduler',
+            description: 'Automate scheduling logic and reduce day-to-day operator load.',
+          },
+        ],
+      },
+      {
+        label: 'Pricing',
+        href: '/pricing',
+        children: [
+          {
+            label: 'Pricing overview',
+            href: '/pricing',
+            description: 'Review platform tiers and support models by team stage.',
+          },
+          {
+            label: 'Book a demo',
+            href: '/demo',
+            description: 'Walk through your stack, constraints, and rollout timeline.',
+          },
+          {
+            label: 'Talk to sales',
+            href: '/contact',
+            description: 'Get help scoping enterprise requirements and adoption plans.',
+          },
+        ],
+      },
+      {
+        label: 'About',
+        href: '/about',
+        children: [
+          {
+            label: 'About Sonicverse',
+            href: '/about',
+            description: 'Learn how we build open infrastructure for modern audio teams.',
+          },
+          {
+            label: 'Community',
+            href: '/community',
+            description: 'Connect with contributors, operators, and implementation partners.',
+          },
+          {
+            label: 'Contact',
+            href: '/contact',
+            description: 'Reach the team for partnerships, support, or technical guidance.',
+          },
+        ],
+      },
+      {
+        label: 'Resources',
+        href: '/library',
+        children: [
+          {
+            label: 'Resource library',
+            href: '/library',
+            description: 'Guides and references for architecture, deployment, and operations.',
+          },
+          {
+            label: 'Blog',
+            href: '/blog',
+            description: 'Product updates, implementation notes, and platform strategy.',
+          },
+          {
+            label: 'Community',
+            href: '/community',
+            description: 'Join events and conversations across the Sonicverse ecosystem.',
+          },
+        ],
+      },
+      {
+        label: 'Company',
+        href: '/about',
+        children: [
+          {
+            label: 'Company overview',
+            href: '/about',
+            description: 'Our mission, operating principles, and product direction.',
+          },
+          {
+            label: 'Book a demo',
+            href: '/demo',
+            description: 'See how Sonicverse fits your current delivery and ops stack.',
+          },
+          {
+            label: 'Contact the team',
+            href: '/contact',
+            description: 'Start a direct conversation about your roadmap and constraints.',
+          },
+        ],
+      },
     ],
     headerLoginLabel: 'Login',
     headerLoginHref: 'https://app.sonicverse.eu/login',

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ProductDocument, SettingsDocument } from '@/lib/site-data/types';
+import type { PrimaryNavItem, ProductDocument, SettingsDocument } from '@/lib/site-data/types';
 import ThemeToggle from './ThemeToggle';
 
 interface SiteHeaderProps {
@@ -28,12 +28,30 @@ function getProductInitials(name: string) {
     .toUpperCase();
 }
 
+function getNavKey(item: PrimaryNavItem) {
+  return `${item.label}:${item.href}`.toLowerCase();
+}
+
+function getMenuId(item: PrimaryNavItem) {
+  return `nav-menu-${getNavKey(item).replace(/[^a-z0-9]+/g, '-')}`;
+}
+
+function isNavItemActive(pathname: string, item: PrimaryNavItem) {
+  if (isActivePath(pathname, item.href)) {
+    return true;
+  }
+
+  return item.children?.some((child) => isActivePath(pathname, child.href)) ?? false;
+}
+
 export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const pathname = usePathname() ?? '/';
+  const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileExpandedKey, setMobileExpandedKey] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const productsRef = useRef<HTMLDivElement>(null);
+  const desktopNavRef = useRef<HTMLElement>(null);
+  const isHome = pathname === '/';
 
   const loginLabel = settings.data.headerLoginLabel?.trim() || 'Login';
   const loginHref = settings.data.headerLoginHref?.trim() || 'https://app.sonicverse.eu/login';
@@ -46,10 +64,7 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const menuDescription =
     settings.data.productsMenuDescription?.trim() ||
     'Each Sonicverse product solves a clear operational job and can be adopted on its own or as part of a broader platform rollout.';
-
-  const primaryNav = settings.data.primaryNav.filter(
-    (item) => item.label.toLowerCase() !== 'products' && item.href !== '/products'
-  );
+  const primaryNav = settings.data.primaryNav;
 
   const groupedProducts = useMemo(() => {
     const groups = new Map<string, ProductDocument[]>();
@@ -69,28 +84,30 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
 
   useEffect(() => {
     setMobileOpen(false);
-    setProductsOpen(false);
+    setOpenMenuKey(null);
+    setMobileExpandedKey(null);
   }, [pathname]);
 
   useEffect(() => {
-    function onPointerDown(event: MouseEvent) {
-      if (!productsRef.current?.contains(event.target as Node)) {
-        setProductsOpen(false);
+    function onPointerDown(event: PointerEvent) {
+      if (!desktopNavRef.current?.contains(event.target as Node)) {
+        setOpenMenuKey(null);
       }
     }
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        setProductsOpen(false);
+        setOpenMenuKey(null);
         setMobileOpen(false);
+        setMobileExpandedKey(null);
       }
     }
 
-    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('keydown', onKeyDown);
 
     return () => {
-      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('pointerdown', onPointerDown);
       document.removeEventListener('keydown', onKeyDown);
     };
   }, []);
@@ -105,8 +122,18 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const handleMobileToggle = () => {
+    setMobileOpen((open) => {
+      const next = !open;
+      if (!next) {
+        setMobileExpandedKey(null);
+      }
+      return next;
+    });
+  };
+
   return (
-    <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
+    <header className={`site-header ${isScrolled ? 'is-scrolled' : ''} ${isHome ? 'is-home' : ''}`}>
       <div className="container">
         <div className="announcement-bar">
           <span>{settings.data.announcement}</span>
@@ -118,98 +145,134 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
             <img className="brand-mark" src="/assets/brand/2.svg" alt="" />
             <div>
               <strong>Sonicverse</strong>
-              <span>Multi-product audio operations platform</span>
+              <span>Audio operations platform</span>
             </div>
           </Link>
 
-          <nav className="desktop-nav" aria-label="Primary">
-            <div
-              className="nav-products"
-              ref={productsRef}
-              onMouseEnter={() => setProductsOpen(true)}
-              onMouseLeave={() => setProductsOpen(false)}
-            >
-              <button
-                className={`nav-link nav-link-button ${pathname.startsWith('/products') ? 'active' : ''}`}
-                type="button"
-                onClick={() => setProductsOpen((open) => !open)}
-                aria-expanded={productsOpen}
-                aria-haspopup="dialog"
-                aria-controls="products-menu"
-              >
-                <span>Products</span>
-                <svg
-                  className={`nav-link-chevron ${productsOpen ? 'is-open' : ''}`}
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  aria-hidden="true"
+          <nav className="desktop-nav" aria-label="Primary" ref={desktopNavRef}>
+            {primaryNav.map((item) => {
+              const hasChildren = Boolean(item.children?.length);
+              const menuKey = getNavKey(item);
+              const menuId = getMenuId(item);
+              const isOpen = openMenuKey === menuKey;
+              const isProductsMenu = item.href === '/products' || item.label.toLowerCase() === 'products';
+
+              if (!hasChildren) {
+                return (
+                  <Link
+                    key={`${item.label}-${item.href}`}
+                    href={item.href}
+                    className={`nav-link ${isNavItemActive(pathname, item) ? 'active' : ''}`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+
+              return (
+                <div
+                  key={`${item.label}-${item.href}`}
+                  className="desktop-nav-item desktop-nav-item--children"
+                  onMouseEnter={() => setOpenMenuKey(menuKey)}
+                  onMouseLeave={() => setOpenMenuKey((current) => (current === menuKey ? null : current))}
                 >
-                  <path d="m5 7.5 5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
+                  <button
+                    className={`nav-link nav-link-button ${isNavItemActive(pathname, item) ? 'active' : ''}`}
+                    type="button"
+                    onFocus={() => setOpenMenuKey(menuKey)}
+                    onClick={() => setOpenMenuKey((current) => (current === menuKey ? null : menuKey))}
+                    aria-expanded={isOpen}
+                    aria-haspopup="dialog"
+                    aria-controls={menuId}
+                  >
+                    <span>{item.label}</span>
+                    <svg
+                      className={`nav-link-chevron ${isOpen ? 'is-open' : ''}`}
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="m5 7.5 5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
 
-              <div id="products-menu" className={`products-menu ${productsOpen ? 'is-open' : ''}`}>
-                <div className="products-menu-panel" role="dialog" aria-label="Products overview">
-                  <div className="products-menu-intro">
-                    <span className="eyebrow">{menuEyebrow}</span>
-                    <h3>{menuTitle}</h3>
-                    <p>{menuDescription}</p>
-                    <div className="products-menu-actions">
-                      <Link href="/products" className="products-menu-overview">
-                        Compare all products
-                      </Link>
-                      <span>Scannable by use case, buyer, and operational outcome.</span>
-                    </div>
-                  </div>
-
-                  <div className="products-menu-groups">
-                    {groupedProducts.map((group) => (
-                      <section key={group.category} className="products-menu-group" aria-label={group.category}>
-                        <div className="products-menu-group-head">
-                          <span className="products-menu-group-label">{group.category}</span>
+                  {isProductsMenu ? (
+                    <div id={menuId} className={`nav-dropdown nav-dropdown--products ${isOpen ? 'is-open' : ''}`}>
+                      <div className="products-menu-panel" role="dialog" aria-label="Products overview">
+                        <div className="products-menu-intro">
+                          <span className="eyebrow">{menuEyebrow}</span>
+                          <h3>{menuTitle}</h3>
+                          <p>{menuDescription}</p>
+                          <div className="products-menu-actions">
+                            <Link href="/products" className="products-menu-overview">
+                              Compare all products
+                            </Link>
+                            <span>Scannable by use case, buyer, and operational outcome.</span>
+                          </div>
                         </div>
-                        <div className="products-menu-group-grid">
-                          {group.products.map((product) => (
-                            <Link
-                              key={product.uid}
-                              href={product.url}
-                              className={`products-menu-card products-menu-card--${product.data.accent}`}
-                            >
-                              <span
-                                className={`products-menu-icon products-menu-icon--${product.data.accent}`}
-                                aria-hidden="true"
-                              >
-                                {getProductInitials(product.data.name)}
-                              </span>
-                              <div className="products-menu-card-copy">
-                                <div className="products-menu-card-top">
-                                  <strong>{product.data.name}</strong>
-                                  <span className="products-menu-card-arrow">View</span>
-                                </div>
-                                <p>{product.data.summary}</p>
-                                <small>{product.data.outcome}</small>
+
+                        <div className="products-menu-groups">
+                          {groupedProducts.map((group) => (
+                            <section key={group.category} className="products-menu-group" aria-label={group.category}>
+                              <div className="products-menu-group-head">
+                                <span className="products-menu-group-label">{group.category}</span>
                               </div>
+                              <div className="products-menu-group-grid">
+                                {group.products.map((product) => (
+                                  <Link
+                                    key={product.uid}
+                                    href={product.url}
+                                    className={`products-menu-card products-menu-card--${product.data.accent}`}
+                                  >
+                                    <span
+                                      className={`products-menu-icon products-menu-icon--${product.data.accent}`}
+                                      aria-hidden="true"
+                                    >
+                                      {getProductInitials(product.data.name)}
+                                    </span>
+                                    <div className="products-menu-card-copy">
+                                      <div className="products-menu-card-top">
+                                        <strong>{product.data.name}</strong>
+                                        <span className="products-menu-card-arrow">View</span>
+                                      </div>
+                                      <p>{product.data.summary}</p>
+                                      <small>{product.data.outcome}</small>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </section>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div id={menuId} className={`nav-dropdown nav-dropdown--children ${isOpen ? 'is-open' : ''}`}>
+                      <div className="child-menu-panel" role="dialog" aria-label={`${item.label} links`}>
+                        <span className="child-menu-label">{item.label}</span>
+                        <div className="child-menu-links">
+                          {item.children?.map((child) => (
+                            <Link
+                              key={`${child.label}-${child.href}`}
+                              href={child.href}
+                              className={`child-menu-link ${isActivePath(pathname, child.href) ? 'active' : ''}`}
+                            >
+                              <span className="child-menu-link-top">
+                                <strong>{child.label}</strong>
+                                <span>Open</span>
+                              </span>
+                              {child.description ? <p>{child.description}</p> : null}
                             </Link>
                           ))}
                         </div>
-                      </section>
-                    ))}
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </div>
-
-            {primaryNav.map((item) => (
-              <Link
-                key={`${item.label}-${item.href}`}
-                href={item.href}
-                className={`nav-link ${isActivePath(pathname, item.href) ? 'active' : ''}`}
-              >
-                {item.label}
-              </Link>
-            ))}
+              );
+            })}
           </nav>
 
           <div className="header-actions">
@@ -223,7 +286,7 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
             <button
               className="mobile-nav-toggle"
               type="button"
-              onClick={() => setMobileOpen((open) => !open)}
+              onClick={handleMobileToggle}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav-panel"
               aria-label="Toggle navigation menu"
@@ -245,34 +308,63 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
               </Link>
             </div>
 
-            <div className="mobile-nav-group">
-              <span className="mobile-nav-label">Products</span>
-              {products.map((product) => (
-                <Link key={product.uid} href={product.url} className="mobile-nav-product">
-                  <div className="mobile-nav-product-row">
-                    <span className={`products-menu-icon products-menu-icon--${product.data.accent}`} aria-hidden="true">
-                      {getProductInitials(product.data.name)}
-                    </span>
-                    <div>
-                      <strong>{product.data.name}</strong>
-                      <span>{product.data.category}</span>
-                    </div>
-                  </div>
-                  <p>{product.data.summary}</p>
-                </Link>
-              ))}
-              <Link className="mobile-nav-all-products" href="/products">
-                Compare all products
-              </Link>
-            </div>
+            <div className="mobile-nav-list">
+              {primaryNav.map((item) => {
+                const hasChildren = Boolean(item.children?.length);
+                const itemKey = getNavKey(item);
+                const childrenId = `${getMenuId(item)}-mobile`;
+                const isExpanded = mobileExpandedKey === itemKey;
+                const isActive = isNavItemActive(pathname, item);
 
-            <div className="mobile-nav-group">
-              <span className="mobile-nav-label">Explore</span>
-              {primaryNav.map((item) => (
-                <Link key={`${item.label}-${item.href}`} href={item.href} className="mobile-nav-link">
-                  <strong>{item.label}</strong>
-                </Link>
-              ))}
+                if (!hasChildren) {
+                  return (
+                    <Link
+                      key={`${item.label}-${item.href}`}
+                      href={item.href}
+                      className={`mobile-nav-parent mobile-nav-parent-link ${isActive ? 'active' : ''}`}
+                    >
+                      <strong>{item.label}</strong>
+                    </Link>
+                  );
+                }
+
+                return (
+                  <section key={`${item.label}-${item.href}`} className="mobile-nav-item">
+                    <button
+                      type="button"
+                      className={`mobile-nav-parent ${isActive ? 'active' : ''}`}
+                      aria-expanded={isExpanded}
+                      aria-controls={childrenId}
+                      onClick={() => setMobileExpandedKey((current) => (current === itemKey ? null : itemKey))}
+                    >
+                      <strong>{item.label}</strong>
+                      <svg
+                        className={`mobile-nav-chevron ${isExpanded ? 'is-open' : ''}`}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        aria-hidden="true"
+                      >
+                        <path d="m5 7.5 5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+
+                    <div id={childrenId} className={`mobile-nav-children ${isExpanded ? 'is-open' : ''}`}>
+                      {item.children?.map((child) => (
+                        <Link
+                          key={`${child.label}-${child.href}`}
+                          href={child.href}
+                          className={`mobile-nav-child ${isActivePath(pathname, child.href) ? 'active' : ''}`}
+                        >
+                          <strong>{child.label}</strong>
+                          {child.description ? <span>{child.description}</span> : null}
+                        </Link>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
             </div>
           </div>
         </div>
