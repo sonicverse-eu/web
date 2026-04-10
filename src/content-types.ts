@@ -1,11 +1,18 @@
-import type { CollectionEntry } from 'astro:content';
+import type {
+  BlogEntry,
+  FaqEntry,
+  FeatureEntry,
+  LibraryEntry,
+  PageEntry,
+  ProjectEntry,
+} from './lib/content';
 
-export type PageContent = CollectionEntry<'pages'>;
-export type FeatureContent = CollectionEntry<'features'>;
-export type ProjectContent = CollectionEntry<'projects'>;
-export type FaqContent = CollectionEntry<'faq'>;
-export type BlogContent = CollectionEntry<'blog'>;
-export type LibraryContent = CollectionEntry<'library'>;
+export type PageContent = PageEntry;
+export type FeatureContent = FeatureEntry;
+export type ProjectContent = ProjectEntry;
+export type FaqContent = FaqEntry;
+export type BlogContent = BlogEntry;
+export type LibraryContent = LibraryEntry;
 
 export type PageContentData = PageContent['data'];
 export type FeatureContentData = FeatureContent['data'];

@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Host: https://sonicverse.eu
+Sitemap: https://sonicverse.eu/sitemap.xml
