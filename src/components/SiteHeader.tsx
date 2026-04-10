@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle';
 
 interface SiteHeaderProps {
   products: ProductDocument[];
-  settings: SettingsDocument;
+  settings: SettingsDocument | null;
 }
 
 function isActivePath(pathname: string, href: string) {
@@ -45,6 +45,10 @@ function isNavItemActive(pathname: string, item: PrimaryNavItem) {
 }
 
 export default function SiteHeader({ products, settings }: SiteHeaderProps) {
+  if (!settings) {
+    return null;
+  }
+
   const pathname = usePathname() ?? '/';
   const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -52,20 +56,35 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const desktopNavRef = useRef<HTMLElement>(null);
 
-  const brandName = settings.data.headerBrandName?.trim() || 'Sonicverse';
-  const brandTagline = settings.data.headerBrandTagline?.trim() || 'Audio operations platform';
-  const docsLabel = settings.data.headerLoginLabel?.trim() || 'Docs';
-  const docsHref = settings.data.headerLoginHref?.trim() || 'https://docs.sonicverse.eu';
-  const ctaLabel = settings.data.headerCtaLabel?.trim() || 'Book demo';
-  const ctaHref = settings.data.headerCtaHref?.trim() || '/contact';
-  const menuEyebrow = settings.data.productsMenuEyebrow?.trim() || 'Product suite';
-  const menuTitle =
-    settings.data.productsMenuTitle?.trim() ||
-    'Choose the workflow layer that fits your team right now.';
-  const menuDescription =
-    settings.data.productsMenuDescription?.trim() ||
-    'Each Sonicverse product solves a clear operational job and can be adopted on its own or as part of a broader platform rollout.';
+  const brandName = settings.data.headerBrandName?.trim() ?? '';
+  const brandTagline = settings.data.headerBrandTagline?.trim() ?? '';
+  const docsLabel = settings.data.headerLoginLabel?.trim() ?? '';
+  const docsHref = settings.data.headerLoginHref?.trim() ?? '';
+  const ctaLabel = settings.data.headerCtaLabel?.trim() ?? '';
+  const ctaHref = settings.data.headerCtaHref?.trim() ?? '';
+  const menuEyebrow = settings.data.productsMenuEyebrow?.trim() ?? '';
+  const menuTitle = settings.data.productsMenuTitle?.trim() ?? '';
+  const menuDescription = settings.data.productsMenuDescription?.trim() ?? '';
   const primaryNav = settings.data.primaryNav;
+  const hasProducts = products.length > 0;
+
+  const hasHeaderContent = Boolean(
+    brandName ||
+      brandTagline ||
+      docsLabel ||
+      docsHref ||
+      ctaLabel ||
+      ctaHref ||
+      menuEyebrow ||
+      menuTitle ||
+      menuDescription ||
+      primaryNav.length ||
+      hasProducts,
+  );
+
+  if (!hasHeaderContent) {
+    return null;
+  }
 
   const groupedProducts = useMemo(() => {
     const groups = new Map<string, ProductDocument[]>();
@@ -139,10 +158,12 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
         <div className="site-header-shell">
           <Link href="/" className="brand-lockup brand-lockup-link" aria-label="Sonicverse home">
             <img className="brand-mark" src="/assets/brand/2.svg" alt="" />
-            <div>
-              <strong>{brandName}</strong>
-              <span>{brandTagline}</span>
-            </div>
+            {brandName || brandTagline ? (
+              <div>
+                {brandName ? <strong>{brandName}</strong> : null}
+                {brandTagline ? <span>{brandTagline}</span> : null}
+              </div>
+            ) : null}
           </Link>
 
           <nav className="desktop-nav" aria-label="Primary" ref={desktopNavRef}>
@@ -154,6 +175,7 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
               const menuId = getMenuId(item);
               const isOpen = openMenuKey === menuKey;
               const isProjectsMenu = item.href === '/projects' || item.label.toLowerCase() === 'projects';
+              const showProductsMenu = isProjectsMenu && hasProducts;
               const isActive = isCompanyItem
                 ? isActivePath(pathname, itemHref) ||
                   (item.children?.some((child) => isActivePath(pathname, child.href)) ?? false)
@@ -200,20 +222,21 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
                     </svg>
                   </button>
 
-                  {isProjectsMenu ? (
+                  {showProductsMenu ? (
                     <div id={menuId} className={`nav-dropdown nav-dropdown--products ${isOpen ? 'is-open' : ''}`}>
                       <div className="products-menu-panel" role="dialog" aria-label="Projects overview">
-                        <div className="products-menu-intro">
-                          <span className="eyebrow">{menuEyebrow}</span>
-                          <h3>{menuTitle}</h3>
-                          <p>{menuDescription}</p>
-                          <div className="products-menu-actions">
-                            <Link href="/projects" className="products-menu-overview">
-                              Compare all projects
-                            </Link>
-                            <span>Scannable by workflow pressure, team fit, and operational outcome.</span>
+                        {menuEyebrow || menuTitle || menuDescription ? (
+                          <div className="products-menu-intro">
+                            {menuEyebrow ? <span className="eyebrow">{menuEyebrow}</span> : null}
+                            {menuTitle ? <h3>{menuTitle}</h3> : null}
+                            {menuDescription ? <p>{menuDescription}</p> : null}
+                            <div className="products-menu-actions">
+                              <Link href="/projects" className="products-menu-overview">
+                                Compare all projects
+                              </Link>
+                            </div>
                           </div>
-                        </div>
+                        ) : null}
 
                         <div className="products-menu-groups">
                           {groupedProducts.map((group) => (
@@ -278,12 +301,16 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
           </nav>
 
           <div className="header-actions">
-            <Link className="header-login" href={docsHref}>
-              {docsLabel}
-            </Link>
-            <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
-              {ctaLabel}
-            </Link>
+            {docsLabel && docsHref ? (
+              <Link className="header-login" href={docsHref}>
+                {docsLabel}
+              </Link>
+            ) : null}
+            {ctaLabel && ctaHref ? (
+              <Link className="btn btn-primary header-primary-cta" href={ctaHref}>
+                {ctaLabel}
+              </Link>
+            ) : null}
             <ThemeToggle />
             <button
               className="mobile-nav-toggle"
@@ -302,12 +329,16 @@ export default function SiteHeader({ products, settings }: SiteHeaderProps) {
         <div id="mobile-nav-panel" className={`mobile-nav ${mobileOpen ? 'is-open' : ''}`}>
           <div className="mobile-nav-surface">
             <div className="mobile-nav-actions">
-              <Link className="mobile-nav-login" href={docsHref}>
-                {docsLabel}
-              </Link>
-              <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
-                {ctaLabel}
-              </Link>
+              {docsLabel && docsHref ? (
+                <Link className="mobile-nav-login" href={docsHref}>
+                  {docsLabel}
+                </Link>
+              ) : null}
+              {ctaLabel && ctaHref ? (
+                <Link className="btn btn-primary mobile-nav-cta" href={ctaHref}>
+                  {ctaLabel}
+                </Link>
+              ) : null}
             </div>
 
             <div className="mobile-nav-list">
