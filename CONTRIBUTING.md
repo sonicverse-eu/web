@@ -162,7 +162,7 @@ For larger changes, it is a good idea to open an issue for discussion before inv
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability, please follow our [Security Policy](SECURITY.md) and **do not** open a public GitHub issue. Report it privately to [hello@sonicverse.eu](mailto:hello@sonicverse.eu).
+If you discover a security vulnerability, please follow our [Security Policy](SECURITY.md) and **do not** open a public GitHub issue. Report it privately via [GitHub Private Vulnerability Reporting](../../security/advisories/new) or email [security@sonicverse.eu](mailto:security@sonicverse.eu).
 
 ---
 

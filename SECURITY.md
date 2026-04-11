@@ -16,9 +16,10 @@ We take the security of the Sonicverse repository seriously. If you discover a s
 
 ### How to Report
 
-Send a detailed report to our security team by emailing:
+You can report vulnerabilities through either of the following channels:
 
-**[hello@sonicverse.eu](mailto:hello@sonicverse.eu)**
+1. **GitHub Private Vulnerability Reporting** — Use the [GitHub Security Advisories](../../security/advisories/new) feature to submit a private report directly in this repository.
+2. **Email** — Send a detailed report to our security team at **[security@sonicverse.eu](mailto:security@sonicverse.eu)**
 
 Please include as much of the following information as possible to help us understand and resolve the issue quickly:
 
