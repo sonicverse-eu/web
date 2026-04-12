@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "preview": "next build && next start"
+    "preview": "next build && next start",
+    "validate:content": "node scripts/validate-content.mjs"
   },
   "dependencies": {
     "next-mdx-remote": "^5.0.0",
