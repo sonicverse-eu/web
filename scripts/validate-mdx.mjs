@@ -13,12 +13,12 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const CONTENT_DIR = join(ROOT, 'src', 'content');
 
-/** Required frontmatter fields per collection, with expected JS typeof. */
+/** Required frontmatter fields per collection, with expected JS typeof or 'array'/'date'. */
 const SCHEMAS = {
   blog: {
     title: 'string',
     description: 'string',
-    pubDate: 'string',
+    pubDate: 'date',
     author: 'string',
     tags: 'array',
     draft: 'boolean',
@@ -73,7 +73,7 @@ async function validateFile(filePath) {
         continue;
       }
       const value = frontmatter[field];
-      const actualType = Array.isArray(value) ? 'array' : typeof value;
+      const actualType = Array.isArray(value) ? 'array' : value instanceof Date ? 'date' : typeof value;
       if (actualType !== expectedType) {
         errors.push(
           `Frontmatter field "${field}" must be ${expectedType}, got ${actualType}`,
