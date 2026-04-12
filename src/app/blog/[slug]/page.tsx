@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import BlogArticleLayout from '@/components/blog/BlogArticleLayout';
 import { getAdjacentBlogPosts, getRelatedBlogPosts, sortBlogPosts } from '@/lib/blog';
 import { getBlogPost, getBlogPosts } from '@/lib/content';
-import { renderMarkdoc } from '@/lib/markdoc';
+import { renderMDX } from '@/lib/mdx';
 import { buildArticleMetadata } from '@/lib/page-metadata';
 
 type BlogArticlePageProps = {
@@ -43,7 +43,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
       olderPost={olderPost}
       relatedPosts={relatedPosts}
     >
-      {renderMarkdoc(post.body)}
+      {await renderMDX(post.body)}
     </BlogArticleLayout>
   );
 }
