@@ -4,7 +4,6 @@ import { getAdjacentBlogPosts, getRelatedBlogPosts, sortBlogPosts } from '@/lib/
 import { getBlogPost, getBlogPosts } from '@/lib/content';
 import { renderMarkdoc } from '@/lib/markdoc';
 import { buildArticleMetadata } from '@/lib/page-metadata';
-import { getPageByUID } from '@/lib/site-data/api';
 
 type BlogArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -33,19 +32,12 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
     notFound();
   }
 
-  const page = await getPageByUID('blog');
-
-  if (!page) {
-    notFound();
-  }
-
   const allPosts = sortBlogPosts(getBlogPosts());
   const { newerPost, olderPost } = getAdjacentBlogPosts(allPosts, post.id);
   const relatedPosts = getRelatedBlogPosts(allPosts, post);
 
   return (
     <BlogArticleLayout
-      shell={page.data.articleShell}
       post={post}
       newerPost={newerPost}
       olderPost={olderPost}
