@@ -37,8 +37,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Astro checks
-        run: pnpm check
+      - name: Validate MDX files
+        run: pnpm validate:mdx
 
       - name: Build production site
         run: pnpm build
