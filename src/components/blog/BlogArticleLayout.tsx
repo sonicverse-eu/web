@@ -2,10 +2,8 @@ import type { CSSProperties, ReactNode } from 'react';
 import Link from 'next/link';
 import type { BlogEntry } from '@/lib/content';
 import { formatBlogDate, getReadingTimeMinutes, toBlogTopicId } from '@/lib/blog';
-import type { ArticleShellConfig } from '@/lib/site-data/types';
 
 type BlogArticleLayoutProps = {
-  shell?: ArticleShellConfig;
   post: BlogEntry;
   newerPost?: BlogEntry;
   olderPost?: BlogEntry;
@@ -42,7 +40,6 @@ function ArchiveLink({
 }
 
 export default function BlogArticleLayout({
-  shell,
   post,
   newerPost,
   olderPost,
@@ -69,7 +66,7 @@ export default function BlogArticleLayout({
               </ol>
             </nav>
 
-            <p className="blog-story-mark">{shell?.mark ?? 'Sonicverse Journal'}</p>
+            <p className="blog-story-mark">Sonicverse Journal</p>
             <p className="eyebrow">{formatBlogDate(post.data.pubDate)}</p>
             <h1>{post.data.title}</h1>
             <p className="blog-story-subtitle">{post.data.description}</p>
@@ -98,7 +95,7 @@ export default function BlogArticleLayout({
       <section className="container blog-story-layout">
         <aside className="blog-story-sidebar" data-reveal>
           <Link className="blog-story-backlink" href="/blog">
-            {shell?.backLabel ?? 'Back to blog'}
+            Back to blog
           </Link>
 
           <div className="blog-story-sidebar-block">
@@ -139,8 +136,8 @@ export default function BlogArticleLayout({
         {(newerPost || olderPost) ? (
           <div className="blog-story-section">
             <div className="blog-story-section-head">
-              <p className="eyebrow">{shell?.primarySectionEyebrow ?? 'Continue reading'}</p>
-              <h2>{shell?.primarySectionTitle ?? 'Next in the archive.'}</h2>
+              <p className="eyebrow">Continue reading</p>
+              <h2>Next in the archive.</h2>
             </div>
             <div className="blog-story-nav-grid">
               {newerPost ? <ArchiveLink label="Newer post" post={newerPost} /> : null}
@@ -151,8 +148,8 @@ export default function BlogArticleLayout({
 
         <div className="blog-story-section">
           <div className="blog-story-section-head">
-            <p className="eyebrow">{shell?.secondarySectionEyebrow ?? 'Related posts'}</p>
-            <h2>{shell?.secondarySectionTitle ?? 'More on this topic.'}</h2>
+            <p className="eyebrow">Related posts</p>
+            <h2>More on this topic.</h2>
           </div>
 
           {relatedPosts.length > 0 ? (
@@ -171,7 +168,7 @@ export default function BlogArticleLayout({
             <div className="blog-story-empty">
               <p>No related posts yet for these topics.</p>
               <Link className="btn btn-secondary" href="/blog">
-                {shell?.browseAllLabel ?? 'Browse all posts'}
+                Browse all posts
               </Link>
             </div>
           )}

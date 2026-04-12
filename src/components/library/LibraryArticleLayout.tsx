@@ -2,10 +2,8 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import type { LibraryEntry } from '@/lib/content';
 import { formatLibraryDate } from '@/lib/library';
-import type { ArticleShellConfig } from '@/lib/site-data/types';
 
 type LibraryArticleLayoutProps = {
-  shell?: ArticleShellConfig;
   entry: LibraryEntry;
   relatedEntries: LibraryEntry[];
   recentEntries: LibraryEntry[];
@@ -13,7 +11,6 @@ type LibraryArticleLayoutProps = {
 };
 
 export default function LibraryArticleLayout({
-  shell,
   entry,
   relatedEntries,
   recentEntries,
@@ -26,9 +23,9 @@ export default function LibraryArticleLayout({
         <div className="container library-article-hero-shell">
           <div className="library-article-copy">
             <Link className="library-article-backlink" href="/library">
-              {shell?.backLabel ?? 'Back to library'}
+              Back to library
             </Link>
-            <p className="blog-story-mark">{shell?.mark ?? 'Sonicverse Manual'}</p>
+            <p className="blog-story-mark">Sonicverse Manual</p>
             <p className="eyebrow">{formatLibraryDate(entry.data.pubDate)}</p>
             <h1>{entry.data.title}</h1>
             <p className="library-article-subtitle">{entry.data.description}</p>
@@ -40,14 +37,12 @@ export default function LibraryArticleLayout({
 
           <aside className="library-article-summary" data-reveal>
             <div className="library-article-summary-card">
-              <span>{shell?.asideEyebrow ?? 'Reference frame'}</span>
+              <span>Reference frame</span>
               <strong>
-                {shell?.asideTitle ??
-                  'Built to move from one operational question to the next without losing context.'}
+                Built to move from one operational question to the next without losing context.
               </strong>
               <p>
-                {shell?.asideBody ??
-                  'The library sits closer to the product story now, so guides can route directly into projects, demos, and contributor paths.'}
+                The library sits closer to the product story now, so guides can route directly into projects, demos, and contributor paths.
               </p>
             </div>
 
@@ -63,13 +58,8 @@ export default function LibraryArticleLayout({
 
             <div className="button-row">
               <Link className="btn btn-secondary" href="/library">
-                {shell?.browseAllLabel ?? 'Browse all references'}
+                Browse all references
               </Link>
-              {shell?.secondaryCtaLabel && shell?.secondaryCtaHref ? (
-                <Link className="btn btn-ghost" href={shell.secondaryCtaHref}>
-                  {shell.secondaryCtaLabel}
-                </Link>
-              ) : null}
             </div>
           </aside>
         </div>
@@ -99,10 +89,8 @@ export default function LibraryArticleLayout({
           {recentEntries.length > 0 ? (
             <div className="library-article-recent">
               <div className="library-article-recent-head">
-                <p className="eyebrow">
-                  {shell?.primarySectionEyebrow ?? 'Recently updated'}
-                </p>
-                <h2>{shell?.primarySectionTitle ?? 'Continue through the manual.'}</h2>
+                <p className="eyebrow">Recently updated</p>
+                <h2>Continue through the manual.</h2>
               </div>
               <div className="library-article-recent-list">
                 {recentEntries.map((recentEntry) => (
@@ -119,8 +107,8 @@ export default function LibraryArticleLayout({
 
       <section className="container library-article-footer" data-reveal>
         <div className="library-article-footer-head">
-          <p className="eyebrow">{shell?.secondarySectionEyebrow ?? 'Related references'}</p>
-          <h2>{shell?.secondarySectionTitle ?? 'Keep browsing the manual.'}</h2>
+          <p className="eyebrow">Related references</p>
+          <h2>Keep browsing the manual.</h2>
         </div>
 
         {relatedEntries.length > 0 ? (
@@ -139,7 +127,7 @@ export default function LibraryArticleLayout({
           <div className="library-article-empty">
             <p>No adjacent references yet. The manual will keep growing from here.</p>
             <Link className="btn btn-secondary" href="/library">
-              {shell?.browseAllLabel ?? 'Browse all references'}
+              Browse all references
             </Link>
           </div>
         )}

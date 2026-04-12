@@ -1,19 +1,17 @@
 import type { CSSProperties } from 'react';
 import Link from 'next/link';
-import type { BlogEntry, PageData } from '@/lib/content';
+import type { BlogEntry } from '@/lib/content';
 import {
   formatBlogDate,
   getReadingTimeMinutes,
   toBlogTopicId,
+  getBlogTagSummaries,
+  sortBlogPosts,
   type BlogTagSummary,
 } from '@/lib/blog';
 
 type BlogOverviewProps = {
-  page: PageData;
   posts: BlogEntry[];
-  featuredPost?: BlogEntry;
-  archivePosts: BlogEntry[];
-  tagSummaries: BlogTagSummary[];
 };
 
 function getEditorialImageStyle(image?: string): CSSProperties | undefined {
@@ -26,14 +24,11 @@ function getEditorialImageStyle(image?: string): CSSProperties | undefined {
   };
 }
 
-export default function BlogOverview({
-  page,
-  posts,
-  featuredPost,
-  archivePosts,
-  tagSummaries,
-}: BlogOverviewProps) {
-  const archiveFeed = archivePosts.length > 0 ? archivePosts : posts;
+export default function BlogOverview({ posts }: BlogOverviewProps) {
+  const sorted = sortBlogPosts(posts);
+  const featuredPost = sorted[0];
+  const archiveFeed = sorted;
+  const tagSummaries = getBlogTagSummaries(sorted);
   const totalReadingMinutes = posts.reduce((total, post) => total + getReadingTimeMinutes(post.body), 0);
 
   return (
@@ -43,9 +38,8 @@ export default function BlogOverview({
         <div className="container blog-journal-hero-grid">
           <div className="blog-journal-copy">
             <p className="blog-journal-mark">Sonicverse Journal</p>
-            {page.eyebrow ? <p className="eyebrow">{page.eyebrow}</p> : null}
-            <h1>{page.heroTitle}</h1>
-            <p className="blog-journal-subtitle">{page.heroSubtitle}</p>
+            <h1>The Sonicverse journal</h1>
+            <p className="blog-journal-subtitle">Insights, tutorials, and updates from the team and community.</p>
             <div className="button-row">
               {featuredPost ? (
                 <Link className="btn btn-primary" href={`/blog/${featuredPost.id}`}>
@@ -55,6 +49,7 @@ export default function BlogOverview({
               <Link className="btn btn-secondary" href="#blog-archive">
                 Browse archive
               </Link>
+
             </div>
           </div>
 
@@ -87,7 +82,7 @@ export default function BlogOverview({
         <section className="container blog-spotlight-shell" data-reveal>
           <div className="blog-spotlight-head">
             <div>
-              <p className="eyebrow">{page.blogFeaturedLabel ?? 'Featured story'}</p>
+              <p className="eyebrow">Featured story</p>
               <h2>The latest note, framed like a release bulletin.</h2>
             </div>
             <p>
@@ -130,7 +125,7 @@ export default function BlogOverview({
               ) : null}
               <div className="button-row">
                 <Link className="btn btn-primary" href={`/blog/${featuredPost.id}`}>
-                  {page.blogArticleCtaLabel ?? 'Read article'}
+                  Read article
                 </Link>
               </div>
             </div>
@@ -142,8 +137,8 @@ export default function BlogOverview({
         <div className="blog-archive-frame">
           <div className="blog-archive-intro">
             <div>
-              <p className="eyebrow">{page.blogArchiveTitle ?? 'Latest from Sonicverse'}</p>
-              <h2>{page.blogArchiveDescription ?? 'Editorial updates from the Sonicverse ecosystem.'}</h2>
+              <p className="eyebrow">Latest from Sonicverse</p>
+              <h2>Editorial updates from the Sonicverse ecosystem.</h2>
             </div>
             <p>
               The archive now reads like a journal index: topic rail on one side, reading flow on the
@@ -155,7 +150,7 @@ export default function BlogOverview({
             {tagSummaries.length > 0 ? (
               <aside className="blog-topic-rail" aria-labelledby="blog-topic-rail-title">
                 <div className="blog-topic-rail-head">
-                  <p className="eyebrow">{page.blogTopicsLabel ?? 'Browse topics'}</p>
+                  <p className="eyebrow">Browse topics</p>
                   <h3 id="blog-topic-rail-title">Entry points into the archive.</h3>
                 </div>
                 <div className="blog-topic-rail-list">
@@ -211,7 +206,7 @@ export default function BlogOverview({
                   </div>
                   <div className="blog-archive-row-action">
                     <span>{getReadingTimeMinutes(post.body)} min read</span>
-                    <Link href={`/blog/${post.id}`}>{page.blogArticleCtaLabel ?? 'Read article'}</Link>
+                    <Link href={`/blog/${post.id}`}>Read article</Link>
                   </div>
                 </article>
               ))}
